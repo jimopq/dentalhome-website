@@ -40,6 +40,44 @@
 
 改完 `build.js` 後執行 `node build.js` 重新產生頁面。
 
+## 衛教文章（自舊站搬遷）
+
+舊站的 SEO 文章專區已整批搬過來，**版權屬診所所有，經客戶同意**。
+
+- **64 篇**有實質內容的文章，合計約 8.6 萬字，55 張文章插圖
+- 分類：醫師專欄 45 篇、矯正知識 10 篇、牙齒衛教 9 篇
+- 舊站另有 35 篇只有標題的公告與證書圖（多為過期的連假門診公告），未搬遷
+- 文章原始資料在 `articles.json`，`build.js` 讀取後產生每篇一頁
+
+搬遷時做的處理：
+
+| 項目 | 處理 |
+|---|---|
+| 圖片 | 下載後壓縮為 1100px 寬 JPEG，原始 82MB 降為 9.8MB |
+| 行內樣式 | 清除舊 CMS 的 `style` 屬性，置中圖改用 `.figure` class |
+| 圖片 alt | 補上缺漏的 `alt` 屬性 |
+| 網址 | 保留舊站的英文 slug，例如 `view-72-clear-aligner-attachments-guide` → `article-clear-aligner-attachments-guide.html` |
+| 目錄 | 文章超過 3 個 h2 時自動產生本文目錄，錨點直接取用內文既有的 id |
+| 結構化資料 | 每篇加上 `BlogPosting`（標題、發布日、分類、圖片、作者、publisher）|
+
+### ⚠️ 301 轉址是這次搬遷最大的風險
+
+`redirects.txt` 列出 **73 條**舊網址對應（64 篇文章 + 9 個主要頁面）。
+**上正式主機時一定要套用**，否則既有的搜尋排名會全部流失。
+
+Apache 範例：
+
+```apache
+RewriteEngine On
+RewriteRule ^zh-tw/news/view-72-clear-aligner-attachments-guide$ /article-clear-aligner-attachments-guide.html [R=301,L]
+```
+
+Nginx 範例：
+
+```nginx
+rewrite ^/zh-tw/news/view-72-clear-aligner-attachments-guide$ /article-clear-aligner-attachments-guide.html permanent;
+```
+
 ## ⚠️ 仍需確認的一件事
 
 ### 預約表單要接到哪裡
@@ -152,5 +190,6 @@ cd /Users/jimsu/文心牙醫官網 && python3 -m http.server 8911
 
 ## 尚未處理
 
-- 舊站的最新消息／衛教文章尚未搬遷（新站未建立文章列表頁）
-- 舊網址的 301 轉址需在正式主機上設定
+- 舊網址的 301 轉址需在正式主機上設定（對應表見 `redirects.txt`）
+- 35 篇純圖片公告／證書未搬遷
+- 診所實景與醫師本人照片仍缺

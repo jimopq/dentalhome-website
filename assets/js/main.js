@@ -382,6 +382,37 @@
   })();
 
   /* ==================================================================
+     Article filter — 64 articles need a way to narrow down
+     ================================================================== */
+  (function () {
+    var bar = document.querySelector("[data-artfilter]");
+    var grid = document.querySelector(".artgrid");
+    if (!bar || !grid) return;
+    var cards = Array.prototype.slice.call(grid.querySelectorAll("[data-cat]"));
+    var count = document.querySelector("[data-artcount]");
+
+    bar.addEventListener("click", function (e) {
+      var btn = e.target.closest("[data-filter]");
+      if (!btn) return;
+      var want = btn.getAttribute("data-filter");
+
+      Array.prototype.forEach.call(bar.querySelectorAll("[data-filter]"), function (b) {
+        var on = b === btn;
+        b.classList.toggle("chip--brand", on);
+        b.setAttribute("aria-pressed", String(on));
+      });
+
+      var shown = 0;
+      cards.forEach(function (c) {
+        var match = want === "all" || c.getAttribute("data-cat") === want;
+        c.hidden = !match;
+        if (match) shown++;
+      });
+      if (count) count.textContent = "顯示 " + shown + " 篇文章";
+    });
+  })();
+
+  /* ==================================================================
      Mark the current page in navigation
      ================================================================== */
   (function () {

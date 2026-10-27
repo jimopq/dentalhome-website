@@ -16,6 +16,13 @@ const LINE = "https://page.line.me/884xwoxp?openQrModal=true";
 const FB = "https://www.facebook.com/profile.php?id=100075711318797";
 const ADDR_Q = encodeURIComponent("台南市南區大同路二段166號");
 
+/* 衛教文章：由舊站 dentalhome.com.tw 搬遷，版權屬診所所有。
+   資料見 articles.json（prep 流程已改寫圖片路徑並清除行內樣式）。 */
+const ARTICLES = JSON.parse(fs.readFileSync(path.join(__dirname, "articles.json"), "utf8"));
+const ART_CATS = ["矯正知識", "牙齒衛教", "醫師專欄"];
+const artUrl = a => `article-${a.slug}.html`;
+const fmtDate = d => d ? d.replace(/-/g, ".") : "";
+
 /* ---------------------------------------------------------------- icons */
 const ico = {
   phone: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.9.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92Z"/></svg>`,
@@ -61,6 +68,7 @@ const header = () => `<a class="skip-link" href="#main">跳到主要內容</a>
           <a href="services.html#all">全部診療項目</a>
         </div>
       </div>
+      <div class="nav__item"><a class="nav__link" href="articles.html">牙齒知識</a></div>
       <div class="nav__item"><a class="nav__link" href="faq.html">常見問題</a></div>
       <div class="nav__item"><a class="nav__link" href="contact.html">聯絡我們</a></div>
     </nav>
@@ -94,7 +102,7 @@ const header = () => `<a class="skip-link" href="#main">跳到主要內容</a>
     </div>
     <div class="sheet__group">
       <p class="sheet__title">更多</p>
-      <div class="sheet__links"><a href="faq.html">常見問題</a><a href="contact.html">門診時間與交通</a></div>
+      <div class="sheet__links"><a href="articles.html">牙齒知識</a><a href="faq.html">常見問題</a><a href="contact.html">門診時間與交通</a></div>
     </div>
   </div>
   <div class="sheet__foot">
@@ -132,6 +140,7 @@ const footer = () => `<footer class="footer">
         <ul class="footer__links">
           <li><a href="about.html">診所理念</a></li>
           <li><a href="team.html">醫師團隊</a></li>
+          <li><a href="articles.html">牙齒知識</a></li>
           <li><a href="faq.html">常見問題</a></li>
           <li><a href="contact.html">聯絡與交通</a></li>
           <li><a href="booking.html">線上預約</a></li>
@@ -1215,6 +1224,7 @@ ${pageHead("網站地圖", "網站地圖", "", [C.home, { name: "網站地圖", 
         <h2 style="font-size:var(--step-2)">預約與其他</h2>
         <ul class="footer__links mt-4">
           <li><a href="booking.html">線上預約</a></li>
+          <li><a href="articles.html">牙齒知識（${ARTICLES.length} 篇）</a></li>
           <li><a href="faq.html">常見問題</a></li>
           <li><a href="${LINE}" target="_blank" rel="noopener">官方 LINE</a></li>
           <li><a href="${FB}" target="_blank" rel="noopener">Facebook 粉絲專頁</a></li>
@@ -1254,6 +1264,137 @@ pages.push({
 `
 });
 
+
+/* ---------------------------------------------------------------- 衛教文章 */
+function artCard(a, i) {
+  return `<a class="artcard" href="${artUrl(a)}" data-cat="${a.cat}" data-reveal${i ? ` data-reveal-delay="${Math.min(i * 40, 200)}"` : ""}>
+      <div class="artcard__meta"><span class="chip chip--brand">${a.cat}</span><time datetime="${a.date}">${fmtDate(a.date)}</time></div>
+      <h3>${a.title}</h3>
+      <p>${a.desc ? a.desc.slice(0, 72) + (a.desc.length > 72 ? "…" : "") : ""}</p>
+      <span class="link-arrow">閱讀全文${ico.arrow}</span>
+    </a>`;
+}
+
+/* 文章索引 */
+pages.push({
+  slug: "articles.html",
+  title: "牙齒知識｜矯正、植牙與口腔照護衛教文章｜文心牙醫聯合診所",
+  desc: `文心牙醫醫師團隊撰寫的 ${ARTICLES.length} 篇衛教文章，涵蓋隱適美隱形矯正、齒顎矯正、植牙、牙周照護與兒童牙科，由台南在地牙醫師整理。`,
+  keywords: "牙齒衛教,矯正知識,台南隱適美,隱形矯正,牙齒保健,牙醫文章",
+  crumbs: [C.home, { name: "牙齒知識", url: "articles.html" }],
+  ld: {
+    "@type": "Blog", name: "文心牙醫 牙齒知識",
+    publisher: { "@id": SITE + "/#clinic" },
+    blogPost: ARTICLES.slice(0, 20).map(a => ({
+      "@type": "BlogPosting", headline: a.title, datePublished: a.date,
+      url: SITE + "/" + artUrl(a)
+    }))
+  },
+  body: `
+${pageHead("牙齒知識", "把診間裡講的，寫下來", `看診時間有限，很多問題值得講得更完整。這裡是醫師團隊整理的 ${ARTICLES.length} 篇衛教文章。`, [C.home, { name: "牙齒知識", url: "articles.html" }])}
+
+<section class="section">
+  <div class="shell">
+    <div class="chips" data-artfilter role="group" aria-label="依分類篩選" data-reveal style="margin-bottom:var(--sp-7)">
+      <button class="chip chip--brand" type="button" data-filter="all" aria-pressed="true">全部 ${ARTICLES.length} 篇</button>
+      ${ART_CATS.map(c => `<button class="chip" type="button" data-filter="${c}" aria-pressed="false">${c}（${ARTICLES.filter(a => a.cat === c).length}）</button>`).join("")}
+    </div>
+    <p class="sr-only" role="status" aria-live="polite" data-artcount></p>
+
+    <div id="all" class="artgrid">
+      ${ARTICLES.map((a, i) => artCard(a, i)).join("")}
+    </div>
+  </div>
+</section>
+
+${ctaBand("文章看完了，還是想問醫師？", "每個人的口腔狀況不同，一次面對面的檢查比看十篇文章更準確。")}
+`
+});
+
+/* 每篇文章一頁 */
+ARTICLES.forEach(a => {
+  const related = ARTICLES.filter(x => x.cat === a.cat && x.slug !== a.slug).slice(0, 3);
+  const toc = [...a.body.matchAll(/<h2 id="([^"]+)"[^>]*>(.*?)<\/h2>/g)]
+    .map(m => ({ id: m[1], text: m[2].replace(/<[^>]+>/g, "").trim() }))
+    .filter(h => h.text && h.text !== "前言")
+    .slice(0, 8);
+  const crumbs = [C.home, { name: "牙齒知識", url: "articles.html" }, { name: a.title, url: artUrl(a) }];
+  const firstImg = (a.body.match(/src="(assets\/img\/articles\/[^"]+)"/) || [])[1];
+
+  pages.push({
+    slug: artUrl(a),
+    title: ((a.seoTitle || a.title).replace(/｜文心牙醫(聯合診所)?\s*$/, "").trim()) + "｜文心牙醫聯合診所",
+    desc: a.desc || a.title,
+    crumbs,
+    ld: {
+      "@type": "BlogPosting",
+      headline: a.title,
+      description: a.desc,
+      datePublished: a.date,
+      dateModified: a.date,
+      inLanguage: "zh-TW",
+      image: firstImg ? SITE + "/" + firstImg : SITE + "/assets/img/og-cover.jpg",
+      author: { "@type": "Organization", name: "文心牙醫聯合診所", "@id": SITE + "/#clinic" },
+      publisher: { "@id": SITE + "/#clinic" },
+      mainEntityOfPage: { "@type": "WebPage", "@id": SITE + "/" + artUrl(a) },
+      articleSection: a.cat
+    },
+    body: `
+<article>
+<section class="page-head">
+  <div class="shell shell--narrow">
+    <nav class="crumbs" aria-label="麵包屑"><ol>
+      <li><a href="index.html">首頁</a></li>
+      <li><a href="articles.html">牙齒知識</a></li>
+      <li aria-current="page">${a.cat}</li>
+    </ol></nav>
+    <div class="artmeta mt-4">
+      <span class="chip chip--brand">${a.cat}</span>
+      <time datetime="${a.date}">${fmtDate(a.date)}</time>
+    </div>
+    <h1>${a.title}</h1>
+  </div>
+</section>
+
+<section class="section">
+  <div class="shell shell--narrow">
+    ${toc.length >= 3 ? `<nav class="toc" aria-label="本文目錄">
+      <p class="toc__label">本文重點</p>
+      <ol>${toc.map(h => `<li><a href="#${h.id}">${h.text}</a></li>`).join("")}</ol>
+    </nav>` : ""}
+
+    <div class="prose article-body">
+      ${a.body}
+    </div>
+
+    <div class="notice mt-7">${ico.info}<p>本文為一般性衛教說明，不能取代醫師的臨床診斷。實際治療方式、療程長度與費用，仍需經口腔檢查與必要的影像評估後由醫師判斷。</p></div>
+
+    <div class="artfoot mt-7">
+      <div>
+        <p class="small muted">想針對自己的狀況問清楚？</p>
+        <p class="mt-4"><a class="btn btn--primary" href="booking.html">線上預約</a></p>
+      </div>
+      <div>
+        <p class="small muted">或直接問我們</p>
+        <p class="mt-4"><a class="btn btn--ghost" href="${LINE}" target="_blank" rel="noopener">官方 LINE</a>
+        <a class="btn btn--ghost" href="tel:${TEL}">${TEL_TEXT}</a></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+${related.length ? `<section class="section section--sunk">
+  <div class="shell">
+    <h2 class="mt-0" style="font-size:var(--step-3);margin-bottom:var(--sp-6)">同類文章</h2>
+    <div class="artgrid">${related.map((r, i) => artCard(r, i)).join("")}</div>
+    <p class="mt-6"><a class="link-arrow" href="articles.html">回到牙齒知識${ico.arrow}</a></p>
+  </div>
+</section>` : ""}
+</article>
+`
+  });
+});
+
 /* ========================================================================
    WRITE
    ======================================================================== */
@@ -1266,6 +1407,8 @@ pages.forEach(p => {
 /* sitemap.xml */
 const urls = [
   { loc: "/", pri: "1.0", freq: "weekly" },
+  { loc: "/articles.html", pri: "0.9", freq: "weekly" },
+  ...ARTICLES.map(a => ({ loc: "/" + artUrl(a), pri: "0.7", freq: "monthly", lastmod: a.date })),
   { loc: "/booking.html", pri: "0.9", freq: "monthly" },
   { loc: "/service-invisalign.html", pri: "0.9", freq: "monthly" },
   { loc: "/service-orthodontics.html", pri: "0.9", freq: "monthly" },
@@ -1284,7 +1427,7 @@ fs.writeFileSync(path.join(out, "sitemap.xml"),
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 ${urls.map(u => `  <url>
     <loc>${SITE}${u.loc}</loc>
-    <lastmod>${today}</lastmod>
+    <lastmod>${u.lastmod || today}</lastmod>
     <changefreq>${u.freq}</changefreq>
     <priority>${u.pri}</priority>
   </url>`).join("\n")}
@@ -1300,5 +1443,26 @@ Disallow: /404.html
 Sitemap: ${SITE}/sitemap.xml
 `, "utf8");
 console.log("✓ robots.txt");
+
+/* 301 對應表：舊站網址 → 新站網址。上正式主機時請套用，否則既有排名會流失。 */
+const redirects = ARTICLES.map(a => `${a.oldPath}  /${artUrl(a)}`).join("\n");
+fs.writeFileSync(path.join(out, "redirects.txt"),
+`# 文心牙醫 301 轉址對應表
+# 格式： 舊路徑  新路徑
+# 共 ${ARTICLES.length} 篇文章。Apache 可轉為 RewriteRule，Nginx 可轉為 rewrite。
+
+/zh-tw/                 /
+/zh-tw/about            /about.html
+/zh-tw/team             /team.html
+/zh-tw/contact          /contact.html
+/zh-tw/faq              /faq.html
+/zh-tw/privacy          /privacy.html
+/zh-tw/sitemap          /sitemap.html
+/zh-tw/news/list        /articles.html
+/zh-tw/teeth/list       /articles.html
+
+${redirects}
+`, "utf8");
+console.log("✓ redirects.txt (" + ARTICLES.length + " 篇文章轉址)");
 
 console.log("\n完成：共 " + pages.length + " 個頁面。");
