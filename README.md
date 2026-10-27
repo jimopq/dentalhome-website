@@ -5,6 +5,19 @@
 
 ---
 
+## 配色與主題
+
+全站**單一主題：橘白**，不提供深色模式。
+
+- 強調色 `#DD802E`，從診所 logo 實際取樣，全站只有這一個強調色
+- 底色為純白與中性灰，文字為中性近黑 `#18191B`
+- `:root` 明示 `color-scheme: light`，表單元件與捲軸在深色系統下也維持亮色
+- 已移除所有 `prefers-color-scheme: dark` 規則；使用者系統設為深色時，網站仍為白底
+
+色彩全部定義為 `assets/css/style.css` 開頭 `:root` 的變數，要調整色系改那一處即可。
+
+保留的使用者偏好（屬無障礙，與配色無關）：`prefers-reduced-motion`、`prefers-reduced-transparency`、`prefers-contrast`。
+
 ## 素材來源
 
 網站的圖片、logo 與門診時間全部取自客戶舊官網 `dentalhome.com.tw`，經壓縮後放在 `assets/img/`（全部合計 1.8MB）。

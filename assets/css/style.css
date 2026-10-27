@@ -67,50 +67,9 @@
   --t-fast: 140ms;
   --t-base: 220ms;
   --t-slow: 380ms;
-}
 
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]) {
-    --paper:        #111214;
-    --paper-deep:   #0B0C0D;
-    --surface:      #1A1C1F;
-    --surface-2:    #212429;
-    --surface-sunk: #0D0E10;
-
-    --ink:   #F4F5F6;
-    --ink-2: #B6BAC1;
-    --ink-3: #868B93;
-
-    --brand:      #EE9544;
-    --brand-deep: #F6B377;
-    --brand-lift: #F2A45D;
-    --brand-soft: #7A4718;
-    --brand-tint: #2A1D11;
-    --brand-wash: #1C1510;
-    --ink-on-brand: #15100A;
-
-    --line:        color-mix(in srgb, var(--ink) 16%, transparent);
-    --line-strong: color-mix(in srgb, var(--ink) 30%, transparent);
-    --shadow-sm: 0 1px 2px rgba(0,0,0,.4);
-    --shadow-md: 0 6px 16px rgba(0,0,0,.45);
-    --shadow-lg: 0 16px 36px rgba(0,0,0,.5);
-    --shadow-xl: 0 28px 64px rgba(0,0,0,.6);
-    color-scheme: dark;
-  }
-}
-:root[data-theme="dark"] {
-  --paper: #111214; --paper-deep: #0B0C0D; --surface: #1A1C1F;
-  --surface-2: #212429; --surface-sunk: #0D0E10;
-  --ink: #F4F5F6; --ink-2: #B6BAC1; --ink-3: #868B93;
-  --brand: #EE9544; --brand-deep: #F6B377; --brand-lift: #F2A45D;
-  --brand-soft: #7A4718; --brand-tint: #2A1D11; --brand-wash: #1C1510;
-  --ink-on-brand: #15100A;
-  --line: color-mix(in srgb, var(--ink) 16%, transparent);
-  --line-strong: color-mix(in srgb, var(--ink) 30%, transparent);
-  --shadow-md: 0 6px 16px rgba(0,0,0,.45);
-  --shadow-lg: 0 16px 36px rgba(0,0,0,.5);
-  --shadow-xl: 0 28px 64px rgba(0,0,0,.6);
-  color-scheme: dark;
+  /* Single-theme by request: orange and white, in every environment. */
+  color-scheme: light;
 }
 
 /* --------------------------------------------------------------------------
@@ -344,10 +303,6 @@ p { text-wrap: pretty; }
 .brand img { width: auto; height: 42px; display: block; }
 @media (max-width: 420px) { .brand img { height: 36px; } }
 /* The logo is dark artwork; lift it onto dark surfaces rather than ship a 2nd file */
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]) .brand img { filter: brightness(0) invert(1) sepia(.18) saturate(2.2) hue-rotate(345deg); }
-}
-:root[data-theme="dark"] .brand img { filter: brightness(0) invert(1) sepia(.18) saturate(2.2) hue-rotate(345deg); }
 .brand--on-dark img { filter: brightness(0) invert(1); }
 
 .nav { display: none; margin-left: auto; }

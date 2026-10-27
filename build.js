@@ -279,8 +279,7 @@ ${p.keywords ? `<meta name="keywords" content="${p.keywords}">` : ""}
 <meta name="twitter:description" content="${p.desc}">
 <meta name="twitter:image" content="${SITE}/assets/img/og-cover.jpg">
 
-<meta name="theme-color" content="#FFFFFF" media="(prefers-color-scheme: light)">
-<meta name="theme-color" content="#111214" media="(prefers-color-scheme: dark)">
+<meta name="theme-color" content="#FFFFFF">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
