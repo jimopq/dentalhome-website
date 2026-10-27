@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /* ==========================================================================
-   文心牙醫官網 — 靜態頁面產生器
+   文心牙醫官網｜靜態頁面產生器
    Header / footer / dock 只在這裡定義一次，避免各頁面版本不同步。
 
    用法：  node build.js
@@ -98,7 +98,7 @@ const header = () => `<a class="skip-link" href="#main">跳到主要內容</a>
     </div>
   </div>
   <div class="sheet__foot">
-    <a class="btn btn--primary btn--block" href="booking.html">線上預約看診</a>
+    <a class="btn btn--primary btn--block" href="booking.html">線上預約</a>
     <a class="btn btn--ghost btn--block" href="tel:${TEL}">撥打 ${TEL_TEXT}</a>
   </div>
 </aside>`;
@@ -142,7 +142,7 @@ const footer = () => `<footer class="footer">
         <dl class="info-list" style="gap:var(--sp-4)">
           <div class="info-item" style="gap:var(--sp-3)"><div><dt>地址</dt><dd style="font-size:0.9375rem">台南市南區大同路二段166號</dd></div></div>
           <div class="info-item" style="gap:var(--sp-3)"><div><dt>電話</dt><dd style="font-size:0.9375rem"><a href="tel:${TEL}">${TEL_TEXT}</a></dd></div></div>
-          <div class="info-item" style="gap:var(--sp-3)"><div><dt>門診</dt><dd style="font-size:0.9375rem">週一至週五 09:00–21:00<br>週六 09:00–12:00</dd></div></div>
+          <div class="info-item" style="gap:var(--sp-3)"><div><dt>門診</dt><dd style="font-size:0.9375rem">週一至週五 09:00-21:00<br>週六 09:00-12:00</dd></div></div>
         </dl>
       </div>
     </div>
@@ -164,11 +164,11 @@ const footer = () => `<footer class="footer">
    轉錄自診所原始門診表圖，含每一診的值班醫師。
    時間若有異動，請同步更新 assets/js/main.js 的 CLINIC_HOURS。      */
 const ROSTER = {
-  "早": { label: "早診", time: "09:00 – 12:00",
+  "早": { label: "早診", time: "09:00-12:00",
     d: { 1: ["李俊茂","王媛儀"], 2: ["陳柏群"], 3: ["李俊茂"], 4: ["王媛儀","陳柏群"], 5: ["李俊茂","王媛儀"], 6: ["李俊茂","王媛儀","陳柏群"] } },
-  "午": { label: "午診", time: "15:00 – 17:30",
+  "午": { label: "午診", time: "15:00-17:30",
     d: { 1: ["李俊茂","陳柏群"], 2: ["王媛儀"], 3: ["李俊茂","陳柏群"], 4: ["李俊茂"], 5: ["李俊茂","陳柏群"], 6: [] } },
-  "晚": { label: "晚診", time: "18:10 – 21:00",
+  "晚": { label: "晚診", time: "18:10-21:00",
     d: { 1: ["李俊茂","陳柏群"], 2: ["王媛儀","陳柏群"], 3: ["陳柏群"], 4: ["李俊茂","王媛儀"], 5: ["李俊茂","陳柏群"], 6: [] } }
 };
 const DAYS = [["1","一"],["2","二"],["3","三"],["4","四"],["5","五"],["6","六"]];
@@ -199,7 +199,7 @@ const ctaBand = (heading, text) => `<section class="cta-band">
     <h2 data-reveal>${heading}</h2>
     <p class="lede mt-4" style="max-width:40rem;margin-inline:auto" data-reveal data-reveal-delay="60">${text}</p>
     <div class="btn-row btn-row--center" data-reveal data-reveal-delay="120">
-      <a class="btn btn--primary btn--lg" href="booking.html">線上預約看診</a>
+      <a class="btn btn--primary btn--lg" href="booking.html">線上預約</a>
       <a class="btn btn--on-dark btn--lg" href="${LINE}" target="_blank" rel="noopener">用 LINE 詢問</a>
     </div>
   </div>
@@ -309,7 +309,7 @@ const C = { home: { name: "首頁", url: "index.html" } };
 /* ------------------------------------------------------------ 關於文心 */
 pages.push({
   slug: "about.html",
-  title: "關於文心｜台南南區牙醫診所 — 深耕在地 20 年的家庭牙科",
+  title: "關於文心｜台南南區牙醫診所｜深耕在地 20 年的家庭牙科",
   desc: "文心牙醫聯合診所 2003 年創立於台南，深耕在地 20 年、累積服務超過 60,000 人次。我們相信關懷比技術與設備更難得，提供從兒童到長輩的全家庭牙科照護。",
   keywords: "台南牙醫,台南南區牙醫,文心牙醫,家庭牙科,台南牙醫推薦",
   crumbs: [C.home, { name: "關於文心", url: "about.html" }],
@@ -320,10 +320,9 @@ ${pageHead("關於文心", "把牙科，做回一件「關於人」的事", "200
   <div class="shell">
     <div class="grid grid-2" style="align-items:start;gap:var(--sp-8)">
       <div class="prose" data-reveal>
-        <p class="eyebrow">我們的理念</p>
         <h2 class="mt-4">牙齒治療不只是處理一個病例</h2>
         <p class="mt-5">坐在診療椅上的，是一個會緊張、會怕痛、會擔心費用、會想知道「這樣到底要不要做」的人。</p>
-        <p>所以在文心，我們把「溫馨」跟「專業」放在同樣的位置。精良的設備與材料是基本功，但真正讓一間診所值得被記住的，往往是人與人之間的那份關懷——醫師願意多講兩句、助理記得你怕打針、櫃檯知道你下班時間比較晚。</p>
+        <p>所以在文心，我們把「溫馨」跟「專業」放在同樣的位置。精良的設備與材料是基本功，但真正讓一間診所值得被記住的，往往是人與人之間的那份關懷，醫師願意多講兩句、助理記得你怕打針、櫃檯知道你下班時間比較晚。</p>
         <p>這些事不會出現在任何一張證書上，卻是我們從 2003 年堅持到現在的原因。</p>
       </div>
 
@@ -346,7 +345,6 @@ ${pageHead("關於文心", "把牙科，做回一件「關於人」的事", "200
 <section class="section section--sunk">
   <div class="shell">
     <div class="section-head" data-reveal>
-      <p class="eyebrow">我們怎麼看診</p>
       <h2>四件我們不打折扣的事</h2>
     </div>
     <div class="grid grid-2">
@@ -376,10 +374,9 @@ ${pageHead("關於文心", "把牙科，做回一件「關於人」的事", "200
 
 <section class="section">
   <div class="shell shell--narrow prose" data-reveal>
-    <p class="eyebrow">診療環境</p>
     <h2 class="mt-4">一個讓人沒那麼緊張的空間</h2>
     <p class="mt-5">很多人怕看牙，怕的其實不只是痛，還有那種被動、不知道接下來會發生什麼的感覺。</p>
-    <p>我們盡量讓環境舒適一點、燈光柔和一點、等待的時間短一點。診療椅旁有螢幕，醫師會把你的口內照跟 X 光直接秀出來講給你聽——當你看得懂自己的狀況，緊張就會少一半。</p>
+    <p>我們盡量讓環境舒適一點、燈光柔和一點、等待的時間短一點。診療椅旁有螢幕，醫師會把你的口內照跟 X 光直接秀出來講給你聽，當你看得懂自己的狀況，緊張就會少一半。</p>
     <!-- 📷 PHOTO SLOT：此處可插入診所實景照片（候診區／診間／消毒室），建議 3 張橫式 1600×1000 -->
     <div class="notice mt-6">${ico.info}<p>若你對看牙有特別的恐懼或過去有不好的經驗，預約時可以先告訴我們，醫師會調整看診的節奏與說明方式。</p></div>
   </div>
@@ -396,27 +393,40 @@ const doctors = [
     role: "假牙贋復專科醫師",
     spec: "人工植牙 · 固定假牙 · 活動假牙 · 全口重建",
     intro: "二十多年來，李醫師看過最多的，是「牙齒掉了一段時間，不知道還能不能救」的患者。全口重建不是單純把缺牙補起來，而是要把咬合、齒槽骨條件、臉型與長期維護一起算進去。從醫學中心牙科部主任到自己開業，他習慣先把整張地圖畫出來，再決定從哪一顆牙開始。",
-    creds: ["高雄醫學大學牙醫學士", "成功大學 EMBA 高階企管碩士", "中華民國衛福部家庭牙醫專科醫師", "台灣牙周補綴學會專科醫師", "全人照護牙醫學會專科醫師", "台灣植牙聯盟醫學會植牙專科醫師", "中華民國植牙醫學會植牙專科醫師", "曾任署立醫院牙科部主任"]
+    creds: {
+      "學歷": ["高雄醫學大學牙醫學士", "成功大學 EMBA 高階企管碩士"],
+      "專科認證": ["中華民國衛福部家庭牙醫專科醫師", "台灣牙周補綴學會專科醫師", "全人照護牙醫學會專科醫師", "台灣植牙聯盟醫學會植牙專科醫師", "中華民國植牙醫學會植牙專科醫師"],
+      "經歷": ["曾任署立醫院牙科部主任"]
+    }
   },
   {
     key: "wang", surname: "王", name: "王媛儀", badge: "副院長",
     role: "齒顎矯正專科醫師",
     spec: "齒顎矯正 · 成人及兒童隱形矯正 · 齒顎及顏面發育生長評估",
-    intro: "王醫師是衛福部認證的齒顎矯正專科醫師，也是隱適美認證醫師，同時在奇美醫學中心矯正科兼任主治。她特別關注兒童的齒顎與顏面發育——很多成年後難處理的骨性問題，在換牙期就看得出端倪。成人矯正則強調把生活型態算進計畫：你的工作要不要常見客戶、能不能配合配戴時間，都會影響方案選擇。",
-    creds: ["高雄醫學大學牙醫學士", "新加坡國立大學商學院高階企管碩士", "中華民國衛福部齒顎矯正專科醫師", "隱適美 Invisalign 認證醫師", "美國矯正學會（AAO）國際會員", "世界矯正醫師聯盟（WFO）會員", "中華民國舌側矯正醫學會會員", "奇美醫學中心矯正科兼任主治醫師"]
+    intro: "王醫師是衛福部認證的齒顎矯正專科醫師，也是隱適美認證醫師，同時在奇美醫學中心矯正科兼任主治。她特別關注兒童的齒顎與顏面發育，很多成年後難處理的骨性問題，在換牙期就看得出端倪。成人矯正則強調把生活型態算進計畫：你的工作要不要常見客戶、能不能配合配戴時間，都會影響方案選擇。",
+    creds: {
+      "學歷": ["高雄醫學大學牙醫學士", "新加坡國立大學商學院高階企管碩士"],
+      "專科認證": ["中華民國衛福部齒顎矯正專科醫師", "隱適美 Invisalign 認證醫師"],
+      "學會": ["美國矯正學會（AAO）國際會員", "世界矯正醫師聯盟（WFO）會員", "中華民國舌側矯正醫學會會員"],
+      "經歷": ["奇美醫學中心矯正科兼任主治醫師"]
+    }
   },
   {
     key: "chen", surname: "陳", name: "陳柏群", badge: "主治醫師",
     role: "主治醫師",
     spec: "牙齒美白 · 根管治療 · 牙周病治療 · 一般及複雜拔牙 · 假牙贋復",
     intro: "陳醫師處理的多半是「現在很不舒服」的狀況：半夜痛醒的牙髓炎、咬到就痛的裂齒、卡住拔不出來的智齒。曾任職奇美醫學中心，並赴美國紐約大學進行植牙專科研究。他的原則是先止痛、先把發炎控制下來，再談後續怎麼做比較好。",
-    creds: ["台北醫學大學牙醫學士", "美國紐約大學（NYU）植牙專科研究", "台灣口腔矯正醫學會會員", "曾任奇美醫學中心醫師"]
+    creds: {
+      "學歷": ["台北醫學大學牙醫學士", "美國紐約大學（NYU）植牙專科研究"],
+      "學會": ["台灣口腔矯正醫學會會員"],
+      "經歷": ["曾任奇美醫學中心醫師"]
+    }
   }
 ];
 
 pages.push({
   slug: "team.html",
-  title: "醫師團隊｜台南牙醫 — 衛福部齒顎矯正、假牙贋復專科醫師",
+  title: "醫師團隊｜台南牙醫｜衛福部齒顎矯正、假牙贋復專科醫師",
   desc: "文心牙醫醫師團隊：李俊茂院長（假牙贋復專科）、王媛儀副院長（衛福部齒顎矯正專科、隱適美認證醫師）、陳柏群主治醫師。完整學經歷與專長介紹。",
   keywords: "台南矯正醫師,台南植牙醫師,齒顎矯正專科醫師,隱適美認證醫師,王媛儀,李俊茂,陳柏群",
   crumbs: [C.home, { name: "醫師團隊", url: "team.html" }],
@@ -446,8 +456,11 @@ ${pageHead("醫師團隊", "看診前，先認識為你看診的人", "證書可
             <p class="doctor__spec">${d.spec}</p>
             <p class="mt-5" style="color:var(--ink-2)">${d.intro}</p>
             <div class="doctor__creds mt-5">
-              <p class="sheet__title" style="margin-bottom:var(--sp-3)">學歷與認證</p>
-              <ul>${d.creds.map(c => `<li>${c}</li>`).join("")}</ul>
+              ${Object.entries(d.creds).map(([group, items]) => `
+              <div class="credgroup">
+                <p class="credgroup__label">${group}</p>
+                <ul>${items.map(c => `<li>${c}</li>`).join("")}</ul>
+              </div>`).join("")}
             </div>
             <div class="btn-row mt-6">
               <a class="btn btn--primary btn--sm" href="booking.html">預約 ${d.name} 醫師</a>
@@ -491,7 +504,7 @@ const services = [
 
 pages.push({
   slug: "services.html",
-  title: "診療項目｜台南牙醫 — 矯正、植牙、全口重建、兒童牙科",
+  title: "診療項目｜台南牙醫｜矯正、植牙、全口重建、兒童牙科",
   desc: "文心牙醫提供隱適美隱形矯正、齒顎矯正、數位人工植牙、全口重建、假牙贋復、根管治療、牙周病治療、牙齒美白、兒童牙科與美容牙科，一處照顧全家人的牙齒。",
   keywords: "台南牙醫診療項目,台南植牙,台南矯正,全口重建,根管治療,牙周病,兒童牙科,牙齒美白",
   crumbs: [C.home, { name: "診療項目", url: "services.html" }],
@@ -519,7 +532,6 @@ ${pageHead("診療項目", "一個診所，照顧全家人的牙齒", "從定期
 <section class="section section--sunk">
   <div class="shell">
     <div class="section-head section-head--center" data-reveal>
-      <p class="eyebrow eyebrow--center">看診流程</p>
       <h2>第一次來，會發生什麼事</h2>
     </div>
     <div class="grid grid-4">
@@ -567,7 +579,7 @@ ${pageHead(cfg.eyebrow, cfg.h1, cfg.lede, crumbs)}
 
 <section class="section section--sunk">
   <div class="shell">
-    <div class="section-head" data-reveal><p class="eyebrow">適合對象</p><h2>${cfg.fitTitle}</h2></div>
+    <div class="section-head" data-reveal><h2>${cfg.fitTitle}</h2></div>
     <div class="grid grid-2">
       ${cfg.fit.map((f, i) => `<div class="card" data-reveal${i ? ` data-reveal-delay="${i * 60}"` : ""}>
         <span class="card__icon card__icon--calm">${ico.check}</span>
@@ -578,7 +590,7 @@ ${pageHead(cfg.eyebrow, cfg.h1, cfg.lede, crumbs)}
 
 <section class="section">
   <div class="shell">
-    <div class="section-head" data-reveal><p class="eyebrow">療程步驟</p><h2>${cfg.stepsTitle}</h2></div>
+    <div class="section-head" data-reveal><h2>${cfg.stepsTitle}</h2></div>
     <div class="grid grid-2">
       ${cfg.steps.map((s, i) => `<div class="step" data-reveal${i ? ` data-reveal-delay="${i * 60}"` : ""}>
         <span class="step__num">${i + 1}</span><h4>${s.t}</h4><p>${s.d}</p></div>`).join("")}
@@ -589,7 +601,7 @@ ${pageHead(cfg.eyebrow, cfg.h1, cfg.lede, crumbs)}
 
 <section class="section section--sunk">
   <div class="shell shell--narrow">
-    <div class="section-head section-head--center" data-reveal><p class="eyebrow eyebrow--center">常見問題</p><h2>${cfg.crumb}的常見疑問</h2></div>
+    <div class="section-head section-head--center" data-reveal><h2>${cfg.crumb}的常見疑問</h2></div>
     <div class="accordion" data-reveal>
       ${cfg.faq.map((f, i) => `
       <div class="acc" data-acc>
@@ -608,7 +620,7 @@ ${ctaBand(cfg.ctaTitle, cfg.ctaText)}
 
 pages.push(servicePage({
   id: "inv", slug: "service-invisalign.html", crumb: "隱適美隱形矯正",
-  title: "台南隱適美隱形矯正｜透明牙套療程、適合對象與常見問題 — 文心牙醫",
+  title: "台南隱適美隱形矯正｜透明牙套療程、適合對象與常見問題｜文心牙醫",
   desc: "台南隱適美隱形矯正，由衛福部齒顎矯正專科暨隱適美認證醫師王媛儀親自評估。說明隱形牙套療程步驟、適合對象、配戴時間與常見疑問，線上預約矯正諮詢。",
   keywords: "台南隱適美,台南隱形矯正,隱形牙套,透明牙套,台南矯正推薦,隱適美費用,隱適美附件",
   eyebrow: "隱適美隱形矯正",
@@ -617,10 +629,10 @@ pages.push(servicePage({
   intro: `
     <h2>隱適美到底是什麼</h2>
     <p>隱適美（Invisalign）是一套數位化的隱形矯正系統。醫師先用 3D 口掃取得你的齒列模型，在電腦中規劃每一顆牙要往哪裡移動、分幾個階段完成，接著依照這份計畫製作一系列客製化的透明牙套。</p>
-    <p>你每天配戴約 <strong>20 至 22 小時</strong>，每一副牙套配戴一到兩週後換下一副，牙齒就會沿著規劃好的路徑逐步移動。吃東西、刷牙、重要場合都可以自行取下——這是它跟傳統固定式矯正器最大的差別。</p>
+    <p>你每天配戴約 <strong>20 至 22 小時</strong>，每一副牙套配戴一到兩週後換下一副，牙齒就會沿著規劃好的路徑逐步移動。吃東西、刷牙、重要場合都可以自行取下，這是它跟傳統固定式矯正器最大的差別。</p>
     <h3>和傳統矯正器比起來</h3>
     <p>療程長度主要取決於齒列狀況的複雜度，而不是器材本身。單純的齒列擁擠，兩者時間差異通常不大；若涉及骨性問題、需要大幅度拔牙退縮，傳統矯正在某些移動類型上仍有其優勢。</p>
-    <p>隱適美真正的差別在於：<strong>外觀幾乎看不出來、可自行取下清潔、沒有金屬線磨破嘴的問題、回診間隔通常較長</strong>。相對地，它非常依賴配戴的自律度——每天少戴幾小時，整個療程就會延後。</p>
+    <p>隱適美真正的差別在於：<strong>外觀幾乎看不出來、可自行取下清潔、沒有金屬線磨破嘴的問題、回診間隔通常較長</strong>。相對地，它非常依賴配戴的自律度，每天少戴幾小時，整個療程就會延後。</p>
     <h3>為什麼要由矯正專科醫師評估</h3>
     <p>隱形牙套只是工具，真正決定結果的是背後的診斷與移動規劃。文心的矯正由衛福部認證的齒顎矯正專科醫師、同時也是隱適美認證醫師的<a href="team.html#wang">王媛儀副院長</a>親自評估與執行，不轉介、不外包。</p>`,
   fitTitle: "什麼樣的狀況適合考慮隱適美",
@@ -641,11 +653,11 @@ pages.push(servicePage({
   ],
   caveat: "是否適合隱適美、需要多少副牙套、療程大約多長、費用範圍為何，都必須經過實際的口腔檢查與影像評估後，由矯正專科醫師依個人狀況判斷。網路上的資訊僅能作為初步了解，不能取代專業診斷。",
   faq: [
-    { q: "第一次諮詢隱適美會做什麼？一定要 3D 口掃、拍 X 光嗎？", a: "<p>初次諮詢通常包含口內檢查、環口 X 光與 3D 口掃。X 光可以看到牙根、齒槽骨與是否有阻生齒，口掃則建立精確的數位齒列模型——這兩項是規劃移動路徑的基礎，少了任何一項，計畫都只能靠猜。實際檢查項目仍會依個人口腔狀況由醫師判斷。</p>" },
+    { q: "第一次諮詢隱適美會做什麼？一定要 3D 口掃、拍 X 光嗎？", a: "<p>初次諮詢通常包含口內檢查、環口 X 光與 3D 口掃。X 光可以看到牙根、齒槽骨與是否有阻生齒，口掃則建立精確的數位齒列模型，這兩項是規劃移動路徑的基礎，少了任何一項，計畫都只能靠猜。實際檢查項目仍會依個人口腔狀況由醫師判斷。</p>" },
     { q: "隱形矯正的附件是什麼？會掉嗎、會痛嗎、影響美觀嗎？", a: "<p>附件是黏在牙齒表面的小塊樹脂，顏色接近牙齒，用來讓牙套更有效地抓住牙齒、完成旋轉或壓入這類比較困難的移動。</p><p>它不會痛，但剛黏上時舌頭可能會覺得卡卡的，通常幾天就習慣。附件有可能在取戴牙套或吃硬物時脫落，發現掉了請聯絡診所安排重黏，不要自行放著不管，否則該顆牙的移動會跟不上計畫。</p>" },
-    { q: "隱適美跟傳統牙套哪個比較快？", a: "<p>主要取決於齒列狀況，不是器材。單純擁擠兩者差異不大；複雜的骨性問題或大幅度拔牙空間關閉，傳統矯正在某些移動上仍有優勢。另一個關鍵變數是配戴時數——隱適美每天少戴幾小時，療程就會往後延。</p>" },
+    { q: "隱適美跟傳統牙套哪個比較快？", a: "<p>主要取決於齒列狀況，不是器材。單純擁擠兩者差異不大；複雜的骨性問題或大幅度拔牙空間關閉，傳統矯正在某些移動上仍有優勢。另一個關鍵變數是配戴時數，隱適美每天少戴幾小時，療程就會往後延。</p>" },
     { q: "矯正期間可以正常吃東西嗎？", a: "<p>可以。吃東西時請把牙套取下，這也是隱適美相對於固定矯正器的優點之一：沒有不能吃的食物清單。但要注意兩件事：取下後務必刷牙再戴回去，以及取下的時間要算進每天的「不配戴時數」裡。</p>" },
-    { q: "成人年紀大了還可以矯正嗎？", a: "<p>可以。牙齒移動的生理機制並不會因為成年而消失，臨床上四、五十歲開始矯正的案例並不少見。成人矯正要特別注意的是牙周狀況——若有牙周病必須先控制穩定，才能開始移動牙齒。</p>" },
+    { q: "成人年紀大了還可以矯正嗎？", a: "<p>可以。牙齒移動的生理機制並不會因為成年而消失，臨床上四、五十歲開始矯正的案例並不少見。成人矯正要特別注意的是牙周狀況，若有牙周病必須先控制穩定，才能開始移動牙齒。</p>" },
     { q: "矯正完成後牙齒會跑回去嗎？", a: "<p>有這個傾向，所以維持器非常重要。牙齒周圍的牙周韌帶具有記憶性，矯正後若沒有依指示配戴維持器，牙齒確實可能逐漸位移。維持器的配戴時間與方式請依主治醫師的指示執行。</p>" }
   ],
   ctaTitle: "想知道自己適不適合隱適美？",
@@ -654,7 +666,7 @@ pages.push(servicePage({
 
 pages.push(servicePage({
   id: "ort", slug: "service-orthodontics.html", crumb: "齒顎矯正",
-  title: "台南齒顎矯正｜傳統矯正、兒童早期矯正與咬合問題 — 文心牙醫",
+  title: "台南齒顎矯正｜傳統矯正、兒童早期矯正與咬合問題｜文心牙醫",
   desc: "台南齒顎矯正由衛福部齒顎矯正專科醫師評估執行。處理齒列擁擠、暴牙、戽斗、深咬與咬合不正，並提供兒童齒顎發育評估與早期矯正。線上預約矯正諮詢。",
   keywords: "台南矯正,台南齒顎矯正,台南牙齒矯正,兒童矯正,暴牙,戽斗,咬合不正,矯正專科醫師",
   eyebrow: "齒顎矯正",
@@ -662,7 +674,7 @@ pages.push(servicePage({
   lede: "齒列不整除了外觀，還會影響清潔難易、咀嚼效率與顳顎關節。矯正的目的是把牙齒排整齊，也是把咬合關係調到一個能長期穩定運作的位置。",
   intro: `
     <h2>什麼時候該考慮矯正</h2>
-    <p>最常見的理由是外觀——牙齒不整齊、笑起來不好看。但在臨床上，我們更在意的是這些狀況帶來的長期影響：</p>
+    <p>最常見的理由是外觀，牙齒不整齊、笑起來不好看。但在臨床上，我們更在意的是這些狀況帶來的長期影響：</p>
     <ul>
       <li><strong>清潔死角</strong>：牙齒重疊的地方刷不乾淨，長期下來容易蛀牙與牙周問題。</li>
       <li><strong>咬合受力不均</strong>：某幾顆牙承受過多力量，造成異常磨耗、牙齒裂開或牙周負擔。</li>
@@ -705,7 +717,7 @@ pages.push(servicePage({
 
 pages.push(servicePage({
   id: "imp", slug: "service-implant.html", crumb: "數位人工植牙",
-  title: "台南植牙｜數位導板人工植牙、3D斷層評估與療程說明 — 文心牙醫",
+  title: "台南植牙｜數位導板人工植牙、3D斷層評估與療程說明｜文心牙醫",
   desc: "台南數位人工植牙，術前以 3D 電腦斷層評估齒槽骨條件，數位導板規劃植體位置與角度。由假牙贋復專科醫師李俊茂院長主持，說明植牙療程、適合對象與術後維護。",
   keywords: "台南植牙,台南人工植牙,數位植牙,植牙導板,缺牙,植牙費用,全口重建,台南植牙推薦",
   eyebrow: "數位人工植牙",
@@ -714,11 +726,11 @@ pages.push(servicePage({
   intro: `
     <h2>為什麼強調「數位」</h2>
     <p>傳統植牙的位置判斷，很大程度仰賴醫師的經驗與平面 X 光。但平面影像看不出骨頭的厚度、也看不清神經管與鼻竇的立體位置。</p>
-    <p>數位植牙的流程是：先用 <strong>3D 錐狀射束電腦斷層（CBCT）</strong>取得齒槽骨的立體影像，結合 3D 口掃的齒列資料，在電腦中模擬植體要植入的位置、深度與角度——同時考慮骨量是否足夠、是否安全避開重要解剖構造，以及<strong>未來假牙做出來的受力方向是否正確</strong>。</p>
+    <p>數位植牙的流程是：先用 <strong>3D 錐狀射束電腦斷層（CBCT）</strong>取得齒槽骨的立體影像，結合 3D 口掃的齒列資料，在電腦中模擬植體要植入的位置、深度與角度，同時考慮骨量是否足夠、是否安全避開重要解剖構造，以及<strong>未來假牙做出來的受力方向是否正確</strong>。</p>
     <p>確認計畫後製作手術導板，手術時依導板執行。這麼做的意義是把不確定性盡量移到手術之前，而不是在翻開牙齦之後才臨場判斷。</p>
     <h3>從假牙倒推植體位置</h3>
     <p>一個常被忽略的觀念是：植體的位置應該由<strong>最終假牙要長在哪裡</strong>決定，而不是哪裡骨頭多就種哪裡。角度不對的植體，後續做出來的假牙受力會偏，清潔也更困難，長期下來容易出問題。</p>
-    <p>這也是為什麼文心的植牙由<a href="team.html#lee">假牙贋復專科的李俊茂院長</a>主持——把贋復端的考量放進一開始的規劃裡。</p>`,
+    <p>這也是為什麼文心的植牙由<a href="team.html#lee">假牙贋復專科的李俊茂院長</a>主持，把贋復端的考量放進一開始的規劃裡。</p>`,
   fitTitle: "什麼狀況可以考慮植牙",
   fit: [
     { t: "單顆或多顆缺牙", d: "植牙不需要像傳統牙橋那樣修磨兩側的健康鄰牙，可以保留原本完好的牙齒。" },
@@ -740,7 +752,7 @@ pages.push(servicePage({
     { q: "植牙會很痛嗎？手術要多久？", a: "<p>植體植入手術在局部麻醉下進行，過程中不會感到疼痛。單顆植牙的手術時間多在一小時內。術後的不適主要是腫脹與輕微痠痛，通常數日內緩解，可依醫師處方使用止痛與消炎藥物。</p>" },
     { q: "植牙總共要花多久時間？", a: "<p>從植入到裝上假牙，一般約需 3 至 6 個月，主要是等待植體與齒槽骨完成整合。若骨量不足需要先補骨或進行鼻竇增高，整體時間會再延長數個月。實際時程依個人骨質條件而定。</p>" },
     { q: "骨頭不夠可以植牙嗎？", a: "<p>多數情況可以，但需要先進行補骨。常見的做法包括齒槽脊增高、引導骨再生與上顎鼻竇增高術。是否需要、用哪一種方式，必須依 3D 斷層的評估結果判斷。</p>" },
-    { q: "植牙可以用多久？", a: "<p>植體本身不會蛀牙，但植體周圍的牙齦與齒槽骨仍可能因為清潔不良而發炎，也就是「植體周圍炎」——這是植牙失敗最常見的原因。能用多久，很大程度取決於日常清潔與是否規律回診維護。吸菸會明顯提高失敗風險。</p>" },
+    { q: "植牙可以用多久？", a: "<p>植體本身不會蛀牙，但植體周圍的牙齦與齒槽骨仍可能因為清潔不良而發炎，也就是「植體周圍炎」，這是植牙失敗最常見的原因。能用多久，很大程度取決於日常清潔與是否規律回診維護。吸菸會明顯提高失敗風險。</p>" },
     { q: "植牙和牙橋、活動假牙怎麼選？", a: "<p>三者各有適應症。牙橋需要修磨兩側健康鄰牙；活動假牙取戴方便、費用較低但穩定度與咀嚼力通常較弱；植牙不動鄰牙、穩定度佳，但療程長、費用高，且需要足夠的骨頭條件。醫師會依缺牙位置、數量、骨質狀況與你的生活習慣說明各自的差別。</p>" },
     { q: "有糖尿病或在吃骨質疏鬆藥可以植牙嗎？", a: "<p>需要個別評估。血糖控制穩定的糖尿病患者多數仍可植牙，但癒合速度較慢、感染風險較高。部分骨質疏鬆藥物（特別是雙磷酸鹽類與長期注射型）與顎骨壞死風險有關，務必在諮詢時詳實告知所有用藥，必要時會與您的主治醫師聯繫討論。</p>" }
   ],
@@ -751,7 +763,7 @@ pages.push(servicePage({
 /* ------------------------------------------------------------ 預約 */
 pages.push({
   slug: "booking.html",
-  title: "線上預約看診｜台南牙醫 — 60 秒完成預約 — 文心牙醫聯合診所",
+  title: "線上預約｜台南牙醫｜60 秒完成預約｜文心牙醫聯合診所",
   desc: "文心牙醫線上預約系統，選擇療程、挑選時段、填寫資料三步驟完成，24 小時皆可送出。也可透過官方 LINE 或電話 06-2156600 預約。",
   keywords: "台南牙醫預約,線上預約牙醫,台南牙科掛號,文心牙醫預約",
   crumbs: [C.home, { name: "線上預約", url: "booking.html" }],
@@ -856,9 +868,9 @@ ${pageHead("線上預約", "三個步驟，大概一分鐘", "不用等電話接
 
             <div class="summary mt-6">
               <dl>
-                <div><dt>診療項目</dt><dd data-sum="service">—</dd></div>
-                <div><dt>初診／複診</dt><dd data-sum="visit">—</dd></div>
-                <div><dt>希望時段</dt><dd data-sum="when">—</dd></div>
+                <div><dt>診療項目</dt><dd data-sum="service">，</dd></div>
+                <div><dt>初診／複診</dt><dd data-sum="visit">，</dd></div>
+                <div><dt>希望時段</dt><dd data-sum="when">，</dd></div>
               </dl>
             </div>
 
@@ -995,7 +1007,7 @@ const faqGroups = [
 
 pages.push({
   slug: "faq.html",
-  title: "常見問題｜台南牙醫 — 初診、預約、矯正、植牙疑問解答 — 文心牙醫",
+  title: "常見問題｜台南牙醫｜初診、預約、矯正、植牙疑問解答｜文心牙醫",
   desc: "文心牙醫常見問題整理：初診要帶什麼、怎麼預約最快、健保給付範圍、矯正與植牙的療程與費用、兒童看牙時機與日常口腔照護。由台南文心牙醫醫師團隊整理。",
   keywords: "牙醫常見問題,台南牙醫初診,牙醫預約,矯正費用,植牙時間,乳牙蛀牙,刷牙流血",
   crumbs: [C.home, { name: "常見問題", url: "faq.html" }],
@@ -1034,8 +1046,8 @@ ${ctaBand("還是有問題想問？", "用 LINE 傳訊息給我們，或直接�
 /* ------------------------------------------------------------ 聯絡我們 */
 pages.push({
   slug: "contact.html",
-  title: "門診時間與交通｜台南市南區大同路二段166號 — 文心牙醫聯合診所",
-  desc: "文心牙醫聯合診所位於台南市南區大同路二段166號，電話 06-2156600。門診時間週一至週五早午晚三診 09:00–21:00、週六上午 09:00–12:00。提供交通與停車資訊、Google 地圖導航。",
+  title: "門診時間與交通｜台南市南區大同路二段166號｜文心牙醫聯合診所",
+  desc: "文心牙醫聯合診所位於台南市南區大同路二段166號，電話 06-2156600。門診時間週一至週五早午晚三診 09:00-21:00、週六上午 09:00-12:00。提供交通與停車資訊、Google 地圖導航。",
   keywords: "台南牙醫地址,南區牙醫,大同路牙醫,文心牙醫電話,台南牙醫門診時間",
   crumbs: [C.home, { name: "聯絡我們", url: "contact.html" }],
   body: `
@@ -1045,7 +1057,6 @@ ${pageHead("聯絡我們", "台南市南區大同路二段 166 號", "位於大�
   <div class="shell">
     <div class="grid grid-2" style="align-items:start;gap:var(--sp-8)">
       <div data-reveal>
-        <p class="eyebrow">聯絡方式</p>
         <h2 class="mt-4">怎麼找到我們</h2>
         <p class="mt-4"><span class="status" data-status><span class="status__dot"></span><span data-status-text>查詢中</span></span></p>
 
@@ -1069,7 +1080,7 @@ ${pageHead("聯絡我們", "台南市南區大同路二段 166 號", "位於大�
         </dl>
 
         <div class="btn-row mt-6">
-          <a class="btn btn--primary" href="booking.html">線上預約看診</a>
+          <a class="btn btn--primary" href="booking.html">線上預約</a>
           <a class="btn btn--ghost" href="https://www.google.com/maps/search/?api=1&query=${ADDR_Q}" target="_blank" rel="noopener">開啟 Google 導航</a>
         </div>
       </div>
@@ -1092,7 +1103,7 @@ ${pageHead("聯絡我們", "台南市南區大同路二段 166 號", "位於大�
 
 <section class="section section--sunk" id="hours">
   <div class="shell">
-    <div class="section-head" data-reveal><p class="eyebrow">門診時間</p><h2>每週看診時段</h2></div>
+    <div class="section-head" data-reveal><h2>每週看診時段</h2></div>
     <div class="card" data-reveal style="padding:var(--sp-6)">
 ${hoursTable()}
       <p class="small muted mt-5">國定假日與連假門診時間另行公告。急症請先來電 <a href="tel:${TEL}" style="color:var(--brand-deep)">${TEL_TEXT}</a> 確認。</p>
@@ -1102,7 +1113,7 @@ ${hoursTable()}
 
 <section class="section">
   <div class="shell">
-    <div class="section-head" data-reveal><p class="eyebrow">交通方式</p><h2>開車、騎車或搭車前來</h2></div>
+    <div class="section-head" data-reveal><h2>開車、騎車或搭車前來</h2></div>
     <div class="grid grid-3">
       <div class="card" data-reveal>
         <span class="card__icon">${ico.car}</span>

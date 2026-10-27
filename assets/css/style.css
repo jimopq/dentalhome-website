@@ -574,6 +574,79 @@ p { text-wrap: pretty; }
 }
 .hero__stat span { font-size: var(--step--1); color: rgba(255,255,255,.66); letter-spacing: 0.04em; }
 
+/* Credential groups — three labelled clusters read faster than eight bullets */
+.credgroup + .credgroup { margin-top: var(--sp-4); }
+.credgroup__label {
+  font-size: 0.75rem; font-weight: 700; letter-spacing: .1em;
+  color: var(--ink-3); margin-bottom: var(--sp-2);
+}
+.credgroup ul { padding: 0; margin: 0; list-style: none; }
+
+/* Booking paths — one primary route, two secondary. Not three equal cards. */
+.booking-paths { display: grid; gap: var(--sp-4); }
+@media (min-width: 880px) { .booking-paths { grid-template-columns: 1.25fr 1fr; } }
+.booking-paths__alt { display: grid; gap: var(--sp-4); align-content: start; }
+
+.path {
+  display: flex; flex-direction: column;
+  padding: var(--sp-6);
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+  transition: transform var(--t-base) var(--ease-out), box-shadow var(--t-base) var(--ease-out),
+              border-color var(--t-base) var(--ease-out);
+}
+.path:hover { transform: translateY(-3px); box-shadow: var(--shadow-lg); border-color: color-mix(in srgb, var(--brand) 34%, transparent); }
+.path:active { transform: translateY(-1px) scale(.995); }
+.path h3 { font-size: var(--step-2); }
+.path p { margin-top: var(--sp-3); color: var(--ink-2); font-size: 0.9375rem; }
+
+.path--primary { justify-content: space-between; min-height: 100%; }
+.path--primary h3 { font-size: var(--step-3); }
+.path--primary .path__icon { width: 56px; height: 56px; margin-bottom: var(--sp-5); }
+.path--primary .path__icon svg { width: 28px; height: 28px; }
+.path__cta {
+  display: inline-flex; align-items: center; gap: var(--sp-2);
+  margin-top: var(--sp-6); font-weight: 700; color: var(--brand-deep);
+  transition: gap var(--t-base) var(--ease-spring);
+}
+.path__cta svg { width: 1.05em; height: 1.05em; }
+.path--primary:hover .path__cta { gap: var(--sp-3); }
+
+.path--small { flex-direction: row; align-items: flex-start; gap: var(--sp-4); padding: var(--sp-5); }
+.path--small h3 { font-size: var(--step-1); }
+.path--small p { margin-top: 4px; font-size: 0.875rem; }
+
+.path__icon {
+  flex: none; display: grid; place-items: center;
+  width: 46px; height: 46px; border-radius: var(--radius-sm);
+  background: var(--brand-tint); color: var(--brand-deep);
+}
+.path__icon svg { width: 23px; height: 23px; }
+.path__icon--line { background: color-mix(in srgb, #06C755 14%, transparent); color: #05a948; }
+
+/* Trust band — sits below the hero, never inside it */
+.trustband {
+  padding-block: var(--sp-6);
+  background: var(--ink);
+  color: var(--paper);
+}
+.trustband .shell {
+  display: flex; flex-wrap: wrap; align-items: center;
+  justify-content: space-between; gap: var(--sp-5);
+}
+.trustband__list { display: flex; flex-wrap: wrap; gap: var(--sp-5) var(--sp-8); margin: 0; }
+.trustband__list dt { font-size: var(--step--1); color: rgba(255,255,255,.58); letter-spacing: .04em; }
+.trustband__list dd {
+  margin: 2px 0 0; font-size: var(--step-3); font-weight: 900;
+  line-height: 1.05; letter-spacing: -.03em; font-variant-numeric: tabular-nums;
+}
+.trustband__list dd span { font-size: .5em; font-weight: 700; margin-left: 2px; opacity: .72; }
+.trustband__status { margin: 0; }
+.trustband .status--open { background: rgba(255,255,255,.12); color: #fff; }
+.trustband .status--shut { background: rgba(255,255,255,.08); color: rgba(255,255,255,.6); }
+
 /* Floating status card, bottom-right on wide screens */
 .hero__badge {
   position: absolute; right: 0; bottom: 0;

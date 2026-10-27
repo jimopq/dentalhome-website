@@ -117,18 +117,22 @@
   /* ==================================================================
      Header — translucent material once content scrolls beneath it
      ================================================================== */
+  /* A sentinel beats a scroll listener: the browser tells us when the top
+     of the page leaves view, instead of us asking on every frame. */
+  function sentinel(offsetPx, onChange) {
+    var el = document.createElement("div");
+    el.setAttribute("aria-hidden", "true");
+    el.style.cssText = "position:absolute;top:" + offsetPx + "px;left:0;width:1px;height:1px;pointer-events:none;";
+    document.body.appendChild(el);
+    if (!("IntersectionObserver" in window)) { onChange(false); return; }
+    new IntersectionObserver(function (entries) {
+      onChange(!entries[0].isIntersecting);
+    }, { threshold: 0 }).observe(el);
+  }
+
   var header = document.querySelector(".header");
   if (header) {
-    var stuck = false;
-    var onScroll = function () {
-      var should = window.scrollY > 12;
-      if (should !== stuck) {
-        stuck = should;
-        header.classList.toggle("is-stuck", stuck);
-      }
-    };
-    onScroll();
-    window.addEventListener("scroll", onScroll, { passive: true });
+    sentinel(12, function (past) { header.classList.toggle("is-stuck", past); });
   }
 
   /* ==================================================================
@@ -315,14 +319,9 @@
   (function () {
     var dock = document.querySelector("[data-dock]");
     if (!dock) return;
-    var threshold = 420;
-    var shown = false;
-    var update = function () {
-      var should = window.scrollY > threshold;
-      if (should !== shown) { shown = should; dock.classList.toggle("is-up", shown); }
-    };
-    update();
-    window.addEventListener("scroll", update, { passive: true });
+    // Appears only once the hero CTA is behind the reader, so it never
+    // competes with the primary call to action.
+    sentinel(420, function (past) { dock.classList.toggle("is-up", past); });
   })();
 
   /* ==================================================================
