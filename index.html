@@ -115,7 +115,7 @@
 <body>
 <a class="skip-link" href="#main">跳到主要內容</a>
 
-<header class="header header--over" data-nav>
+<header class="header" data-nav>
   <div class="header__inner">
     <a class="brand" href="index.html" aria-label="文心牙醫聯合診所 首頁">
       <img src="assets/img/logo.png" width="340" height="140" alt="文心牙醫聯合診所 Ven-Shin United Dental Clinic">
@@ -186,21 +186,24 @@
 
   <!-- ============================ HERO ============================ -->
   <section class="hero">
-    <div class="hero__media">
-      <img src="assets/img/hero-family.jpg" width="1600" height="1067" fetchpriority="high"
-           alt="一家三口並排躺著開心微笑">
-    </div>
     <div class="shell">
-      <div class="hero__inner">
-        <p class="eyebrow">台南 · 南區 · 家庭牙科</p>
-        <h1>從「心」出發<br>成為全家人<em>笑容的守護者</em></h1>
-        <p class="lede hero__lede">2003 年至今，從孩子的第一顆乳牙到長輩的全口重建，我們陪伴台南家庭走過每個階段。</p>
-        <div class="btn-row">
-          <a class="btn btn--primary btn--lg" href="booking.html">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
-            線上預約
-          </a>
-          <a class="btn btn--on-dark btn--lg" href="service-invisalign.html">了解隱形矯正</a>
+      <div class="hero__grid">
+        <div class="hero__inner">
+          <p class="eyebrow">台南 · 南區 · 家庭牙科</p>
+          <h1>從「心」出發<br>成為全家人<em>笑容的守護者</em></h1>
+          <p class="lede hero__lede">2003 年至今，從孩子的第一顆乳牙到長輩的全口重建，我們陪伴台南家庭走過每個階段。</p>
+          <div class="btn-row">
+            <a class="btn btn--primary btn--lg" href="booking.html">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
+              線上預約
+            </a>
+            <a class="btn btn--ghost btn--lg" href="service-invisalign.html">了解隱形矯正</a>
+          </div>
+        </div>
+        <div class="hero__media">
+          <img src="assets/img/hero-family.jpg" width="1600" height="1067" fetchpriority="high"
+               alt="一家三口並排躺著開心微笑">
+          <p class="hero__chip"><span class="status" data-status><span class="status__dot"></span><span data-status-text>查詢中</span></span></p>
         </div>
       </div>
     </div>
@@ -213,7 +216,6 @@
         <div><dt>累積服務人次</dt><dd>60,000<span>+</span></dd></div>
         <div><dt>Google 真實好評</dt><dd>376<span>則</span></dd></div>
       </dl>
-      <p class="trustband__status"><span class="status" data-status><span class="status__dot"></span><span data-status-text>查詢中</span></span></p>
     </div>
   </section>
 
@@ -221,8 +223,8 @@
   <section class="section section--tight section--sunk">
     <div class="shell">
       <div class="section-head" data-reveal>
-        <h2>挑一個你最順手的方式</h2>
-        <p>不用等電話接通，也不必配合上班時間。三種方式都直達同一位櫃檯人員。</p>
+        <h2>預約看診，三種方式任您選擇</h2>
+        <p>不論線上、LINE 或電話，都由同一位櫃檯人員為您服務。</p>
       </div>
 
       <div class="booking-paths">
@@ -252,8 +254,8 @@
     <div class="shell">
       <div class="section-head" data-reveal>
         <p class="eyebrow">診療項目</p>
-        <h2>一個診所，照顧全家人的牙齒</h2>
-        <p>從定期洗牙到全口重建，從孩子的第一次看診到長輩的假牙贋復。不必為了不同治療，在不同診所之間奔波。</p>
+        <h2>守護全家人的口腔健康</h2>
+        <p>從定期洗牙、兒童塗氟，到矯正、植牙與全口重建，一家人的牙齒都能在這裡得到完整照顧。</p>
       </div>
 
       <div class="grid grid-3">
@@ -267,7 +269,7 @@
         </a>
 
         <a class="photo-card" href="service-orthodontics.html" data-reveal data-reveal-delay="80">
-          <div class="photo-card__media photo-card__media--right"><img src="assets/img/teen.jpg" width="1400" height="737" loading="lazy" alt="青少女露齒微笑"></div>
+          <div class="photo-card__media"><img src="assets/img/kids.jpg" width="1200" height="830" loading="lazy" alt="兩個女孩相擁開心微笑"></div>
           <div class="photo-card__body">
             <h3>齒顎矯正</h3>
             <p>齒列擁擠、暴牙、戽斗、咬合不正，以及兒童的齒顎發育評估。由衛福部齒顎矯正專科醫師執行。</p>
@@ -303,8 +305,8 @@
     <div class="shell">
       <div class="grid grid-2" style="align-items:center;gap:var(--sp-8)">
         <div data-reveal>
-          <h2 class="mt-4">我們相信，關懷比技術與設備更難得</h2>
-          <p class="lede mt-5">設備可以買，技術可以學。但願意花時間聽你說完擔心的事、記得你三年前補過哪一顆牙，這是文心從 2003 年堅持到現在的事。</p>
+          <h2 class="mt-4">「溫馨」與「專業」，是我們最重要的堅持</h2>
+          <p class="lede mt-5">我們重視人與人之間的那份關懷，甚至勝過技術與設備。這是文心從 2003 年走到今天，始終沒有改變的事。</p>
           <div class="btn-row mt-6"><a class="btn btn--ghost" href="about.html">認識文心的故事</a></div>
         </div>
         <div class="photo photo--wide photo--shift-right" data-reveal data-reveal-delay="90">
@@ -313,10 +315,10 @@
       </div>
 
       <div class="grid grid-4 mt-8">
-        <div class="step" data-reveal><span class="step__num">1</span><h4>先講清楚再開始</h4><p>需要做什麼、為什麼、大概多少費用、有沒有別的選擇。先說明白，你再決定。</p></div>
-        <div class="step" data-reveal data-reveal-delay="70"><span class="step__num">2</span><h4>一位醫師負責到底</h4><p>不會每次來換一個人、每次重講一遍。複雜案例才由團隊共同會診。</p></div>
-        <div class="step" data-reveal data-reveal-delay="140"><span class="step__num">3</span><h4>看不見的地方不省</h4><p>獨立滅菌器械包、高溫高壓滅菌並定期生物指示劑監測。</p></div>
-        <div class="step" data-reveal data-reveal-delay="210"><span class="step__num">4</span><h4>長期記錄不中斷</h4><p>三年前補的那顆牙、去年拍的 X 光，下次來都還在。</p></div>
+        <div class="step" data-reveal><span class="step__num">1</span><h4>治療前充分說明</h4><p>需要做什麼、為什麼要做、費用範圍與其他選擇，都會在開始前說明清楚。</p></div>
+        <div class="step" data-reveal data-reveal-delay="70"><span class="step__num">2</span><h4>專責醫師全程照顧</h4><p>由同一位主治醫師負責您的療程，複雜案例則由團隊共同會診討論。</p></div>
+        <div class="step" data-reveal data-reveal-delay="140"><span class="step__num">3</span><h4>完善的消毒作業</h4><p>每位患者使用獨立滅菌器械包，高溫高壓滅菌並定期監測。</p></div>
+        <div class="step" data-reveal data-reveal-delay="210"><span class="step__num">4</span><h4>長期的治療紀錄</h4><p>完整保留您歷次的治療紀錄，陪伴您走過人生不同階段。</p></div>
       </div>
     </div>
   </section>
@@ -325,7 +327,7 @@
   <section class="section">
     <div class="shell">
       <div class="section-head" data-reveal>
-        <h2>看診前，先認識為你看診的人</h2>
+        <h2>專業醫師團隊</h2>
       </div>
       <div class="grid grid-3">
         <article class="doctor" data-reveal>
@@ -373,7 +375,7 @@
     <div class="shell">
       <div class="section-head" data-reveal>
         <p class="eyebrow">門診時間</p>
-        <h2>今天是哪位醫師看診？</h2>
+        <h2>門診時間與醫師排班</h2>
         <p class="mt-4"><span class="status" data-status><span class="status__dot"></span><span data-status-text>查詢中</span></span></p>
       </div>
       <div data-reveal><div class="hours-wrap">
@@ -410,7 +412,7 @@
   <section class="section">
     <div class="shell shell--narrow">
       <div class="section-head section-head--center" data-reveal>
-        <h2>第一次來，通常會想問這些</h2>
+        <h2>常見問題</h2>
       </div>
       <div class="accordion" data-reveal>
         <div class="acc" data-acc>
@@ -436,8 +438,8 @@
 
   <section class="cta-band">
     <div class="shell center">
-      <h2 data-reveal>牙齒的事，別再拖了</h2>
-      <p class="lede mt-4" style="max-width:40rem;margin-inline:auto" data-reveal data-reveal-delay="60">一次完整的檢查與諮詢，通常就能讓你清楚知道自己的狀況，以及有哪些選擇。</p>
+      <h2 data-reveal>讓我們一起守護您的笑容</h2>
+      <p class="lede mt-4" style="max-width:40rem;margin-inline:auto" data-reveal data-reveal-delay="60">一次完整的檢查與諮詢，讓您清楚了解自己的口腔狀況與可行的治療方式。</p>
       <div class="btn-row btn-row--center" data-reveal data-reveal-delay="120">
         <a class="btn btn--primary btn--lg" href="booking.html">線上預約</a>
         <a class="btn btn--on-dark btn--lg" href="https://page.line.me/884xwoxp?openQrModal=true" target="_blank" rel="noopener">用 LINE 詢問</a>

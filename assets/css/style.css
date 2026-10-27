@@ -8,60 +8,54 @@
    1. Tokens
    -------------------------------------------------------------------------- */
 :root {
-  /* Surfaces — neutral warm white, not cream */
+  /* Surfaces — clean white, neutral greys. Clinical, not editorial. */
   --paper:        #FFFFFF;
-  --paper-deep:   #F3F1EE;
+  --paper-deep:   #FAFAFB;
   --surface:      #FFFFFF;
-  --surface-2:    #F8F7F5;
-  --surface-sunk: #EDEAE6;
+  --surface-2:    #F5F6F7;
+  --surface-sunk: #EBEDEF;
 
-  /* Ink */
-  --ink:    #171513;
-  --ink-2:  #57514B;
-  --ink-3:  #8B837B;
+  /* Ink — neutral near-black for clinical clarity */
+  --ink:    #18191B;
+  --ink-2:  #55585E;
+  --ink-3:  #878C94;
   --ink-on-brand: #FFFFFF;
 
-  /* Brand — sampled from the clinic's own logo file */
+  /* Brand — the single accent, sampled from the clinic logo */
   --brand:       #DD802E;
   --brand-deep:  #B4621C;
-  --brand-lift:  #E8954B;
-  --brand-soft:  #F3C495;
-  --brand-tint:  #FDF4EA;
+  --brand-lift:  #EE9544;
+  --brand-soft:  #F6D2AC;
+  --brand-tint:  #FDF3E9;
+  --brand-wash:  #FEF9F4;
 
-  /* Deep — used for the inverted card and CTA band */
-  --calm:      #1F4D45;
-  --calm-deep: #143631;
-  --calm-tint: #E8F1EE;
+  /* Lines & shadow — crisp, low-tint */
+  --line:        color-mix(in srgb, var(--ink) 12%, transparent);
+  --line-strong: color-mix(in srgb, var(--ink) 22%, transparent);
+  --shadow-sm: 0 1px 2px rgba(24, 25, 27, .05), 0 1px 3px rgba(24, 25, 27, .04);
+  --shadow-md: 0 1px 3px rgba(24, 25, 27, .05), 0 6px 16px rgba(24, 25, 27, .06);
+  --shadow-lg: 0 2px 6px rgba(24, 25, 27, .05), 0 16px 36px rgba(24, 25, 27, .09);
+  --shadow-xl: 0 4px 12px rgba(24, 25, 27, .06), 0 28px 64px rgba(24, 25, 27, .12);
 
-  /* Lines & shadow */
-  --line:        color-mix(in srgb, var(--ink) 11%, transparent);
-  --line-strong: color-mix(in srgb, var(--ink) 20%, transparent);
-  --shadow-sm: 0 1px 2px rgba(23, 21, 19, .05), 0 2px 6px rgba(23, 21, 19, .04);
-  --shadow-md: 0 2px 4px rgba(23, 21, 19, .05), 0 8px 24px rgba(23, 21, 19, .07);
-  --shadow-lg: 0 4px 8px rgba(23, 21, 19, .06), 0 20px 48px rgba(23, 21, 19, .11);
-  --shadow-xl: 0 8px 16px rgba(23, 21, 19, .07), 0 36px 80px rgba(23, 21, 19, .15);
-
-  /* Type — one family, matching the logo's geometric sans */
   --font-display: "Noto Sans TC", -apple-system, BlinkMacSystemFont, "PingFang TC", "Microsoft JhengHei", sans-serif;
   --font-sans: "Noto Sans TC", -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang TC", "Microsoft JhengHei", sans-serif;
 
-  /* Fluid type scale */
   --step--1: 0.8125rem;
   --step-0:  1rem;
   --step-1:  1.0625rem;
   --step-2:  clamp(1.1875rem, 1.1rem + 0.4vw, 1.375rem);
   --step-3:  clamp(1.375rem, 1.2rem + 0.9vw, 1.875rem);
   --step-4:  clamp(1.75rem, 1.4rem + 1.8vw, 2.625rem);
-  --step-5:  clamp(2.125rem, 1.5rem + 3.2vw, 3.875rem);
+  --step-5:  clamp(2rem, 1.5rem + 2.6vw, 3.375rem);
 
   --sp-1: 0.25rem;  --sp-2: 0.5rem;   --sp-3: 0.75rem;  --sp-4: 1rem;
   --sp-5: 1.5rem;   --sp-6: 2rem;     --sp-7: 2.75rem;  --sp-8: 4rem;
   --sp-9: 5.5rem;   --sp-10: 7.5rem;
 
-  --radius-sm: 10px;
-  --radius:    16px;
-  --radius-lg: 22px;
-  --radius-xl: 30px;
+  --radius-sm: 8px;
+  --radius:    12px;
+  --radius-lg: 18px;
+  --radius-xl: 26px;
 
   --shell: 1180px;
   --shell-narrow: 760px;
@@ -69,55 +63,54 @@
 
   --ease-out:   cubic-bezier(.22, .61, .36, 1);
   --ease-in:    cubic-bezier(.64, .39, .78, .4);
-  --ease-spring: cubic-bezier(.2, .9, .3, 1.08);
+  --ease-spring: cubic-bezier(.2, .9, .3, 1.04);
   --t-fast: 140ms;
-  --t-base: 240ms;
-  --t-slow: 420ms;
+  --t-base: 220ms;
+  --t-slow: 380ms;
 }
 
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
-    --paper:        #121110;
-    --paper-deep:   #0C0B0A;
-    --surface:      #1C1A18;
-    --surface-2:    #232120;
-    --surface-sunk: #0E0D0C;
+    --paper:        #111214;
+    --paper-deep:   #0B0C0D;
+    --surface:      #1A1C1F;
+    --surface-2:    #212429;
+    --surface-sunk: #0D0E10;
 
-    --ink:   #F5F3F0;
-    --ink-2: #BFB8B1;
-    --ink-3: #8D857D;
+    --ink:   #F4F5F6;
+    --ink-2: #B6BAC1;
+    --ink-3: #868B93;
 
-    --brand:      #E9974A;
-    --brand-deep: #F3B378;
-    --brand-lift: #F0A661;
-    --brand-soft: #7C4E1E;
-    --brand-tint: #2A1E12;
-    --ink-on-brand: #17120C;
+    --brand:      #EE9544;
+    --brand-deep: #F6B377;
+    --brand-lift: #F2A45D;
+    --brand-soft: #7A4718;
+    --brand-tint: #2A1D11;
+    --brand-wash: #1C1510;
+    --ink-on-brand: #15100A;
 
-    --calm:      #7FB5A8;
-    --calm-deep: #A3CFC4;
-    --calm-tint: #152220;
-
-    --line:        color-mix(in srgb, var(--ink) 15%, transparent);
-    --line-strong: color-mix(in srgb, var(--ink) 28%, transparent);
+    --line:        color-mix(in srgb, var(--ink) 16%, transparent);
+    --line-strong: color-mix(in srgb, var(--ink) 30%, transparent);
     --shadow-sm: 0 1px 2px rgba(0,0,0,.4);
-    --shadow-md: 0 8px 24px rgba(0,0,0,.45);
-    --shadow-lg: 0 20px 48px rgba(0,0,0,.5);
-    --shadow-xl: 0 36px 80px rgba(0,0,0,.6);
+    --shadow-md: 0 6px 16px rgba(0,0,0,.45);
+    --shadow-lg: 0 16px 36px rgba(0,0,0,.5);
+    --shadow-xl: 0 28px 64px rgba(0,0,0,.6);
+    color-scheme: dark;
   }
 }
 :root[data-theme="dark"] {
-  --paper: #121110; --paper-deep: #0C0B0A; --surface: #1C1A18;
-  --surface-2: #232120; --surface-sunk: #0E0D0C;
-  --ink: #F5F3F0; --ink-2: #BFB8B1; --ink-3: #8D857D;
-  --brand: #E9974A; --brand-deep: #F3B378; --brand-lift: #F0A661;
-  --brand-soft: #7C4E1E; --brand-tint: #2A1E12; --ink-on-brand: #17120C;
-  --calm: #7FB5A8; --calm-deep: #A3CFC4; --calm-tint: #152220;
-  --line: color-mix(in srgb, var(--ink) 15%, transparent);
-  --line-strong: color-mix(in srgb, var(--ink) 28%, transparent);
-  --shadow-md: 0 8px 24px rgba(0,0,0,.45);
-  --shadow-lg: 0 20px 48px rgba(0,0,0,.5);
-  --shadow-xl: 0 36px 80px rgba(0,0,0,.6);
+  --paper: #111214; --paper-deep: #0B0C0D; --surface: #1A1C1F;
+  --surface-2: #212429; --surface-sunk: #0D0E10;
+  --ink: #F4F5F6; --ink-2: #B6BAC1; --ink-3: #868B93;
+  --brand: #EE9544; --brand-deep: #F6B377; --brand-lift: #F2A45D;
+  --brand-soft: #7A4718; --brand-tint: #2A1D11; --brand-wash: #1C1510;
+  --ink-on-brand: #15100A;
+  --line: color-mix(in srgb, var(--ink) 16%, transparent);
+  --line-strong: color-mix(in srgb, var(--ink) 30%, transparent);
+  --shadow-md: 0 6px 16px rgba(0,0,0,.45);
+  --shadow-lg: 0 16px 36px rgba(0,0,0,.5);
+  --shadow-xl: 0 28px 64px rgba(0,0,0,.6);
+  color-scheme: dark;
 }
 
 /* --------------------------------------------------------------------------
@@ -285,10 +278,8 @@ p { text-wrap: pretty; }
 }
 .btn--primary:hover { background: var(--brand-lift); box-shadow: 0 2px 4px rgba(142,79,29,.22), 0 12px 28px rgba(142,79,29,.3); }
 
-.btn--calm { background: var(--calm); color: #fff; }
-:root[data-theme="dark"] .btn--calm,
-:root:not([data-theme="light"]) .btn--calm { color: var(--ink-on-brand); }
-.btn--calm:hover { background: var(--calm-deep); }
+.btn--outline { background: var(--surface); color: var(--brand-deep); border-color: var(--brand); }
+.btn--outline:hover { background: var(--brand-tint); }
 
 .btn--line { background: #06C755; color: #fff; }
 .btn--line:hover { background: #05b34c; }
@@ -342,32 +333,12 @@ p { text-wrap: pretty; }
 }
 .header.is-stuck::after { opacity: 1; }
 
-/* Over a dark hero the chrome is transparent, so flip it to white until it sticks */
-.header--over:not(.is-stuck) .brand img { filter: brightness(0) invert(1); }
-.header--over:not(.is-stuck) .nav__link { color: rgba(255,255,255,.88); }
-.header--over:not(.is-stuck) .nav__link:hover { color: #fff; background: rgba(255,255,255,.14); }
-.header--over:not(.is-stuck) .header__tel { color: #fff; }
-.header--over:not(.is-stuck) .header__tel:hover { background: rgba(255,255,255,.14); }
-.header--over:not(.is-stuck) .header__tel svg { color: var(--brand-lift); }
-.header--over:not(.is-stuck) .burger__line { background: #fff; }
-.header--over:not(.is-stuck) .burger:hover { background: rgba(255,255,255,.14); }
-
 .header__inner {
   width: min(100% - 2rem, var(--shell));
   margin-inline: auto;
   display: flex; align-items: center; gap: var(--sp-5);
 }
-@media (min-width: 768px) { /* Over a dark hero the chrome is transparent, so flip it to white until it sticks */
-.header--over:not(.is-stuck) .brand img { filter: brightness(0) invert(1); }
-.header--over:not(.is-stuck) .nav__link { color: rgba(255,255,255,.88); }
-.header--over:not(.is-stuck) .nav__link:hover { color: #fff; background: rgba(255,255,255,.14); }
-.header--over:not(.is-stuck) .header__tel { color: #fff; }
-.header--over:not(.is-stuck) .header__tel:hover { background: rgba(255,255,255,.14); }
-.header--over:not(.is-stuck) .header__tel svg { color: var(--brand-lift); }
-.header--over:not(.is-stuck) .burger__line { background: #fff; }
-.header--over:not(.is-stuck) .burger:hover { background: rgba(255,255,255,.14); }
-
-.header__inner { width: min(100% - 4rem, var(--shell)); } }
+@media (min-width: 768px) { .header__inner { width: min(100% - 4rem, var(--shell)); } }
 
 .brand { display: flex; align-items: center; flex: none; }
 .brand img { width: auto; height: 42px; display: block; }
@@ -516,63 +487,46 @@ p { text-wrap: pretty; }
 .sheet__foot { flex: none; display: grid; gap: var(--sp-3); margin-top: var(--sp-6); }
 
 /* --------------------------------------------------------------------------
-   8. Hero — photography carries the feeling; the type stays precise
+   8. Hero — white and split. The photograph sits in a frame rather than
+      under a scrim, so nothing on the page is dimmed.
    -------------------------------------------------------------------------- */
 .hero {
-  position: relative;
-  display: flex; align-items: flex-end;
-  min-height: min(92vh, 800px);
-  padding-top: calc(var(--header-h) + var(--sp-8));
+  padding-top: calc(var(--header-h) + var(--sp-7));
   padding-bottom: var(--sp-8);
-  overflow: hidden;
-  background: var(--ink);
-  isolation: isolate;
+  background: var(--paper);
+  border-bottom: 1px solid var(--line);
 }
-.hero__media { position: absolute; inset: 0; z-index: -2; }
-.hero__media img { width: 100%; height: 100%; object-fit: cover; object-position: 50% 32%; }
-/* Scrim: dark enough for AA contrast on the left, clear on the right */
-.hero::before {
-  content: ""; position: absolute; inset: 0; z-index: -1;
-  background:
-    linear-gradient(100deg, rgba(14,12,11,.90) 0%, rgba(14,12,11,.74) 34%, rgba(14,12,11,.26) 62%, rgba(14,12,11,.08) 100%),
-    linear-gradient(to top, rgba(14,12,11,.6) 0%, transparent 42%);
-}
-@media (max-width: 760px) {
-  .hero { min-height: 0; padding-top: calc(var(--header-h) + var(--sp-6)); padding-bottom: var(--sp-7); }
-  .hero__lede { font-size: var(--step-1); line-height: 1.75; }
-  .hero__trust { gap: var(--sp-4) var(--sp-5); margin-top: var(--sp-6); padding-top: var(--sp-4); }
-  .hero::before {
-    background: linear-gradient(to top, rgba(14,12,11,.94) 24%, rgba(14,12,11,.72) 56%, rgba(14,12,11,.36) 100%);
-  }
-  .hero__media img { object-position: 54% 26%; }
-}
-.hero__inner { position: relative; max-width: 40rem; }
-.hero .eyebrow { color: var(--brand-lift); }
-.hero .eyebrow::before { background: var(--brand-lift); }
-.hero h1 { color: #fff; margin-top: var(--sp-4); }
-.hero h1 em { font-style: normal; color: var(--brand-lift); white-space: nowrap; }
-.hero__lede {
-  margin-top: var(--sp-5);
-  color: rgba(255,255,255,.88);
-  max-width: 33rem;
-  /* Vibrancy: slightly heavier and looser over a photograph */
-  font-weight: 500; letter-spacing: 0.012em;
-  text-shadow: 0 1px 24px rgba(0,0,0,.4);
-}
+.hero__grid { display: grid; gap: var(--sp-7); align-items: center; }
+@media (min-width: 900px) { .hero__grid { grid-template-columns: 1fr 1fr; gap: var(--sp-8); } }
+.hero__inner { min-width: 0; }
+.hero h1 { margin-top: var(--sp-4); }
+.hero h1 em { font-style: normal; color: var(--brand-deep); white-space: nowrap; }
+.hero__lede { margin-top: var(--sp-5); max-width: 32rem; }
 .hero .btn-row { margin-top: var(--sp-6); }
+.hero .eyebrow::before { width: 28px; height: 2px; }
 
-.hero__trust {
-  display: flex; flex-wrap: wrap; gap: var(--sp-5) var(--sp-7);
-  margin-top: var(--sp-7); padding-top: var(--sp-5);
-  border-top: 1px solid rgba(255,255,255,.22);
+.hero__media {
+  position: relative; overflow: hidden;
+  aspect-ratio: 4/3;
+  border-radius: var(--radius-lg);
+  background: var(--surface-sunk);
+  box-shadow: var(--shadow-lg);
 }
-.hero__stat strong {
-  display: block;
-  font-size: var(--step-3); font-weight: 900; line-height: 1.1;
-  letter-spacing: -0.03em; color: #fff;
-  font-variant-numeric: tabular-nums;
+@media (max-width: 899px) { .hero__media { aspect-ratio: 16/10; } }
+.hero__media img { width: 100%; height: 100%; object-fit: cover; object-position: 50% 34%; }
+
+/* The one place the accent meets the photograph */
+.hero__chip {
+  position: absolute; left: var(--sp-4); bottom: var(--sp-4);
+  display: inline-flex; align-items: center; gap: var(--sp-2);
+  padding: var(--sp-2) var(--sp-4);
+  background: rgba(255,255,255,.93);
+  backdrop-filter: blur(12px) saturate(160%);
+  -webkit-backdrop-filter: blur(12px) saturate(160%);
+  border-radius: 999px;
+  box-shadow: var(--shadow-md);
+  font-size: var(--step--1); font-weight: 700; color: var(--ink);
 }
-.hero__stat span { font-size: var(--step--1); color: rgba(255,255,255,.66); letter-spacing: 0.04em; }
 
 /* --------------------------------------------------------------------------
    Articles
@@ -702,44 +656,17 @@ p { text-wrap: pretty; }
 .path__icon svg { width: 23px; height: 23px; }
 .path__icon--line { background: color-mix(in srgb, #06C755 14%, transparent); color: #05a948; }
 
-/* Trust band — sits below the hero, never inside it */
-.trustband {
-  padding-block: var(--sp-6);
-  background: var(--ink);
-  color: var(--paper);
-}
-.trustband .shell {
-  display: flex; flex-wrap: wrap; align-items: center;
-  justify-content: space-between; gap: var(--sp-5);
-}
+/* Trust band — white, ruled, numbers carry the accent */
+.trustband { padding-block: var(--sp-6); background: var(--surface-2); border-bottom: 1px solid var(--line); }
+.trustband .shell { display: flex; flex-wrap: wrap; align-items: center; gap: var(--sp-5); }
 .trustband__list { display: flex; flex-wrap: wrap; gap: var(--sp-5) var(--sp-8); margin: 0; }
-.trustband__list dt { font-size: var(--step--1); color: rgba(255,255,255,.58); letter-spacing: .04em; }
+.trustband__list dt { font-size: var(--step--1); color: var(--ink-3); letter-spacing: .04em; }
 .trustband__list dd {
-  margin: 2px 0 0; font-size: var(--step-3); font-weight: 900;
-  line-height: 1.05; letter-spacing: -.03em; font-variant-numeric: tabular-nums;
+  margin: 2px 0 0; font-size: var(--step-3); font-weight: 900; line-height: 1.05;
+  letter-spacing: -.03em; color: var(--brand-deep); font-variant-numeric: tabular-nums;
 }
 .trustband__list dd span { font-size: .5em; font-weight: 700; margin-left: 2px; opacity: .72; }
 .trustband__status { margin: 0; }
-.trustband .status--open { background: rgba(255,255,255,.12); color: #fff; }
-.trustband .status--shut { background: rgba(255,255,255,.08); color: rgba(255,255,255,.6); }
-
-/* Floating status card, bottom-right on wide screens */
-.hero__badge {
-  position: absolute; right: 0; bottom: 0;
-  display: none; flex-direction: column; gap: var(--sp-2);
-  padding: var(--sp-5);
-  background: rgba(255,255,255,.1);
-  backdrop-filter: blur(22px) saturate(180%);
-  -webkit-backdrop-filter: blur(22px) saturate(180%);
-  border: 1px solid rgba(255,255,255,.26);
-  border-radius: var(--radius);
-  color: #fff;
-}
-@media (min-width: 1024px) { .hero__badge { display: flex; } }
-.hero__badge .small { color: rgba(255,255,255,.7); }
-.hero__badge strong { font-size: var(--step-1); }
-.hero__rating { display: flex; align-items: center; gap: 3px; color: var(--brand-lift); }
-.hero__rating svg { width: 15px; height: 15px; }
 
 /* --------------------------------------------------------------------------
    8b. Photo blocks
@@ -784,7 +711,7 @@ a.photo-card:hover .photo-card__media img { transform: scale(1.04); }
 
 /* Inverted variant — gives a photo row its third beat without a weak stock shot */
 .photo-card--invert {
-  background: linear-gradient(155deg, var(--calm-deep), var(--calm));
+  background: linear-gradient(155deg, var(--brand-deep), var(--brand));
   border-color: transparent;
 }
 .photo-card--invert h3 { color: #fff; }
@@ -824,7 +751,7 @@ a.card:active { transform: translateY(-1px) scale(.994); }
   background: var(--brand-tint); color: var(--brand-deep);
 }
 .card__icon svg { width: 26px; height: 26px; }
-.card__icon--calm { background: var(--calm-tint); color: var(--calm); }
+.card__icon--muted { background: var(--surface-2); color: var(--ink-2); }
 .card h3 { font-size: var(--step-2); }
 .card p { margin-top: var(--sp-3); color: var(--ink-2); font-size: 0.9375rem; }
 .card__foot { margin-top: auto; padding-top: var(--sp-5); }
@@ -901,7 +828,7 @@ a.card:active { transform: translateY(-1px) scale(.994); }
 }
 a.chip:hover { border-color: var(--brand); color: var(--brand-deep); background: var(--brand-tint); }
 .chip--brand { background: var(--brand-tint); color: var(--brand-deep); border-color: transparent; font-weight: 600; }
-.chip--calm { background: var(--calm-tint); color: var(--calm); border-color: transparent; font-weight: 600; }
+.chip--muted { background: var(--surface-2); color: var(--ink-2); border-color: transparent; font-weight: 600; }
 
 /* --------------------------------------------------------------------------
    12. Accordion (FAQ)
@@ -1122,7 +1049,7 @@ a.chip:hover { border-color: var(--brand); color: var(--brand-deep); background:
 .booking-done__mark {
   display: grid; place-items: center;
   width: 76px; height: 76px; margin: 0 auto var(--sp-5);
-  background: var(--calm-tint); color: var(--calm);
+  background: var(--brand-tint); color: var(--brand-deep);
   border-radius: 50%;
 }
 .booking-done__mark svg { width: 36px; height: 36px; }
@@ -1205,7 +1132,7 @@ a.chip:hover { border-color: var(--brand); color: var(--brand-deep); background:
   font-size: var(--step--1); font-weight: 600; letter-spacing: 0.04em;
   border-radius: 999px;
 }
-.status--open { background: var(--calm-tint); color: var(--calm); }
+.status--open { background: var(--brand-tint); color: var(--brand-deep); }
 .status--shut { background: var(--surface-sunk); color: var(--ink-3); }
 .status__dot { width: 7px; height: 7px; border-radius: 50%; background: currentColor; }
 .status--open .status__dot { animation: pulse 2.4s var(--ease-out) infinite; }
@@ -1220,7 +1147,7 @@ a.chip:hover { border-color: var(--brand); color: var(--brand-deep); background:
 .cta-band {
   position: relative; overflow: hidden;
   padding-block: var(--sp-9);
-  background: linear-gradient(145deg, var(--calm-deep), var(--calm));
+  background: linear-gradient(145deg, var(--brand-deep), var(--brand));
   color: #fff;
 }
 .cta-band::before {
@@ -1232,7 +1159,7 @@ a.chip:hover { border-color: var(--brand); color: var(--brand-deep); background:
 .cta-band h2 { color: #fff; position: relative; }
 .cta-band p { color: rgba(255,255,255,.84); position: relative; }
 .cta-band .btn-row { position: relative; margin-top: var(--sp-6); }
-.cta-band .btn--primary { background: #fff; color: var(--calm-deep); box-shadow: 0 10px 30px rgba(0,0,0,.2); }
+.cta-band .btn--primary { background: #fff; color: var(--brand-deep); box-shadow: 0 8px 24px rgba(0,0,0,.18); }
 .cta-band .btn--primary:hover { background: var(--brand-tint); }
 
 /* --------------------------------------------------------------------------
@@ -1350,12 +1277,12 @@ body:has(.dock.is-up) { padding-bottom: 0; }
 .notice {
   display: flex; gap: var(--sp-3);
   padding: var(--sp-4) var(--sp-5);
-  background: var(--calm-tint);
-  border-left: 3px solid var(--calm);
+  background: var(--brand-wash);
+  border-left: 3px solid var(--brand);
   border-radius: var(--radius-sm);
   font-size: 0.9375rem; color: var(--ink-2);
 }
-.notice svg { flex: none; width: 20px; height: 20px; color: var(--calm); margin-top: 3px; }
+.notice svg { flex: none; width: 20px; height: 20px; color: var(--brand-deep); margin-top: 3px; }
 
 /* --------------------------------------------------------------------------
    21. Accessibility preferences

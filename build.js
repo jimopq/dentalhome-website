@@ -279,8 +279,8 @@ ${p.keywords ? `<meta name="keywords" content="${p.keywords}">` : ""}
 <meta name="twitter:description" content="${p.desc}">
 <meta name="twitter:image" content="${SITE}/assets/img/og-cover.jpg">
 
-<meta name="theme-color" content="#FBF8F3" media="(prefers-color-scheme: light)">
-<meta name="theme-color" content="#14110E" media="(prefers-color-scheme: dark)">
+<meta name="theme-color" content="#FFFFFF" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#111214" media="(prefers-color-scheme: dark)">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -323,14 +323,14 @@ pages.push({
   keywords: "台南牙醫,台南南區牙醫,文心牙醫,家庭牙科,台南牙醫推薦",
   crumbs: [C.home, { name: "關於文心", url: "about.html" }],
   body: `
-${pageHead("關於文心", "把牙科，做回一件「關於人」的事", "2003 年，我們離開大型醫學中心，在台南開了第一間文心。二十年過去，當初那些坐在診療椅上的孩子，有些已經帶著自己的孩子回來。", [C.home, { name: "關於文心", url: "about.html" }])}
+${pageHead("關於文心", "從「心」出發，深耕台南二十年", "2003 年，我們離開大型醫學中心，在台南創立文心牙醫。二十年來服務超過 60,000 人次，陪伴許多家庭從孩子的乳牙走到長輩的假牙。", [C.home, { name: "關於文心", url: "about.html" }])}
 
 <section class="section">
   <div class="shell">
     <div class="grid grid-2" style="align-items:start;gap:var(--sp-8)">
       <div class="prose" data-reveal>
-        <h2 class="mt-4">牙齒治療不只是處理一個病例</h2>
-        <p class="mt-5">坐在診療椅上的，是一個會緊張、會怕痛、會擔心費用、會想知道「這樣到底要不要做」的人。</p>
+        <h2 class="mt-4">不只是治療，更是從關懷出發</h2>
+        <p class="mt-5">坐在診療椅上的，是會緊張、會怕痛、也會擔心費用的人。我們希望先理解您的顧慮，再談治療。</p>
         <p>所以在文心，我們把「溫馨」跟「專業」放在同樣的位置。精良的設備與材料是基本功，但真正讓一間診所值得被記住的，往往是人與人之間的那份關懷，醫師願意多講兩句、助理記得你怕打針、櫃檯知道你下班時間比較晚。</p>
         <p>這些事不會出現在任何一張證書上，卻是我們從 2003 年堅持到現在的原因。</p>
       </div>
@@ -354,12 +354,12 @@ ${pageHead("關於文心", "把牙科，做回一件「關於人」的事", "200
 <section class="section section--sunk">
   <div class="shell">
     <div class="section-head" data-reveal>
-      <h2>四件我們不打折扣的事</h2>
+      <h2>我們的四個堅持</h2>
     </div>
     <div class="grid grid-2">
       <div class="card" data-reveal>
         <span class="card__icon">01</span>
-        <h3>治療計畫，先講清楚再開始</h3>
+        <h3>治療計畫，治療前充分說明</h3>
         <p>需要做什麼、為什麼要做、大概的費用區間、有沒有其他選擇、不做會怎麼樣。這些在動手之前就會跟你說明白，不會做到一半才冒出新項目。</p>
       </div>
       <div class="card" data-reveal data-reveal-delay="70">
@@ -375,7 +375,7 @@ ${pageHead("關於文心", "把牙科，做回一件「關於人」的事", "200
       <div class="card" data-reveal data-reveal-delay="210">
         <span class="card__icon">04</span>
         <h3>長期記錄，陪你走過不同階段</h3>
-        <p>我們保留你每一次的治療紀錄。三年前補的那顆牙、去年拍的 X 光，下次來都還在。從孩子的乳牙到長輩的假牙，一家人的牙齒狀況都在同一份脈絡裡。</p>
+        <p>我們保留你每一次的治療紀錄。完整保留您歷次的治療紀錄，陪伴您走過人生不同階段。從孩子的乳牙到長輩的假牙，一家人的牙齒狀況都在同一份脈絡裡。</p>
       </div>
     </div>
   </div>
@@ -383,7 +383,7 @@ ${pageHead("關於文心", "把牙科，做回一件「關於人」的事", "200
 
 <section class="section">
   <div class="shell shell--narrow prose" data-reveal>
-    <h2 class="mt-4">一個讓人沒那麼緊張的空間</h2>
+    <h2 class="mt-4">舒適安心的診療環境</h2>
     <p class="mt-5">很多人怕看牙，怕的其實不只是痛，還有那種被動、不知道接下來會發生什麼的感覺。</p>
     <p>我們盡量讓環境舒適一點、燈光柔和一點、等待的時間短一點。診療椅旁有螢幕，醫師會把你的口內照跟 X 光直接秀出來講給你聽，當你看得懂自己的狀況，緊張就會少一半。</p>
     <!-- 📷 PHOTO SLOT：此處可插入診所實景照片（候診區／診間／消毒室），建議 3 張橫式 1600×1000 -->
@@ -391,7 +391,7 @@ ${pageHead("關於文心", "把牙科，做回一件「關於人」的事", "200
   </div>
 </section>
 
-${ctaBand("想先認識我們，再決定要不要來？", "歡迎先用 LINE 問問題，或直接預約一次完整的檢查與諮詢。")}
+${ctaBand("歡迎您來認識文心", "歡迎先透過 LINE 詢問，或直接預約一次完整的檢查與諮詢。")}
 `
 });
 
@@ -448,7 +448,7 @@ pages.push({
     knowsAbout: d.spec.split(" · ")
   })),
   body: `
-${pageHead("醫師團隊", "看診前，先認識為你看診的人", "證書可以列很長，但真正重要的是：這位醫師處理過多少跟你一樣的狀況，以及他願不願意花時間讓你聽懂。", [C.home, { name: "醫師團隊", url: "team.html" }])}
+${pageHead("醫師團隊", "專業醫師團隊", "三位醫師各有專精領域，從矯正、植牙到一般牙科，為您提供完整的治療建議。", [C.home, { name: "醫師團隊", url: "team.html" }])}
 
 <section class="section">
   <div class="shell">
@@ -483,7 +483,7 @@ ${pageHead("醫師團隊", "看診前，先認識為你看診的人", "證書可
   </div>
 </section>
 
-${ctaBand("想找哪一位醫師？", "預約時註明醫師與想處理的問題，我們會安排合適的時段長度。")}
+${ctaBand("預約您信任的醫師", "預約時可註明希望看診的醫師與想處理的問題，我們會為您安排合適的時段。")}
 `
 });
 
@@ -519,7 +519,7 @@ pages.push({
   crumbs: [C.home, { name: "診療項目", url: "services.html" }],
   ld: { "@type": "ItemList", name: "診療項目", itemListElement: services.map((s, i) => ({ "@type": "ListItem", position: i + 1, item: { "@type": "MedicalProcedure", name: s.name, url: SITE + "/" + s.href } })) },
   body: `
-${pageHead("診療項目", "一個診所，照顧全家人的牙齒", "從定期洗牙到全口重建，從孩子的第一次看診到長輩的假牙。不必為了不同的治療，在不同診所之間奔波。", [C.home, { name: "診療項目", url: "services.html" }])}
+${pageHead("診療項目", "守護全家人的口腔健康", "從定期洗牙到全口重建，從孩子的第一次看診到長輩的假牙。不必為了不同的治療，在不同診所之間奔波。", [C.home, { name: "診療項目", url: "services.html" }])}
 
 <section class="section" id="all">
   <div class="shell">
@@ -591,7 +591,7 @@ ${pageHead(cfg.eyebrow, cfg.h1, cfg.lede, crumbs)}
     <div class="section-head" data-reveal><h2>${cfg.fitTitle}</h2></div>
     <div class="grid grid-2">
       ${cfg.fit.map((f, i) => `<div class="card" data-reveal${i ? ` data-reveal-delay="${i * 60}"` : ""}>
-        <span class="card__icon card__icon--calm">${ico.check}</span>
+        <span class="card__icon card__icon--muted">${ico.check}</span>
         <h3 style="font-size:var(--step-2)">${f.t}</h3><p>${f.d}</p></div>`).join("")}
     </div>
   </div>
@@ -633,10 +633,10 @@ pages.push(servicePage({
   desc: "台南隱適美隱形矯正，由衛福部齒顎矯正專科暨隱適美認證醫師王媛儀親自評估。說明隱形牙套療程步驟、適合對象、配戴時間與常見疑問，線上預約矯正諮詢。",
   keywords: "台南隱適美,台南隱形矯正,隱形牙套,透明牙套,台南矯正推薦,隱適美費用,隱適美附件",
   eyebrow: "隱適美隱形矯正",
-  h1: "把牙套戴在臉上，不等於把生活停下來",
-  lede: "隱適美用一系列透明牙套，分階段把牙齒移動到規劃好的位置。幾乎看不出來、可以自己取下，吃飯與刷牙都跟平常一樣。",
+  h1: "為每個人訂製專屬的微笑曲線",
+  lede: "隱適美以一系列透明牙套，分階段將牙齒移動到理想位置。外觀幾乎看不出來，也能自行取下，用餐與清潔都和平常一樣。",
   intro: `
-    <h2>隱適美到底是什麼</h2>
+    <h2>什麼是隱適美隱形矯正</h2>
     <p>隱適美（Invisalign）是一套數位化的隱形矯正系統。醫師先用 3D 口掃取得你的齒列模型，在電腦中規劃每一顆牙要往哪裡移動、分幾個階段完成，接著依照這份計畫製作一系列客製化的透明牙套。</p>
     <p>你每天配戴約 <strong>20 至 22 小時</strong>，每一副牙套配戴一到兩週後換下一副，牙齒就會沿著規劃好的路徑逐步移動。吃東西、刷牙、重要場合都可以自行取下，這是它跟傳統固定式矯正器最大的差別。</p>
     <h3>和傳統矯正器比起來</h3>
@@ -644,14 +644,14 @@ pages.push(servicePage({
     <p>隱適美真正的差別在於：<strong>外觀幾乎看不出來、可自行取下清潔、沒有金屬線磨破嘴的問題、回診間隔通常較長</strong>。相對地，它非常依賴配戴的自律度，每天少戴幾小時，整個療程就會延後。</p>
     <h3>為什麼要由矯正專科醫師評估</h3>
     <p>隱形牙套只是工具，真正決定結果的是背後的診斷與移動規劃。文心的矯正由衛福部認證的齒顎矯正專科醫師、同時也是隱適美認證醫師的<a href="team.html#wang">王媛儀副院長</a>親自評估與執行，不轉介、不外包。</p>`,
-  fitTitle: "什麼樣的狀況適合考慮隱適美",
+  fitTitle: "適合的對象",
   fit: [
     { t: "在意矯正期間的外觀", d: "工作需要常與人接觸、面對鏡頭，或單純不想讓人一眼看出在矯正。透明牙套在一般社交距離下幾乎不明顯。" },
     { t: "齒列擁擠、有縫隙、輕中度咬合問題", d: "牙齒排列不整齊、前牙有縫、輕中度的深咬或錯咬，多半是隱適美可以處理的範圍。" },
     { t: "無法配合固定矯正器的生活型態", d: "需要吹奏樂器、從事接觸性運動，或工作上不方便有金屬矯正器的人。" },
     { t: "能夠配合每天 20 小時以上配戴", d: "這點很關鍵。隱適美的效果完全建立在配戴時數上，無法自律配戴的人反而不適合。" }
   ],
-  stepsTitle: "從諮詢到完成，大致會經過這些階段",
+  stepsTitle: "療程進行方式",
   steps: [
     { t: "初次諮詢與完整檢查", d: "口內檢查、環口 X 光、3D 口掃建立數位模型。醫師評估你的咬合、齒列擁擠程度與臉型比例。" },
     { t: "治療計畫與 3D 模擬", d: "醫師規劃移動方式與階段，你可以在螢幕上看到預期的齒列變化，確認方向後再決定是否開始。" },
@@ -669,7 +669,7 @@ pages.push(servicePage({
     { q: "成人年紀大了還可以矯正嗎？", a: "<p>可以。牙齒移動的生理機制並不會因為成年而消失，臨床上四、五十歲開始矯正的案例並不少見。成人矯正要特別注意的是牙周狀況，若有牙周病必須先控制穩定，才能開始移動牙齒。</p>" },
     { q: "矯正完成後牙齒會跑回去嗎？", a: "<p>有這個傾向，所以維持器非常重要。牙齒周圍的牙周韌帶具有記憶性，矯正後若沒有依指示配戴維持器，牙齒確實可能逐漸位移。維持器的配戴時間與方式請依主治醫師的指示執行。</p>" }
   ],
-  ctaTitle: "想知道自己適不適合隱適美？",
+  ctaTitle: "想了解隱適美是否適合您？",
   ctaText: "預約一次矯正諮詢，由矯正專科醫師檢查後告訴你可行的方案與差別。"
 }));
 
@@ -679,10 +679,10 @@ pages.push(servicePage({
   desc: "台南齒顎矯正由衛福部齒顎矯正專科醫師評估執行。處理齒列擁擠、暴牙、戽斗、深咬與咬合不正，並提供兒童齒顎發育評估與早期矯正。線上預約矯正諮詢。",
   keywords: "台南矯正,台南齒顎矯正,台南牙齒矯正,兒童矯正,暴牙,戽斗,咬合不正,矯正專科醫師",
   eyebrow: "齒顎矯正",
-  h1: "矯正處理的不只是牙齒，是整組咬合",
+  h1: "從齒開始，自信新生活",
   lede: "齒列不整除了外觀，還會影響清潔難易、咀嚼效率與顳顎關節。矯正的目的是把牙齒排整齊，也是把咬合關係調到一個能長期穩定運作的位置。",
   intro: `
-    <h2>什麼時候該考慮矯正</h2>
+    <h2>什麼情況需要矯正</h2>
     <p>最常見的理由是外觀，牙齒不整齊、笑起來不好看。但在臨床上，我們更在意的是這些狀況帶來的長期影響：</p>
     <ul>
       <li><strong>清潔死角</strong>：牙齒重疊的地方刷不乾淨，長期下來容易蛀牙與牙周問題。</li>
@@ -695,7 +695,7 @@ pages.push(servicePage({
     <h3>兒童的早期矯正</h3>
     <p>國際上普遍建議在 <strong>7 歲左右</strong>做一次齒顎發育評估。這個年紀恆牙開始萌發，可以看出齒弓寬度、上下顎生長方向是否出現偏差。</p>
     <p>早期矯正的目的通常不是把牙齒排整齊，而是<strong>引導顎骨往正確的方向生長</strong>、保留恆牙的萌發空間。有些在換牙期用簡單裝置就能改善的骨性問題，等到成年後往往就只剩下正顎手術這個選項。</p>`,
-  fitTitle: "這些狀況建議安排一次矯正評估",
+  fitTitle: "建議安排評估的情況",
   fit: [
     { t: "牙齒重疊、刷不乾淨", d: "齒列擁擠造成的清潔死角，是長期蛀牙與牙周問題的主要來源之一。排整齊之後，清潔會容易很多。" },
     { t: "暴牙、戽斗或咬合不正", d: "影響的不只是側臉輪廓，還有咀嚼效率與咬合受力。成人與兒童的處理策略不同，需由專科醫師判斷。" },
@@ -720,7 +720,7 @@ pages.push(servicePage({
     { q: "矯正期間可以洗牙嗎？", a: "<p>可以，而且更應該洗。戴矯正器期間清潔難度提高，牙結石與牙菌斑累積得更快。建議依醫師建議的頻率回診洗牙，並搭配齒間刷與沖牙機加強清潔。</p>" },
     { q: "矯正中途可以換醫師或換診所嗎？", a: "<p>技術上可以，但不建議。矯正是一個連續的計畫，中途接手的醫師需要重新評估目前的進度與原先的規劃，有時候甚至需要調整方向。若確實有搬遷等需求，請事先與主治醫師討論，並取得完整的病歷與影像資料。</p>" }
   ],
-  ctaTitle: "不確定自己或孩子需不需要矯正？",
+  ctaTitle: "不確定是否需要矯正嗎？",
   ctaText: "一次完整的矯正評估，就能知道目前的狀況、有哪些選擇，以及現在是不是適合的時機。"
 }));
 
@@ -730,24 +730,24 @@ pages.push(servicePage({
   desc: "台南數位人工植牙，術前以 3D 電腦斷層評估齒槽骨條件，數位導板規劃植體位置與角度。由假牙贋復專科醫師李俊茂院長主持，說明植牙療程、適合對象與術後維護。",
   keywords: "台南植牙,台南人工植牙,數位植牙,植牙導板,缺牙,植牙費用,全口重建,台南植牙推薦",
   eyebrow: "數位人工植牙",
-  h1: "植體要植在哪裡，先在電腦裡確認過",
+  h1: "找回完整的咀嚼與笑容",
   lede: "人工植牙是在齒槽骨中植入人工牙根，再在上面製作假牙。成敗的關鍵不在手術當天，而在術前對骨頭條件與植體位置的評估有多確實。",
   intro: `
-    <h2>為什麼強調「數位」</h2>
+    <h2>什麼是數位導板植牙</h2>
     <p>傳統植牙的位置判斷，很大程度仰賴醫師的經驗與平面 X 光。但平面影像看不出骨頭的厚度、也看不清神經管與鼻竇的立體位置。</p>
     <p>數位植牙的流程是：先用 <strong>3D 錐狀射束電腦斷層（CBCT）</strong>取得齒槽骨的立體影像，結合 3D 口掃的齒列資料，在電腦中模擬植體要植入的位置、深度與角度，同時考慮骨量是否足夠、是否安全避開重要解剖構造，以及<strong>未來假牙做出來的受力方向是否正確</strong>。</p>
     <p>確認計畫後製作手術導板，手術時依導板執行。這麼做的意義是把不確定性盡量移到手術之前，而不是在翻開牙齦之後才臨場判斷。</p>
     <h3>從假牙倒推植體位置</h3>
     <p>一個常被忽略的觀念是：植體的位置應該由<strong>最終假牙要長在哪裡</strong>決定，而不是哪裡骨頭多就種哪裡。角度不對的植體，後續做出來的假牙受力會偏，清潔也更困難，長期下來容易出問題。</p>
     <p>這也是為什麼文心的植牙由<a href="team.html#lee">假牙贋復專科的李俊茂院長</a>主持，把贋復端的考量放進一開始的規劃裡。</p>`,
-  fitTitle: "什麼狀況可以考慮植牙",
+  fitTitle: "適合的對象",
   fit: [
     { t: "單顆或多顆缺牙", d: "植牙不需要像傳統牙橋那樣修磨兩側的健康鄰牙，可以保留原本完好的牙齒。" },
     { t: "不想配戴活動假牙", d: "活動假牙需要每天取戴清潔，部分人會有異物感或咀嚼力不足的問題。植體支撐的假牙在穩定度上通常較佳。" },
     { t: "全口或大範圍缺牙重建", d: "可搭配全口重建計畫，以數顆植體支撐固定式或半固定式假牙，重新建立咬合。" },
     { t: "齒槽骨條件足夠或可補骨", d: "骨量不足不代表不能做，但可能需要先進行補骨或鼻竇增高，療程時間會相應延長。" }
   ],
-  stepsTitle: "植牙療程的完整流程",
+  stepsTitle: "療程進行方式",
   steps: [
     { t: "檢查與 3D 斷層掃描", d: "評估全口狀況、拍攝 CBCT 取得齒槽骨立體資料，確認骨量、骨質與神經血管位置。" },
     { t: "數位規劃與導板製作", d: "在電腦中規劃植體位置、深度與角度，並從最終假牙的角度反推最佳方案，製作手術導板。" },
@@ -765,8 +765,8 @@ pages.push(servicePage({
     { q: "植牙和牙橋、活動假牙怎麼選？", a: "<p>三者各有適應症。牙橋需要修磨兩側健康鄰牙；活動假牙取戴方便、費用較低但穩定度與咀嚼力通常較弱；植牙不動鄰牙、穩定度佳，但療程長、費用高，且需要足夠的骨頭條件。醫師會依缺牙位置、數量、骨質狀況與你的生活習慣說明各自的差別。</p>" },
     { q: "有糖尿病或在吃骨質疏鬆藥可以植牙嗎？", a: "<p>需要個別評估。血糖控制穩定的糖尿病患者多數仍可植牙，但癒合速度較慢、感染風險較高。部分骨質疏鬆藥物（特別是雙磷酸鹽類與長期注射型）與顎骨壞死風險有關，務必在諮詢時詳實告知所有用藥，必要時會與您的主治醫師聯繫討論。</p>" }
   ],
-  ctaTitle: "缺牙拖久了，鄰牙也會跟著受影響",
-  ctaText: "先來做一次評估，看看目前的骨頭條件與可行的方案有哪些。"
+  ctaTitle: "缺牙建議及早處理",
+  ctaText: "歡迎先安排一次評估，了解您的齒槽骨條件與可行的治療方案。"
 }));
 
 /* ------------------------------------------------------------ 預約 */
@@ -778,7 +778,7 @@ pages.push({
   crumbs: [C.home, { name: "線上預約", url: "booking.html" }],
   scripts: `<script src="assets/js/booking.js" defer></script>`,
   body: `
-${pageHead("線上預約", "三個步驟，大概一分鐘", "不用等電話接通，也不必配合上班時間。送出後我們會在門診時間內以電話或 LINE 與你確認。", [C.home, { name: "線上預約", url: "booking.html" }])}
+${pageHead("線上預約", "線上預約看診", "填寫後我們會在門診時間內，以電話或 LINE 與您確認看診時間。", [C.home, { name: "線上預約", url: "booking.html" }])}
 
 <section class="section">
   <div class="shell">
@@ -799,8 +799,8 @@ ${pageHead("線上預約", "三個步驟，大概一分鐘", "不用等電話接
 
           <!-- STEP 1 -->
           <section class="step-pane is-active" aria-label="第一步：選擇療程">
-            <h2 style="font-size:var(--step-3)">想處理什麼問題？</h2>
-            <p class="muted mt-4">選一個最接近的就好，到診後醫師會做完整檢查。</p>
+            <h2 style="font-size:var(--step-3)">請選擇診療項目</h2>
+            <p class="muted mt-4">選擇最接近的項目即可，到診後醫師會做完整檢查。</p>
 
             <fieldset class="field mt-6" style="border:0;padding:0;margin-inline:0" data-require-group="service" data-require-msg="請選擇一個診療項目">
               <legend class="field__label">診療項目<span class="req" aria-hidden="true">*</span></legend>
@@ -846,7 +846,7 @@ ${pageHead("線上預約", "三個步驟，大概一分鐘", "不用等電話接
 
           <!-- STEP 2 -->
           <section class="step-pane" aria-label="第二步：挑選時段">
-            <h2 style="font-size:var(--step-3)">希望哪一天來？</h2>
+            <h2 style="font-size:var(--step-3)">請選擇看診日期</h2>
             <p class="muted mt-4">以下為一般門診時段。實際看診時間將由櫃檯與你確認後確定。</p>
 
             <div class="field mt-6" data-require-group="date" data-require-msg="請選擇一個日期">
@@ -872,7 +872,7 @@ ${pageHead("線上預約", "三個步驟，大概一分鐘", "不用等電話接
 
           <!-- STEP 3 -->
           <section class="step-pane" aria-label="第三步：填寫資料">
-            <h2 style="font-size:var(--step-3)">最後，留個聯絡方式</h2>
+            <h2 style="font-size:var(--step-3)">請留下聯絡方式</h2>
             <p class="muted mt-4">我們會在門診時間內與你聯絡確認。</p>
 
             <div class="summary mt-6">
@@ -947,7 +947,7 @@ ${pageHead("線上預約", "三個步驟，大概一分鐘", "不用等電話接
 
       <div class="grid grid-2">
         <div class="card" data-reveal>
-          <span class="card__icon card__icon--calm">${ico.line}</span>
+          <span class="card__icon card__icon--muted">${ico.line}</span>
           <h3 style="font-size:var(--step-2)">用 LINE 直接問</h3>
           <p>想先問問題、傳照片給醫師看，或需要更改已預約的時間，走 LINE 最快。</p>
           <p class="card__foot"><a class="btn btn--line btn--sm" href="${LINE}" target="_blank" rel="noopener">加入官方 LINE</a></p>
@@ -1024,7 +1024,7 @@ pages.push({
     "@type": "Question", name: f.q,
     acceptedAnswer: { "@type": "Answer", text: f.a.replace(/<[^>]+>/g, "") } })) },
   body: `
-${pageHead("常見問題", "你可能想問的，我們先寫在這裡", "如果這裡沒有回答到你的問題，直接用 LINE 問我們就好。", [C.home, { name: "常見問題", url: "faq.html" }])}
+${pageHead("常見問題", "常見問題", "若這裡沒有回答到您的問題，歡迎透過 LINE 或來電詢問。", [C.home, { name: "常見問題", url: "faq.html" }])}
 
 <section class="section">
   <div class="shell shell--narrow">
@@ -1048,7 +1048,7 @@ ${pageHead("常見問題", "你可能想問的，我們先寫在這裡", "如果
   </div>
 </section>
 
-${ctaBand("還是有問題想問？", "用 LINE 傳訊息給我們，或直接預約一次檢查與諮詢。")}
+${ctaBand("還有其他問題嗎？", "用 LINE 傳訊息給我們，或直接預約一次檢查與諮詢。")}
 `
 });
 
@@ -1066,7 +1066,7 @@ ${pageHead("聯絡我們", "台南市南區大同路二段 166 號", "位於大�
   <div class="shell">
     <div class="grid grid-2" style="align-items:start;gap:var(--sp-8)">
       <div data-reveal>
-        <h2 class="mt-4">怎麼找到我們</h2>
+        <h2 class="mt-4">聯絡資訊</h2>
         <p class="mt-4"><span class="status" data-status><span class="status__dot"></span><span data-status-text>查詢中</span></span></p>
 
         <dl class="info-list mt-6">
@@ -1144,7 +1144,7 @@ ${hoursTable()}
   </div>
 </section>
 
-${ctaBand("準備好要來了嗎？", "線上預約只要一分鐘，我們會在門診時間內與你確認。")}
+${ctaBand("期待為您服務", "線上預約只需一分鐘，我們會在門診時間內與您確認。")}
 `
 });
 
@@ -1291,7 +1291,7 @@ pages.push({
     }))
   },
   body: `
-${pageHead("牙齒知識", "把診間裡講的，寫下來", `看診時間有限，很多問題值得講得更完整。這裡是醫師團隊整理的 ${ARTICLES.length} 篇衛教文章。`, [C.home, { name: "牙齒知識", url: "articles.html" }])}
+${pageHead("牙齒知識", "牙齒知識", `由醫師團隊整理的口腔保健與矯正衛教文章，共 ${ARTICLES.length} 篇衛教文章。`, [C.home, { name: "牙齒知識", url: "articles.html" }])}
 
 <section class="section">
   <div class="shell">
@@ -1307,7 +1307,7 @@ ${pageHead("牙齒知識", "把診間裡講的，寫下來", `看診時間有限
   </div>
 </section>
 
-${ctaBand("文章看完了，還是想問醫師？", "每個人的口腔狀況不同，一次面對面的檢查比看十篇文章更準確。")}
+${ctaBand("想進一步諮詢醫師嗎？", "每個人的口腔狀況不同，仍建議安排一次面對面的檢查與諮詢。")}
 `
 });
 
@@ -1371,7 +1371,7 @@ ARTICLES.forEach(a => {
 
     <div class="artfoot mt-7">
       <div>
-        <p class="small muted">想針對自己的狀況問清楚？</p>
+        <p class="small muted">想了解自己的狀況嗎？</p>
         <p class="mt-4"><a class="btn btn--primary" href="booking.html">線上預約</a></p>
       </div>
       <div>
