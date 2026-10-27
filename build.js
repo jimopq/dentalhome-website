@@ -29,7 +29,7 @@ const ico = {
   pin: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>`,
   clock: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>`,
   car: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 17h14M6.5 17v2M17.5 17v2"/><path d="M4 13l1.5-5A2 2 0 0 1 7.4 6.5h9.2A2 2 0 0 1 18.5 8L20 13v4H4v-4Z"/><circle cx="7.5" cy="14" r="1"/><circle cx="16.5" cy="14" r="1"/></svg>`,
-  mark: `<svg class="brand__mark" viewBox="0 0 48 48" fill="none" style="color:var(--brand)" aria-hidden="true"><rect x="2.6" y="2.6" width="42.8" height="42.8" rx="13" stroke="currentColor" stroke-width="2.8"/><circle cx="24" cy="15.2" r="4.4" fill="currentColor"/><path d="M24 38.2c-6-4.2-9.5-7.8-9.5-11.9 0-2.9 2.2-5.1 5-5.1 1.9 0 3.5 1 4.5 2.5 1-1.5 2.6-2.5 4.5-2.5 2.8 0 5 2.2 5 5.1 0 4.1-3.5 7.7-9.5 11.9Z" fill="currentColor"/></svg>`
+  mark: `<img src="assets/img/logo.png" width="340" height="140" alt="文心牙醫聯合診所 Ven-Shin United Dental Clinic">`
 };
 
 const linkArrow = (t) => `<span class="link-arrow">${t}${ico.arrow}</span>`;
@@ -41,10 +41,6 @@ const header = () => `<a class="skip-link" href="#main">跳到主要內容</a>
   <div class="header__inner">
     <a class="brand" href="index.html" aria-label="文心牙醫聯合診所 首頁">
       ${ico.mark}
-      <span class="brand__text">
-        <span class="brand__name">文心牙醫</span>
-        <span class="brand__sub">Wen Xin Dental</span>
-      </span>
     </a>
 
     <nav class="nav" aria-label="主選單">
@@ -112,7 +108,7 @@ const footer = () => `<footer class="footer">
   <div class="shell">
     <div class="footer__grid">
       <div>
-        <a class="brand" href="index.html">${ico.mark}<span class="brand__text"><span class="brand__name">文心牙醫</span><span class="brand__sub">Wen Xin Dental</span></span></a>
+        <a class="brand" href="index.html">${ico.mark}</a>
         <p class="footer__blurb">從「心」出發，成為全家人笑容的守護者。深耕台南在地 20 年。</p>
         <div class="footer__social">
           <a href="${FB}" target="_blank" rel="noopener" aria-label="文心牙醫 Facebook 粉絲專頁">${ico.fb}</a>
@@ -146,12 +142,12 @@ const footer = () => `<footer class="footer">
         <dl class="info-list" style="gap:var(--sp-4)">
           <div class="info-item" style="gap:var(--sp-3)"><div><dt>地址</dt><dd style="font-size:0.9375rem">台南市南區大同路二段166號</dd></div></div>
           <div class="info-item" style="gap:var(--sp-3)"><div><dt>電話</dt><dd style="font-size:0.9375rem"><a href="tel:${TEL}">${TEL_TEXT}</a></dd></div></div>
-          <div class="info-item" style="gap:var(--sp-3)"><div><dt>門診</dt><dd style="font-size:0.9375rem">週一至週五 09:00–21:00<br>週六 09:00–17:30</dd></div></div>
+          <div class="info-item" style="gap:var(--sp-3)"><div><dt>門診</dt><dd style="font-size:0.9375rem">週一至週五 09:00–21:00<br>週六 09:00–12:00</dd></div></div>
         </dl>
       </div>
     </div>
     <div class="footer__bottom">
-      <p>© 2026 文心牙醫聯合診所 Wen Xin Dental Clinic. All rights reserved.</p>
+      <p>© 2026 文心牙醫聯合診所 Ven-Shin United Dental Clinic. All rights reserved.</p>
       <nav aria-label="頁尾連結"><a href="privacy.html">隱私權政策</a><a href="sitemap.html">網站地圖</a></nav>
     </div>
   </div>
@@ -162,6 +158,40 @@ const footer = () => `<footer class="footer">
   <a class="is-line" href="${LINE}" target="_blank" rel="noopener">${ico.line}LINE</a>
   <a class="is-primary" href="booking.html">${ico.cal}線上預約</a>
 </nav>`;
+
+
+/* ---------------------------------------------------------------- 門診表
+   轉錄自診所原始門診表圖，含每一診的值班醫師。
+   時間若有異動，請同步更新 assets/js/main.js 的 CLINIC_HOURS。      */
+const ROSTER = {
+  "早": { label: "早診", time: "09:00 – 12:00",
+    d: { 1: ["李俊茂","王媛儀"], 2: ["陳柏群"], 3: ["李俊茂"], 4: ["王媛儀","陳柏群"], 5: ["李俊茂","王媛儀"], 6: ["李俊茂","王媛儀","陳柏群"] } },
+  "午": { label: "午診", time: "15:00 – 17:30",
+    d: { 1: ["李俊茂","陳柏群"], 2: ["王媛儀"], 3: ["李俊茂","陳柏群"], 4: ["李俊茂"], 5: ["李俊茂","陳柏群"], 6: [] } },
+  "晚": { label: "晚診", time: "18:10 – 21:00",
+    d: { 1: ["李俊茂","陳柏群"], 2: ["王媛儀","陳柏群"], 3: ["陳柏群"], 4: ["李俊茂","王媛儀"], 5: ["李俊茂","陳柏群"], 6: [] } }
+};
+const DAYS = [["1","一"],["2","二"],["3","三"],["4","四"],["5","五"],["6","六"]];
+
+function hoursTable() {
+  const head = DAYS.map(([n, z]) => `<th scope="col" data-day="${n}">週${z}</th>`).join("");
+  const rows = Object.values(ROSTER).map(sess => {
+    const cells = DAYS.map(([n]) => {
+      const docs = sess.d[n] || [];
+      return docs.length
+        ? `<td data-day="${n}">${docs.map(x => `<span class="dr">${x}</span>`).join("")}</td>`
+        : `<td class="off" data-day="${n}">休診</td>`;
+    }).join("");
+    return `<tr><th scope="row">${sess.label}<b>${sess.time}</b></th>${cells}</tr>`;
+  }).join("");
+  return `<div class="hours-wrap">
+        <table class="hours" data-hours-table>
+          <caption>每一診的值班醫師如下，週日與國定例假日休診。</caption>
+          <thead><tr><th scope="col">診次</th>${head}</tr></thead>
+          <tbody>${rows}</tbody>
+        </table>
+      </div>`;
+}
 
 /* ---------------------------------------------------------------- CTA band */
 const ctaBand = (heading, text) => `<section class="cta-band">
@@ -407,9 +437,9 @@ ${pageHead("醫師團隊", "看診前，先認識為你看診的人", "證書可
     <article class="card" id="${d.key}" style="padding:0;overflow:hidden;margin-bottom:var(--sp-6)" data-reveal${i ? ` data-reveal-delay="${i * 60}"` : ""}>
       <div class="grid" style="grid-template-columns:minmax(0,1fr);gap:0">
         <div style="display:grid;grid-template-columns:minmax(0,1fr);">
-          <div class="doctor__portrait" style="aspect-ratio:auto;min-height:160px;padding:var(--sp-6)">
+          <div class="doctor__portrait">
             <span class="doctor__badge">${d.badge}</span>
-            <span class="doctor__initial" aria-hidden="true">${d.surname}</span>
+            <img src="assets/img/dr-${d.key}.jpg" width="420" height="420" loading="lazy" alt="${d.name}醫師－${d.role}">
           </div>
           <div style="padding:var(--sp-6)">
             <div class="doctor__name"><h2 style="font-size:var(--step-3)">${d.name}</h2><span class="doctor__role">${d.role}</span></div>
@@ -1005,7 +1035,7 @@ ${ctaBand("還是有問題想問？", "用 LINE 傳訊息給我們，或直接�
 pages.push({
   slug: "contact.html",
   title: "門診時間與交通｜台南市南區大同路二段166號 — 文心牙醫聯合診所",
-  desc: "文心牙醫聯合診所位於台南市南區大同路二段166號，電話 06-2156600。門診時間週一至週五 09:00–21:00、週六 09:00–17:30。提供交通與停車資訊、Google 地圖導航。",
+  desc: "文心牙醫聯合診所位於台南市南區大同路二段166號，電話 06-2156600。門診時間週一至週五早午晚三診 09:00–21:00、週六上午 09:00–12:00。提供交通與停車資訊、Google 地圖導航。",
   keywords: "台南牙醫地址,南區牙醫,大同路牙醫,文心牙醫電話,台南牙醫門診時間",
   crumbs: [C.home, { name: "聯絡我們", url: "contact.html" }],
   body: `
@@ -1064,17 +1094,7 @@ ${pageHead("聯絡我們", "台南市南區大同路二段 166 號", "位於大�
   <div class="shell">
     <div class="section-head" data-reveal><p class="eyebrow">門診時間</p><h2>每週看診時段</h2></div>
     <div class="card" data-reveal style="padding:var(--sp-6)">
-      <table class="hours" data-hours-table>
-        <caption class="sr-only">文心牙醫聯合診所每週門診時間表</caption>
-        <thead>
-          <tr><th scope="col">診次</th><th scope="col" data-day="1">週一</th><th scope="col" data-day="2">週二</th><th scope="col" data-day="3">週三</th><th scope="col" data-day="4">週四</th><th scope="col" data-day="5">週五</th><th scope="col" data-day="6">週六</th><th scope="col" data-day="0">週日</th></tr>
-        </thead>
-        <tbody>
-          <tr><th scope="row">上午 09:00–12:00</th><td class="on" data-day="1">●</td><td class="on" data-day="2">●</td><td class="on" data-day="3">●</td><td class="on" data-day="4">●</td><td class="on" data-day="5">●</td><td class="on" data-day="6">●</td><td class="off" data-day="0">—</td></tr>
-          <tr><th scope="row">下午 14:30–17:30</th><td class="on" data-day="1">●</td><td class="on" data-day="2">●</td><td class="on" data-day="3">●</td><td class="on" data-day="4">●</td><td class="on" data-day="5">●</td><td class="on" data-day="6">●</td><td class="off" data-day="0">—</td></tr>
-          <tr><th scope="row">晚間 18:30–21:00</th><td class="on" data-day="1">●</td><td class="on" data-day="2">●</td><td class="on" data-day="3">●</td><td class="on" data-day="4">●</td><td class="on" data-day="5">●</td><td class="off" data-day="6">—</td><td class="off" data-day="0">—</td></tr>
-        </tbody>
-      </table>
+${hoursTable()}
       <p class="small muted mt-5">國定假日與連假門診時間另行公告。急症請先來電 <a href="tel:${TEL}" style="color:var(--brand-deep)">${TEL_TEXT}</a> 確認。</p>
     </div>
   </div>

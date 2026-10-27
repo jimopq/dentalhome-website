@@ -39,7 +39,7 @@
     var sameDay = date.toDateString() === now.toDateString();
     var nowH = now.getHours() + now.getMinutes() / 60;
     var groups = [];
-    var names = ["上午診", "下午診", "晚間診"];
+    var names = ["早診 09:00–12:00", "午診 15:00–17:30", "晚診 18:10–21:00"];
 
     blocks.forEach(function (block, i) {
       var times = [];

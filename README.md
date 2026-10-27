@@ -5,61 +5,54 @@
 
 ---
 
-## ⚠️ 上線前必須確認的三件事
+## 素材來源
 
-### 1. 門診時間 —— 目前是推測值，不是真的
+網站的圖片、logo 與門診時間全部取自客戶舊官網 `dentalhome.com.tw`，經壓縮後放在 `assets/img/`（全部合計 1.8MB）。
 
-舊官網、Google 搜尋、台南市衛生局的公開資料都查不到貴診所的門診時段。
-我先填入台灣牙醫診所常見的排班（週一至週五三診、週六兩診、週日休診）作為**暫定值**，
-但這是推測，**上線前一定要改成實際時間**。
+| 檔案 | 來源與用途 |
+|---|---|
+| `logo.png` | 診所原始 logo（含正確英文名 Ven-Shin United Dental Clinic）|
+| `favicon.ico` / `apple-touch-icon.png` | 診所原始網站圖示 |
+| `hero-family.jpg` | 首頁主視覺 |
+| `dr-lee/wang/chen.jpg` | 診所自製的三位醫師識別圖 |
+| `smile.jpg`, `teen.jpg` | 隱適美／齒顎矯正卡片 |
+| `brushing.jpg`, `kids.jpg`, `baby.jpg` | 關於頁與兒童牙科 |
+| `schedule.jpg` | 原始門診表（已改寫為 HTML 表格，此檔留存備查）|
+| `og-cover.jpg` | 分享到 LINE／Facebook 的預覽圖 |
 
-這組時間同時驅動三個地方，必須一起更新：
+部分舊圖有燒進去的標語文字。這些沒有去背重製，而是用 CSS `object-position`（`.photo-card__media--right` 等）把文字移出取景範圍，原始檔案保持不動。
 
-| 位置 | 檔案 | 說明 |
-|---|---|---|
-| 「現在看診中／休診」狀態、預約可選時段 | `assets/js/main.js` 的 `CLINIC_HOURS` | 唯一的程式邏輯來源 |
-| 門診時間表格 | `index.html`、`build.js` 內 `contact.html` 區塊 | 顯示用的表格 |
-| Google 搜尋結果的營業時間 | `index.html` 的 `openingHoursSpecification` | 結構化資料，影響 Google 顯示 |
+### 門診時間（已採用診所實際資料）
 
-`main.js` 裡的格式是 `星期: [[開始, 結束], ...]`，用 24 小時制的小數（`14.5` = 14:30）：
+轉錄自診所原始門診表：
 
-```js
-var HOURS = window.CLINIC_HOURS = {
-  0: [],                                        // 週日休診
-  1: [[9, 12], [14.5, 17.5], [18.5, 21]],       // 週一
-  // ... 2–5 同上
-  6: [[9, 12], [14.5, 17.5]]                    // 週六無晚診
-};
-```
+- **早診** 09:00–12:00　**午診** 15:00–17:30　**晚診** 18:10–21:00
+- 週六僅早診，**週日與國定例假日休診**
+- 每一診的值班醫師已做成 HTML 表格（`build.js` 的 `ROSTER`），不再是一張看不懂也搜尋不到的圖片
+
+時間若有異動，要同步更新三個地方：
+
+| 位置 | 檔案 |
+|---|---|
+| 看診狀態判斷、預約可選時段 | `assets/js/main.js` 的 `CLINIC_HOURS` |
+| 門診表格與值班醫師 | `build.js` 的 `ROSTER` |
+| Google 搜尋顯示的營業時間 | `index.html` 的 `openingHoursSpecification` |
 
 改完 `build.js` 後執行 `node build.js` 重新產生頁面。
 
-### 2. 預約表單要接到哪裡
+## ⚠️ 仍需確認的一件事
 
-目前沒有後端，所以送出後的流程是：**把預約內容整理成文字 → 自動複製到剪貼簿 → 引導患者貼到官方 LINE**。
-這樣可以立刻上線使用，櫃檯在 LINE 收到完整格式的預約訊息。
+### 預約表單要接到哪裡
 
-如果要改成直接進信箱或表單服務，打開 `assets/js/booking.js`，填入第 13 行的 `ENDPOINT`：
+目前沒有後端，送出後的流程是：**把預約內容整理成文字 → 自動複製到剪貼簿 → 引導患者貼到官方 LINE**。這樣可以立刻上線，櫃檯在 LINE 會收到格式完整的預約訊息。
+
+要改成直接進信箱或表單服務，打開 `assets/js/booking.js`，填入 `ENDPOINT`：
 
 ```js
 var ENDPOINT = "https://formspree.io/f/你的ID";   // 留空則維持 LINE 流程
 ```
 
 送出的 JSON 欄位：`service`、`visit`、`date`、`dateISO`、`time`、`name`、`phone`、`email`、`note`。
-Formspree、Getform、Google Apps Script 或貴診所自己的系統都可以接。
-
-### 3. 照片
-
-網站目前用設計過的圖形與漸層代替照片，不是空白佔位圖，所以沒照片也能直接上線。
-要換成實景照片時，搜尋原始碼中的 `📷 PHOTO SLOT` 註解，目前標了兩處：
-
-- `index.html` — 首頁主視覺（建議 4:5 直式，1200×1500）
-- `about.html`（在 `build.js` 裡）— 診所環境照（建議 3 張橫式，1600×1000）
-
-另外請準備一張 `assets/img/og-cover.jpg`（1200×630），這是分享到 LINE / Facebook 時顯示的預覽圖。
-**目前這個檔案還不存在**，分享連結時不會有預覽圖。
-
----
 
 ## 比舊官網改善了什麼
 
@@ -159,6 +152,5 @@ cd /Users/jimsu/文心牙醫官網 && python3 -m http.server 8911
 
 ## 尚未處理
 
-- `assets/img/og-cover.jpg` 分享預覽圖尚未提供
-- 舊站的最新消息 / 衛教文章尚未搬遷（新站未建立文章列表頁）
-- 門診時間為推測值（見上方第 1 點）
+- 舊站的最新消息／衛教文章尚未搬遷（新站未建立文章列表頁）
+- 舊網址的 301 轉址需在正式主機上設定
