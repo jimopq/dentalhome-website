@@ -371,6 +371,65 @@
     });
   })();
 
+  /* ==================================================================
+     Schedule carousel — opens on today and can be flicked through
+     ================================================================== */
+  (function () {
+    var wrap = document.querySelector("[data-sched]");
+    if (!wrap) return;
+    var track = wrap.querySelector("[data-sched-track]");
+    var days = Array.prototype.slice.call(track.querySelectorAll("[data-day]"));
+    var today = new Date().getDay();
+
+    days.forEach(function (d) {
+      if (parseInt(d.getAttribute("data-day"), 10) === today) {
+        d.classList.add("is-today");
+        var tag = d.querySelector("[data-today-tag]");
+        if (tag) tag.hidden = false;
+      }
+    });
+
+    // Open on today without yanking the page
+    var cur = days.findIndex(function (d) { return d.classList.contains("is-today"); });
+    if (cur < 0) cur = 0;
+    if (track.scrollWidth > track.clientWidth) {
+      track.scrollLeft = days[cur].offsetLeft - track.offsetLeft;
+    }
+
+    function go(step) {
+      cur = Math.max(0, Math.min(days.length - 1, cur + step));
+      track.scrollTo({ left: days[cur].offsetLeft - track.offsetLeft,
+                       behavior: reduceMotion.matches ? "auto" : "smooth" });
+      sync();
+    }
+    function sync() {
+      var prev = wrap.querySelector("[data-sched-prev]");
+      var next = wrap.querySelector("[data-sched-next]");
+      if (prev) prev.disabled = cur <= 0;
+      if (next) next.disabled = cur >= days.length - 1;
+    }
+    var p = wrap.querySelector("[data-sched-prev]");
+    var n = wrap.querySelector("[data-sched-next]");
+    if (p) p.addEventListener("click", function () { go(-1); });
+    if (n) n.addEventListener("click", function () { go(1); });
+
+    // Keep the buttons in step when the user swipes the track itself
+    var t;
+    track.addEventListener("scroll", function () {
+      clearTimeout(t);
+      t = setTimeout(function () {
+        var x = track.scrollLeft;
+        var best = 0, bd = Infinity;
+        days.forEach(function (d, i) {
+          var dist = Math.abs((d.offsetLeft - track.offsetLeft) - x);
+          if (dist < bd) { bd = dist; best = i; }
+        });
+        cur = best; sync();
+      }, 90);
+    }, { passive: true });
+    sync();
+  })();
+
   /* Highlight today's column in the hours table */
   (function () {
     var table = document.querySelector("[data-hours-table]");

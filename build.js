@@ -19,7 +19,10 @@ const ADDR_Q = encodeURIComponent("台南市南區大同路二段166號");
 /* 衛教文章：由舊站 dentalhome.com.tw 搬遷，版權屬診所所有。
    資料見 articles.json（prep 流程已改寫圖片路徑並清除行內樣式）。 */
 const ARTICLES = JSON.parse(fs.readFileSync(path.join(__dirname, "articles.json"), "utf8"));
-const ART_CATS = ["矯正知識", "牙齒衛教", "醫師專欄"];
+const KNOW = ARTICLES.filter(a => a.kind === "knowledge");
+const NEWS = ARTICLES.filter(a => a.kind === "news");
+const KNOW_CATS = ["矯正知識", "牙齒衛教", "醫師專欄", "矯正案例分享"];
+const NEWS_CATS = ["訊息動態", "門診公告"];
 const artUrl = a => `article-${a.slug}.html`;
 const fmtDate = d => d ? d.replace(/-/g, ".") : "";
 
@@ -69,6 +72,7 @@ const header = () => `<a class="skip-link" href="#main">跳到主要內容</a>
         </div>
       </div>
       <div class="nav__item"><a class="nav__link" href="articles.html">牙齒知識</a></div>
+      <div class="nav__item"><a class="nav__link" href="news.html">最新消息</a></div>
       <div class="nav__item"><a class="nav__link" href="faq.html">常見問題</a></div>
       <div class="nav__item"><a class="nav__link" href="contact.html">聯絡我們</a></div>
     </nav>
@@ -102,7 +106,7 @@ const header = () => `<a class="skip-link" href="#main">跳到主要內容</a>
     </div>
     <div class="sheet__group">
       <p class="sheet__title">更多</p>
-      <div class="sheet__links"><a href="articles.html">牙齒知識</a><a href="faq.html">常見問題</a><a href="contact.html">門診時間與交通</a></div>
+      <div class="sheet__links"><a href="articles.html">牙齒知識</a><a href="news.html">最新消息</a><a href="faq.html">常見問題</a><a href="contact.html">門診時間與交通</a></div>
     </div>
   </div>
   <div class="sheet__foot">
@@ -141,6 +145,7 @@ const footer = () => `<footer class="footer">
           <li><a href="about.html">診所理念</a></li>
           <li><a href="team.html">醫師團隊</a></li>
           <li><a href="articles.html">牙齒知識</a></li>
+          <li><a href="news.html">最新消息</a></li>
           <li><a href="faq.html">常見問題</a></li>
           <li><a href="contact.html">聯絡與交通</a></li>
           <li><a href="booking.html">線上預約</a></li>
@@ -169,39 +174,6 @@ const footer = () => `<footer class="footer">
 </nav>`;
 
 
-/* ---------------------------------------------------------------- 門診表
-   轉錄自診所原始門診表圖，含每一診的值班醫師。
-   時間若有異動，請同步更新 assets/js/main.js 的 CLINIC_HOURS。      */
-const ROSTER = {
-  "早": { label: "早診", time: "09:00-12:00",
-    d: { 1: ["李俊茂","王媛儀"], 2: ["陳柏群"], 3: ["李俊茂"], 4: ["王媛儀","陳柏群"], 5: ["李俊茂","王媛儀"], 6: ["李俊茂","王媛儀","陳柏群"] } },
-  "午": { label: "午診", time: "15:00-17:30",
-    d: { 1: ["李俊茂","陳柏群"], 2: ["王媛儀"], 3: ["李俊茂","陳柏群"], 4: ["李俊茂"], 5: ["李俊茂","陳柏群"], 6: [] } },
-  "晚": { label: "晚診", time: "18:10-21:00",
-    d: { 1: ["李俊茂","陳柏群"], 2: ["王媛儀","陳柏群"], 3: ["陳柏群"], 4: ["李俊茂","王媛儀"], 5: ["李俊茂","陳柏群"], 6: [] } }
-};
-const DAYS = [["1","一"],["2","二"],["3","三"],["4","四"],["5","五"],["6","六"]];
-
-function hoursTable() {
-  const head = DAYS.map(([n, z]) => `<th scope="col" data-day="${n}">週${z}</th>`).join("");
-  const rows = Object.values(ROSTER).map(sess => {
-    const cells = DAYS.map(([n]) => {
-      const docs = sess.d[n] || [];
-      return docs.length
-        ? `<td data-day="${n}">${docs.map(x => `<span class="dr">${x}</span>`).join("")}</td>`
-        : `<td class="off" data-day="${n}">休診</td>`;
-    }).join("");
-    return `<tr><th scope="row">${sess.label}<b>${sess.time}</b></th>${cells}</tr>`;
-  }).join("");
-  return `<div class="hours-wrap">
-        <table class="hours" data-hours-table>
-          <caption>每一診的值班醫師如下，週日與國定例假日休診。</caption>
-          <thead><tr><th scope="col">診次</th>${head}</tr></thead>
-          <tbody>${rows}</tbody>
-        </table>
-      </div>`;
-}
-
 /* ---------------------------------------------------------------- CTA band */
 const ctaBand = (heading, text) => `<section class="cta-band">
   <div class="shell center">
@@ -214,17 +186,37 @@ const ctaBand = (heading, text) => `<section class="cta-band">
   </div>
 </section>`;
 
-/* ---------------------------------------------------------------- page head */
-function pageHead(eyebrow, h1, lede, crumbs) {
+/* ---------------------------------------------------------------- banner
+   每個分頁都以滿版 banner 開場；白色漸層讓照片不壓暗版面，維持橘白。 */
+const BANNERS = {
+  "about.html":                 ["bn-team.jpg", "", "醫師團隊手疊在一起"],
+  "team.html":                  ["brushing.jpg", "banner__media--right", "媽媽陪著女兒一起刷牙"],
+  "services.html":              ["bn-smile.jpg", "banner__media--right", "兩個孩子開心大笑"],
+  "service-invisalign.html":    ["baby.jpg", "banner__media--left", "孩子依偎著媽媽露出笑容"],
+  "service-orthodontics.html":  ["teen.jpg", "banner__media--right", "青少女露齒微笑"],
+  "service-implant.html":       ["smile.jpg", "", "女性在陽光下自信微笑"],
+  "booking.html":               ["bn-booking.jpg", "", "在平板與手機上操作預約"],
+  "faq.html":                   ["kids.jpg", "", "兩個女孩相擁微笑"],
+  "contact.html":               ["hero-family.jpg", "", "一家三口並排躺著微笑"],
+  "articles.html":              ["bn-smile.jpg", "banner__media--left", "兩個孩子開心大笑"],
+  "news.html":                  ["bn-booking.jpg", "banner__media--left", "在平板與手機上查看資訊"]
+};
+
+function pageHead(eyebrow, h1, lede, crumbs, slug) {
   const items = crumbs.map((c, i) =>
     i === crumbs.length - 1
       ? `<li aria-current="page">${c.name}</li>`
       : `<li><a href="${c.url}">${c.name}</a></li>`
   ).join("");
-  return `<section class="page-head">
+  const bn = BANNERS[slug];
+  const media = bn
+    ? `<div class="banner__media ${bn[1]}"><img src="assets/img/${bn[0]}" width="1920" height="800" alt="${bn[2]}"></div>`
+    : "";
+  return `<section class="banner${bn ? "" : " banner--brand"}">
+  ${media}
   <div class="shell">
     <nav class="crumbs" aria-label="麵包屑"><ol>${items}</ol></nav>
-    <p class="eyebrow mt-4">${eyebrow}</p>
+    ${eyebrow ? `<p class="eyebrow">${eyebrow}</p>` : ""}
     <h1>${h1}</h1>
     ${lede ? `<p class="lede">${lede}</p>` : ""}
   </div>
@@ -322,7 +314,7 @@ pages.push({
   keywords: "台南牙醫,台南南區牙醫,文心牙醫,家庭牙科,台南牙醫推薦",
   crumbs: [C.home, { name: "關於文心", url: "about.html" }],
   body: `
-${pageHead("關於文心", "從「心」出發，深耕台南二十年", "2003 年，我們離開大型醫學中心，在台南創立文心牙醫。二十年來服務超過 60,000 人次，陪伴許多家庭從孩子的乳牙走到長輩的假牙。", [C.home, { name: "關於文心", url: "about.html" }])}
+${pageHead("關於文心", "從「心」出發，深耕台南二十年", "2003 年，我們離開大型醫學中心，在台南創立文心牙醫。二十年來服務超過 60,000 人次，陪伴許多家庭從孩子的乳牙走到長輩的假牙。", [C.home, { name: "關於文心", url: "about.html" }], "about.html")}
 
 <section class="section">
   <div class="shell">
@@ -335,6 +327,9 @@ ${pageHead("關於文心", "從「心」出發，深耕台南二十年", "2003 �
       </div>
 
       <div data-reveal data-reveal-delay="90">
+        <div class="photo photo--wide" style="margin-bottom:var(--sp-5)">
+          <img src="assets/img/brushing.jpg" width="1600" height="842" loading="lazy" alt="媽媽陪著女兒一起刷牙">
+        </div>
         <div class="card" style="background:var(--brand-tint);border-color:transparent">
           <h3>二十年，一些數字</h3>
           <dl class="hero__trust" style="margin-top:var(--sp-5);border:0;padding:0">
@@ -385,7 +380,10 @@ ${pageHead("關於文心", "從「心」出發，深耕台南二十年", "2003 �
     <h2 class="mt-4">舒適安心的診療環境</h2>
     <p class="mt-5">很多人怕看牙，怕的其實不只是痛，還有那種被動、不知道接下來會發生什麼的感覺。</p>
     <p>我們盡量讓環境舒適一點、燈光柔和一點、等待的時間短一點。診療椅旁有螢幕，醫師會把你的口內照跟 X 光直接秀出來講給你聽，當你看得懂自己的狀況，緊張就會少一半。</p>
-    <!-- 📷 PHOTO SLOT：此處可插入診所實景照片（候診區／診間／消毒室），建議 3 張橫式 1600×1000 -->
+    <div class="photo photo--wide mt-6">
+      <img src="assets/img/kids.jpg" width="1200" height="830" loading="lazy" alt="兩個孩子在診所相擁微笑">
+    </div>
+    <!-- 📷 可替換為診所實景照（候診區／診間／消毒室），建議橫式 1600×1000 -->
     <div class="notice mt-6">${ico.info}<p>若你對看牙有特別的恐懼或過去有不好的經驗，預約時可以先告訴我們，醫師會調整看診的節奏與說明方式。</p></div>
   </div>
 </section>
@@ -447,7 +445,7 @@ pages.push({
     knowsAbout: d.spec.split(" · ")
   })),
   body: `
-${pageHead("醫師團隊", "專業醫師團隊", "三位醫師各有專精領域，從矯正、植牙到一般牙科，為您提供完整的治療建議。", [C.home, { name: "醫師團隊", url: "team.html" }])}
+${pageHead("醫師團隊", "專業醫師團隊", "三位醫師各有專精領域，從矯正、植牙到一般牙科，為您提供完整的治療建議。", [C.home, { name: "醫師團隊", url: "team.html" }], "team.html")}
 
 <section class="section">
   <div class="shell">
@@ -518,7 +516,7 @@ pages.push({
   crumbs: [C.home, { name: "診療項目", url: "services.html" }],
   ld: { "@type": "ItemList", name: "診療項目", itemListElement: services.map((s, i) => ({ "@type": "ListItem", position: i + 1, item: { "@type": "MedicalProcedure", name: s.name, url: SITE + "/" + s.href } })) },
   body: `
-${pageHead("診療項目", "守護全家人的口腔健康", "從定期洗牙到全口重建，從孩子的第一次看診到長輩的假牙。不必為了不同的治療，在不同診所之間奔波。", [C.home, { name: "診療項目", url: "services.html" }])}
+${pageHead("診療項目", "守護全家人的口腔健康", "從定期洗牙到全口重建，從孩子的第一次看診到長輩的假牙。不必為了不同的治療，在不同診所之間奔波。", [C.home, { name: "診療項目", url: "services.html" }], "services.html")}
 
 <section class="section" id="all">
   <div class="shell">
@@ -573,7 +571,7 @@ function servicePage(cfg) {
           acceptedAnswer: { "@type": "Answer", text: f.a.replace(/<[^>]+>/g, "") } })) }
     ],
     body: `
-${pageHead(cfg.eyebrow, cfg.h1, cfg.lede, crumbs)}
+${pageHead(cfg.eyebrow, cfg.h1, cfg.lede, crumbs, cfg.slug)}
 
 <section class="section">
   <div class="shell">
@@ -777,7 +775,7 @@ pages.push({
   crumbs: [C.home, { name: "線上預約", url: "booking.html" }],
   scripts: `<script src="assets/js/booking.js" defer></script>`,
   body: `
-${pageHead("線上預約", "線上預約看診", "填寫後我們會在門診時間內，以電話或 LINE 與您確認看診時間。", [C.home, { name: "線上預約", url: "booking.html" }])}
+${pageHead("線上預約", "線上預約看診", "填寫後我們會在門診時間內，以電話或 LINE 與您確認看診時間。", [C.home, { name: "線上預約", url: "booking.html" }], "booking.html")}
 
 <section class="section">
   <div class="shell">
@@ -1023,7 +1021,7 @@ pages.push({
     "@type": "Question", name: f.q,
     acceptedAnswer: { "@type": "Answer", text: f.a.replace(/<[^>]+>/g, "") } })) },
   body: `
-${pageHead("常見問題", "常見問題", "若這裡沒有回答到您的問題，歡迎透過 LINE 或來電詢問。", [C.home, { name: "常見問題", url: "faq.html" }])}
+${pageHead("常見問題", "常見問題", "若這裡沒有回答到您的問題，歡迎透過 LINE 或來電詢問。", [C.home, { name: "常見問題", url: "faq.html" }], "faq.html")}
 
 <section class="section">
   <div class="shell shell--narrow">
@@ -1055,11 +1053,11 @@ ${ctaBand("還有其他問題嗎？", "用 LINE 傳訊息給我們，或直接�
 pages.push({
   slug: "contact.html",
   title: "門診時間與交通｜台南市南區大同路二段166號｜文心牙醫聯合診所",
-  desc: "文心牙醫聯合診所位於台南市南區大同路二段166號，電話 06-2156600。門診時間週一至週五早午晚三診 09:00-21:00、週六上午 09:00-12:00。提供交通與停車資訊、Google 地圖導航。",
+  desc: "文心牙醫聯合診所位於台南市南區大同路二段166號，電話 06-2156600。提供交通方式、停車資訊與 Google 地圖導航，門診時間請見首頁。",
   keywords: "台南牙醫地址,南區牙醫,大同路牙醫,文心牙醫電話,台南牙醫門診時間",
   crumbs: [C.home, { name: "聯絡我們", url: "contact.html" }],
   body: `
-${pageHead("聯絡我們", "台南市南區大同路二段 166 號", "位於大同路二段，鄰近台南火車站與市區主要幹道。開車、騎車或搭公車都方便抵達。", [C.home, { name: "聯絡我們", url: "contact.html" }])}
+${pageHead("聯絡我們", "台南市南區大同路二段 166 號", "位於大同路二段，鄰近台南火車站與市區主要幹道。開車、騎車或搭公車都方便抵達。", [C.home, { name: "聯絡我們", url: "contact.html" }], "contact.html")}
 
 <section class="section">
   <div class="shell">
@@ -1111,11 +1109,7 @@ ${pageHead("聯絡我們", "台南市南區大同路二段 166 號", "位於大�
 
 <section class="section section--sunk" id="hours">
   <div class="shell">
-    <div class="section-head" data-reveal><h2>每週看診時段</h2></div>
-    <div class="card" data-reveal style="padding:var(--sp-6)">
-${hoursTable()}
-      <p class="small muted mt-5">國定假日與連假門診時間另行公告。急症請先來電 <a href="tel:${TEL}" style="color:var(--brand-deep)">${TEL_TEXT}</a> 確認。</p>
-    </div>
+    <div class="notice" data-reveal>${ico.clock}<p>完整的每週門診時段與各診值班醫師，請見<a href="index.html#hours" style="color:var(--brand-deep)">首頁門診時間</a>。國定假日與連假異動公布於<a href="news.html" style="color:var(--brand-deep)">最新消息</a>，急症請先來電 <a href="tel:${TEL}" style="color:var(--brand-deep)">${TEL_TEXT}</a> 確認。</p></div>
   </div>
 </section>
 
@@ -1154,7 +1148,7 @@ pages.push({
   desc: "文心牙醫聯合診所隱私權政策，說明我們如何蒐集、處理與利用你在本網站提供的個人資料，以及你所擁有的權利。",
   crumbs: [C.home, { name: "隱私權政策", url: "privacy.html" }],
   body: `
-${pageHead("隱私權政策", "隱私權政策", "最後更新日期：2026 年 1 月", [C.home, { name: "隱私權政策", url: "privacy.html" }])}
+${pageHead("隱私權政策", "隱私權政策", "最後更新日期：2026 年 1 月", [C.home, { name: "隱私權政策", url: "privacy.html" }], "privacy.html")}
 
 <section class="section">
   <div class="shell shell--narrow prose" data-reveal>
@@ -1198,7 +1192,7 @@ pages.push({
   desc: "文心牙醫聯合診所網站地圖，快速找到診所介紹、醫師團隊、各項診療項目、常見問題、聯絡資訊與線上預約。",
   crumbs: [C.home, { name: "網站地圖", url: "sitemap.html" }],
   body: `
-${pageHead("網站地圖", "網站地圖", "", [C.home, { name: "網站地圖", url: "sitemap.html" }])}
+${pageHead("網站地圖", "網站地圖", "", [C.home, { name: "網站地圖", url: "sitemap.html" }], "sitemap.html")}
 
 <section class="section">
   <div class="shell">
@@ -1223,7 +1217,8 @@ ${pageHead("網站地圖", "網站地圖", "", [C.home, { name: "網站地圖", 
         <h2 style="font-size:var(--step-2)">預約與其他</h2>
         <ul class="footer__links mt-4">
           <li><a href="booking.html">線上預約</a></li>
-          <li><a href="articles.html">牙齒知識（${ARTICLES.length} 篇）</a></li>
+          <li><a href="articles.html">牙齒知識（${KNOW.length} 篇）</a></li>
+          <li><a href="news.html">最新消息（${NEWS.length} 則）</a></li>
           <li><a href="faq.html">常見問題</a></li>
           <li><a href="${LINE}" target="_blank" rel="noopener">官方 LINE</a></li>
           <li><a href="${FB}" target="_blank" rel="noopener">Facebook 粉絲專頁</a></li>
@@ -1243,11 +1238,16 @@ pages.push({
   desc: "很抱歉，你要找的頁面不存在或已經移除。",
   noindex: true,
   body: `
-<section class="section" style="padding-top:calc(var(--header-h) + var(--sp-9))">
+<section class="banner banner--brand">
+  <div class="shell">
+    <p class="eyebrow">404</p>
+    <h1>這個頁面找不到了</h1>
+  </div>
+</section>
+
+<section class="section">
   <div class="shell shell--narrow center">
-    <p class="eyebrow eyebrow--center">404</p>
-    <h1 class="mt-4">這個頁面找不到了</h1>
-    <p class="lede mt-5">可能是網址輸入有誤，或這個頁面已經搬家。<br>你可以從下面幾個地方繼續。</p>
+    <p class="lede">可能是網址輸入有誤，或這個頁面已經搬家。<br>您可以從下面幾個地方繼續。</p>
     <div class="btn-row btn-row--center mt-6">
       <a class="btn btn--primary btn--lg" href="index.html">回到首頁</a>
       <a class="btn btn--ghost btn--lg" href="booking.html">線上預約</a>
@@ -1255,8 +1255,10 @@ pages.push({
     <div class="chips mt-7" style="justify-content:center">
       <a class="chip" href="services.html">診療項目</a>
       <a class="chip" href="team.html">醫師團隊</a>
+      <a class="chip" href="articles.html">牙齒知識</a>
+      <a class="chip" href="news.html">最新消息</a>
       <a class="chip" href="faq.html">常見問題</a>
-      <a class="chip" href="contact.html">門診時間與交通</a>
+      <a class="chip" href="contact.html">聯絡與交通</a>
     </div>
   </div>
 </section>
@@ -1278,30 +1280,30 @@ function artCard(a, i) {
 pages.push({
   slug: "articles.html",
   title: "牙齒知識｜矯正、植牙與口腔照護衛教文章｜文心牙醫聯合診所",
-  desc: `文心牙醫醫師團隊撰寫的 ${ARTICLES.length} 篇衛教文章，涵蓋隱適美隱形矯正、齒顎矯正、植牙、牙周照護與兒童牙科，由台南在地牙醫師整理。`,
+  desc: `文心牙醫醫師團隊撰寫的 ${KNOW.length} 篇衛教文章，涵蓋隱適美隱形矯正、齒顎矯正、植牙、牙周照護與兒童牙科，由台南在地牙醫師整理。`,
   keywords: "牙齒衛教,矯正知識,台南隱適美,隱形矯正,牙齒保健,牙醫文章",
   crumbs: [C.home, { name: "牙齒知識", url: "articles.html" }],
   ld: {
     "@type": "Blog", name: "文心牙醫 牙齒知識",
     publisher: { "@id": SITE + "/#clinic" },
-    blogPost: ARTICLES.slice(0, 20).map(a => ({
+    blogPost: KNOW.slice(0, 20).map(a => ({
       "@type": "BlogPosting", headline: a.title, datePublished: a.date,
       url: SITE + "/" + artUrl(a)
     }))
   },
   body: `
-${pageHead("牙齒知識", "牙齒知識", `由醫師團隊整理的口腔保健與矯正衛教文章，共 ${ARTICLES.length} 篇衛教文章。`, [C.home, { name: "牙齒知識", url: "articles.html" }])}
+${pageHead("牙齒知識", "牙齒知識", `由醫師團隊整理的口腔保健與矯正衛教文章，共 ${ARTICLES.length} 篇衛教文章。`, [C.home, { name: "牙齒知識", url: "articles.html" }], "articles.html")}
 
 <section class="section">
   <div class="shell">
     <div class="chips" data-artfilter role="group" aria-label="依分類篩選" data-reveal style="margin-bottom:var(--sp-7)">
-      <button class="chip chip--brand" type="button" data-filter="all" aria-pressed="true">全部 ${ARTICLES.length} 篇</button>
-      ${ART_CATS.map(c => `<button class="chip" type="button" data-filter="${c}" aria-pressed="false">${c}（${ARTICLES.filter(a => a.cat === c).length}）</button>`).join("")}
+      <button class="chip chip--brand" type="button" data-filter="all" aria-pressed="true">全部 ${KNOW.length} 篇</button>
+      ${KNOW_CATS.map(c => `<button class="chip" type="button" data-filter="${c}" aria-pressed="false">${c}（${KNOW.filter(a => a.cat === c).length}）</button>`).join("")}
     </div>
     <p class="sr-only" role="status" aria-live="polite" data-artcount></p>
 
     <div id="all" class="artgrid">
-      ${ARTICLES.map((a, i) => artCard(a, i)).join("")}
+      ${KNOW.map((a, i) => artCard(a, i)).join("")}
     </div>
   </div>
 </section>
@@ -1310,14 +1312,52 @@ ${ctaBand("想進一步諮詢醫師嗎？", "每個人的口腔狀況不同，�
 `
 });
 
+
+/* 最新消息：訊息動態 + 門診公告 */
+pages.push({
+  slug: "news.html",
+  title: "最新消息｜門診公告與診所訊息｜文心牙醫聯合診所",
+  desc: `文心牙醫聯合診所最新消息，包含連假與國定假日門診公告、診所訊息動態與醫師認證資訊，共 ${NEWS.length} 則。`,
+  keywords: "文心牙醫公告,台南牙醫門診公告,連假門診,診所消息",
+  crumbs: [C.home, { name: "最新消息", url: "news.html" }],
+  ld: {
+    "@type": "CollectionPage", name: "最新消息",
+    publisher: { "@id": SITE + "/#clinic" },
+    mainEntity: { "@type": "ItemList", itemListElement: NEWS.slice(0, 20).map((a, i) => ({
+      "@type": "ListItem", position: i + 1, name: a.title, url: SITE + "/" + artUrl(a) })) }
+  },
+  body: `
+${pageHead("最新消息", "診所公告與訊息", "連假與國定假日的門診異動、診所訊息都會公布在這裡。", [C.home, { name: "最新消息", url: "news.html" }], "news.html")}
+
+<section class="section">
+  <div class="shell">
+    <div class="chips" data-artfilter role="group" aria-label="依分類篩選" data-reveal style="margin-bottom:var(--sp-7)">
+      <button class="chip chip--brand" type="button" data-filter="all" aria-pressed="true">全部 ${NEWS.length} 則</button>
+      ${NEWS_CATS.map(c => `<button class="chip" type="button" data-filter="${c}" aria-pressed="false">${c}（${NEWS.filter(a => a.cat === c).length}）</button>`).join("")}
+    </div>
+    <p class="sr-only" role="status" aria-live="polite" data-artcount></p>
+
+    <div class="artgrid">
+      ${NEWS.map((a, i) => artCard(a, i)).join("")}
+    </div>
+
+    <div class="notice mt-7">${ico.info}<p>國定假日與連假門診時間如有異動，會在此公布，也可直接來電 <a href="tel:${TEL}" style="color:var(--brand-deep)">${TEL_TEXT}</a> 確認。</p></div>
+  </div>
+</section>
+
+${ctaBand("需要安排看診嗎？", "線上預約只需一分鐘，我們會在門診時間內與您確認。")}
+`
+});
+
 /* 每篇文章一頁 */
 ARTICLES.forEach(a => {
-  const related = ARTICLES.filter(x => x.cat === a.cat && x.slug !== a.slug).slice(0, 3);
+  const pool = a.kind === "news" ? NEWS : KNOW;
+  const related = pool.filter(x => x.cat === a.cat && x.slug !== a.slug).slice(0, 3);
   const toc = [...a.body.matchAll(/<h2 id="([^"]+)"[^>]*>(.*?)<\/h2>/g)]
     .map(m => ({ id: m[1], text: m[2].replace(/<[^>]+>/g, "").trim() }))
     .filter(h => h.text && h.text !== "前言")
     .slice(0, 8);
-  const crumbs = [C.home, { name: "牙齒知識", url: "articles.html" }, { name: a.title, url: artUrl(a) }];
+  const crumbs = [C.home, a.kind === "news" ? { name: "最新消息", url: "news.html" } : { name: "牙齒知識", url: "articles.html" }, { name: a.title, url: artUrl(a) }];
   const firstImg = (a.body.match(/src="(assets\/img\/articles\/[^"]+)"/) || [])[1];
 
   pages.push({
@@ -1340,11 +1380,11 @@ ARTICLES.forEach(a => {
     },
     body: `
 <article>
-<section class="page-head">
+<section class="banner banner--brand" style="min-height:clamp(190px,24vw,280px)">
   <div class="shell shell--narrow">
     <nav class="crumbs" aria-label="麵包屑"><ol>
       <li><a href="index.html">首頁</a></li>
-      <li><a href="articles.html">牙齒知識</a></li>
+      <li><a href="${a.kind === "news" ? "news.html" : "articles.html"}">${a.kind === "news" ? "最新消息" : "牙齒知識"}</a></li>
       <li aria-current="page">${a.cat}</li>
     </ol></nav>
     <div class="artmeta mt-4">
@@ -1386,7 +1426,7 @@ ${related.length ? `<section class="section section--sunk">
   <div class="shell">
     <h2 class="mt-0" style="font-size:var(--step-3);margin-bottom:var(--sp-6)">同類文章</h2>
     <div class="artgrid">${related.map((r, i) => artCard(r, i)).join("")}</div>
-    <p class="mt-6"><a class="link-arrow" href="articles.html">回到牙齒知識${ico.arrow}</a></p>
+    <p class="mt-6"><a class="link-arrow" href="${a.kind === "news" ? "news.html" : "articles.html"}">回到${a.kind === "news" ? "最新消息" : "牙齒知識"}${ico.arrow}</a></p>
   </div>
 </section>` : ""}
 </article>
@@ -1407,6 +1447,7 @@ pages.forEach(p => {
 const urls = [
   { loc: "/", pri: "1.0", freq: "weekly" },
   { loc: "/articles.html", pri: "0.9", freq: "weekly" },
+  { loc: "/news.html", pri: "0.8", freq: "weekly" },
   ...ARTICLES.map(a => ({ loc: "/" + artUrl(a), pri: "0.7", freq: "monthly", lastmod: a.date })),
   { loc: "/booking.html", pri: "0.9", freq: "monthly" },
   { loc: "/service-invisalign.html", pri: "0.9", freq: "monthly" },
@@ -1457,7 +1498,7 @@ fs.writeFileSync(path.join(out, "redirects.txt"),
 /zh-tw/faq              /faq.html
 /zh-tw/privacy          /privacy.html
 /zh-tw/sitemap          /sitemap.html
-/zh-tw/news/list        /articles.html
+/zh-tw/news/list        /news.html
 /zh-tw/teeth/list       /articles.html
 
 ${redirects}

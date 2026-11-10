@@ -442,49 +442,47 @@ p { text-wrap: pretty; }
 .sheet__foot { flex: none; display: grid; gap: var(--sp-3); margin-top: var(--sp-6); }
 
 /* --------------------------------------------------------------------------
-   8. Hero — white and split. The photograph sits in a frame rather than
-      under a scrim, so nothing on the page is dimmed.
+   8. Hero — full-bleed banner. A white wash carries the type so the page
+      stays orange-and-white while the photograph runs edge to edge.
    -------------------------------------------------------------------------- */
 .hero {
-  padding-top: calc(var(--header-h) + var(--sp-7));
-  padding-bottom: var(--sp-8);
-  background: var(--paper);
-  border-bottom: 1px solid var(--line);
+  position: relative;
+  display: flex; align-items: center;
+  min-height: clamp(420px, 46vw, 620px);
+  margin-top: var(--header-h);
+  padding-block: var(--sp-8);
+  overflow: hidden;
+  background: var(--surface-sunk);
 }
-.hero__grid { display: grid; gap: var(--sp-7); align-items: center; }
-@media (min-width: 900px) { .hero__grid { grid-template-columns: 1fr 1fr; gap: var(--sp-8); } }
-.hero__inner { min-width: 0; }
+.hero__media { position: absolute; inset: 0; z-index: 0; }
+.hero__media img { width: 100%; height: 100%; object-fit: cover; object-position: 50% 32%; }
+.hero::after {
+  content: ""; position: absolute; inset: 0; z-index: 1;
+  background: linear-gradient(95deg,
+    rgba(255,255,255,.97) 0%, rgba(255,255,255,.93) 30%,
+    rgba(255,255,255,.66) 55%, rgba(255,255,255,.16) 100%);
+}
+.hero .shell { position: relative; z-index: 2; }
+.hero__inner { max-width: 34rem; }
 .hero h1 { margin-top: var(--sp-4); }
 .hero h1 em { font-style: normal; color: var(--brand-deep); white-space: nowrap; }
-.hero__lede { margin-top: var(--sp-5); max-width: 32rem; }
+.hero__lede { margin-top: var(--sp-5); max-width: 30rem; }
 .hero .btn-row { margin-top: var(--sp-6); }
 .hero .eyebrow::before { width: 28px; height: 2px; }
 
-.hero__media {
-  position: relative; overflow: hidden;
-  aspect-ratio: 4/3;
-  border-radius: var(--radius-lg);
-  background: var(--surface-sunk);
-  box-shadow: var(--shadow-lg);
-}
-@media (max-width: 899px) { .hero__media { aspect-ratio: 16/10; } }
-.hero__media img { width: 100%; height: 100%; object-fit: cover; object-position: 50% 34%; }
-
-/* The one place the accent meets the photograph */
-.hero__chip {
-  position: absolute; left: var(--sp-4); bottom: var(--sp-4);
-  display: inline-flex; align-items: center; gap: var(--sp-2);
-  padding: var(--sp-2) var(--sp-4);
-  background: rgba(255,255,255,.93);
-  backdrop-filter: blur(12px) saturate(160%);
-  -webkit-backdrop-filter: blur(12px) saturate(160%);
-  border-radius: 999px;
-  box-shadow: var(--shadow-md);
-  font-size: var(--step--1); font-weight: 700; color: var(--ink);
+@media (max-width: 760px) {
+  .hero {
+    min-height: 0; align-items: flex-end;
+    padding-top: calc(var(--sp-9) + 4rem); padding-bottom: var(--sp-7);
+  }
+  .hero__media img { object-position: 58% 24%; }
+  .hero::after {
+    background: linear-gradient(to top, rgba(255,255,255,.98) 46%, rgba(255,255,255,.86) 72%, rgba(255,255,255,.42) 100%);
+  }
 }
 
 /* --------------------------------------------------------------------------
-   Articles
+   8c. Articles
    -------------------------------------------------------------------------- */
 .artgrid { display: grid; gap: var(--sp-4); }
 @media (min-width: 640px)  { .artgrid { grid-template-columns: repeat(2, 1fr); } }
@@ -511,7 +509,6 @@ p { text-wrap: pretty; }
 .artmeta { display: flex; align-items: center; gap: var(--sp-3); }
 .artmeta time { font-size: var(--step--1); color: var(--ink-3); font-variant-numeric: tabular-nums; }
 
-/* Table of contents — long articles need a way in */
 .toc {
   padding: var(--sp-5);
   margin-bottom: var(--sp-7);
@@ -524,7 +521,6 @@ p { text-wrap: pretty; }
 .toc a { font-size: 0.9375rem; color: var(--ink-2); transition: color var(--t-fast) var(--ease-out); }
 .toc a:hover { color: var(--brand-deep); }
 
-/* Article body — the old CMS emitted h2 + p + ul + figures */
 .article-body { font-size: 1.0625rem; }
 .article-body h2 {
   font-size: var(--step-2); line-height: 1.5; letter-spacing: -.012em;
@@ -543,11 +539,7 @@ p { text-wrap: pretty; }
 .article-body th { background: var(--surface-2); font-weight: 700; }
 .article-body .figure { margin: var(--sp-6) 0 var(--sp-2); }
 .article-body .figure img { width: 100%; border-radius: var(--radius); border: 1px solid var(--line); }
-.article-body .figure-cap {
-  margin-top: 0; text-align: center;
-  font-size: var(--step--1); color: var(--ink-3); line-height: 1.7;
-}
-/* Wide tables scroll inside their own container, never the page */
+.article-body .figure-cap { margin-top: 0; text-align: center; font-size: var(--step--1); color: var(--ink-3); line-height: 1.7; }
 .article-body > table { display: block; overflow-x: auto; }
 
 .artfoot {
@@ -561,10 +553,7 @@ p { text-wrap: pretty; }
 
 /* Credential groups — three labelled clusters read faster than eight bullets */
 .credgroup + .credgroup { margin-top: var(--sp-4); }
-.credgroup__label {
-  font-size: 0.75rem; font-weight: 700; letter-spacing: .1em;
-  color: var(--ink-3); margin-bottom: var(--sp-2);
-}
+.credgroup__label { font-size: 0.75rem; font-weight: 700; letter-spacing: .1em; color: var(--ink-3); margin-bottom: var(--sp-2); }
 .credgroup ul { padding: 0; margin: 0; list-style: none; }
 
 /* Booking paths — one primary route, two secondary. Not three equal cards. */
@@ -586,7 +575,6 @@ p { text-wrap: pretty; }
 .path:active { transform: translateY(-1px) scale(.995); }
 .path h3 { font-size: var(--step-2); }
 .path p { margin-top: var(--sp-3); color: var(--ink-2); font-size: 0.9375rem; }
-
 .path--primary { justify-content: space-between; min-height: 100%; }
 .path--primary h3 { font-size: var(--step-3); }
 .path--primary .path__icon { width: 56px; height: 56px; margin-bottom: var(--sp-5); }
@@ -596,13 +584,11 @@ p { text-wrap: pretty; }
   margin-top: var(--sp-6); font-weight: 700; color: var(--brand-deep);
   transition: gap var(--t-base) var(--ease-spring);
 }
-.path__cta svg { width: 1.05em; height: 1.05em; }
+.path__cta svg { width: 1.05em; height: 1.05em; flex: none; }
 .path--primary:hover .path__cta { gap: var(--sp-3); }
-
 .path--small { flex-direction: row; align-items: flex-start; gap: var(--sp-4); padding: var(--sp-5); }
 .path--small h3 { font-size: var(--step-1); }
 .path--small p { margin-top: 4px; font-size: 0.875rem; }
-
 .path__icon {
   flex: none; display: grid; place-items: center;
   width: 46px; height: 46px; border-radius: var(--radius-sm);
@@ -610,6 +596,59 @@ p { text-wrap: pretty; }
 }
 .path__icon svg { width: 23px; height: 23px; }
 .path__icon--line { background: color-mix(in srgb, #06C755 14%, transparent); color: #05a948; }
+
+/* Schedule carousel — one day per slide, easier to read than a wide table */
+.sched { position: relative; }
+.sched__track {
+  display: grid; grid-auto-flow: column;
+  grid-auto-columns: minmax(240px, 1fr);
+  gap: var(--sp-4);
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scroll-behavior: smooth;
+  scrollbar-width: none;
+  padding-bottom: var(--sp-2);
+  -webkit-overflow-scrolling: touch;
+}
+@media (min-width: 760px) { .sched__track { grid-auto-columns: minmax(0, 1fr); overflow-x: visible; } }
+.sched__track::-webkit-scrollbar { display: none; }
+.sched__day {
+  scroll-snap-align: start;
+  display: flex; flex-direction: column;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  overflow: hidden;
+  transition: border-color var(--t-base) var(--ease-out), box-shadow var(--t-base) var(--ease-out);
+}
+.sched__day.is-today { border-color: var(--brand); box-shadow: 0 0 0 3px color-mix(in srgb, var(--brand) 16%, transparent); }
+.sched__head {
+  padding: var(--sp-3) var(--sp-4);
+  background: var(--surface-2);
+  border-bottom: 1px solid var(--line);
+  display: flex; align-items: center; justify-content: space-between; gap: var(--sp-2);
+}
+.sched__day.is-today .sched__head { background: var(--brand); color: var(--ink-on-brand); }
+.sched__dow { font-weight: 700; font-size: var(--step-1); }
+.sched__tag { font-size: 0.6875rem; font-weight: 700; letter-spacing: .08em; opacity: .85; }
+.sched__body { padding: var(--sp-4); display: grid; gap: var(--sp-4); }
+.sched__time { font-size: 0.75rem; font-weight: 700; letter-spacing: .06em; color: var(--ink-3); font-variant-numeric: tabular-nums; }
+.sched__docs { margin-top: 4px; display: flex; flex-wrap: wrap; gap: 4px 10px; }
+.sched__docs span { font-size: 0.9375rem; font-weight: 600; white-space: nowrap; }
+.sched__docs span::before { content: "Dr."; margin-right: 3px; font-size: .72em; font-weight: 700; color: var(--brand); }
+.sched__off { margin-top: 4px; font-size: 0.875rem; color: var(--ink-3); }
+.sched__nav { display: flex; gap: var(--sp-2); margin-top: var(--sp-4); }
+@media (min-width: 760px) { .sched__nav { display: none; } }
+.sched__nav button {
+  display: grid; place-items: center;
+  width: 42px; height: 42px;
+  border: 1px solid var(--line-strong); border-radius: 50%;
+  background: var(--surface); color: var(--ink);
+  transition: transform 110ms var(--ease-out), background-color var(--t-fast) var(--ease-out);
+}
+.sched__nav button:active { transform: scale(.92); }
+.sched__nav button:disabled { opacity: .35; }
+.sched__nav svg { width: 18px; height: 18px; }
 
 /* Trust band — white, ruled, numbers carry the accent */
 .trustband { padding-block: var(--sp-6); background: var(--surface-2); border-bottom: 1px solid var(--line); }
@@ -621,7 +660,6 @@ p { text-wrap: pretty; }
   letter-spacing: -.03em; color: var(--brand-deep); font-variant-numeric: tabular-nums;
 }
 .trustband__list dd span { font-size: .5em; font-weight: 700; margin-left: 2px; opacity: .72; }
-.trustband__status { margin: 0; }
 
 /* --------------------------------------------------------------------------
    8b. Photo blocks
@@ -1116,6 +1154,44 @@ a.chip:hover { border-color: var(--brand); color: var(--brand-deep); background:
 .cta-band .btn-row { position: relative; margin-top: var(--sp-6); }
 .cta-band .btn--primary { background: #fff; color: var(--brand-deep); box-shadow: 0 8px 24px rgba(0,0,0,.18); }
 .cta-band .btn--primary:hover { background: var(--brand-tint); }
+
+/* --------------------------------------------------------------------------
+   15b. Page banner — every interior page opens with one
+   -------------------------------------------------------------------------- */
+.banner {
+  position: relative;
+  display: flex; align-items: flex-end;
+  min-height: clamp(230px, 30vw, 360px);
+  margin-top: var(--header-h);
+  padding-block: var(--sp-7);
+  overflow: hidden;
+  background: var(--surface-sunk);
+}
+.banner__media { position: absolute; inset: 0; z-index: 0; }
+.banner__media img { width: 100%; height: 100%; object-fit: cover; }
+.banner__media--right img { object-position: 80% center; }
+.banner__media--left  img { object-position: 20% center; }
+/* A white wash keeps the page orange-and-white while the photo still reads */
+.banner::after {
+  content: ""; position: absolute; inset: 0; z-index: 1;
+  background: linear-gradient(95deg,
+    rgba(255,255,255,.96) 0%, rgba(255,255,255,.90) 32%,
+    rgba(255,255,255,.62) 56%, rgba(255,255,255,.22) 100%);
+}
+@media (max-width: 760px) {
+  .banner::after {
+    background: linear-gradient(to top, rgba(255,255,255,.97) 38%, rgba(255,255,255,.80) 68%, rgba(255,255,255,.45) 100%);
+  }
+  .banner__media img { object-position: 60% 30%; }
+}
+.banner .shell { position: relative; z-index: 2; }
+.banner h1 { margin-top: var(--sp-3); max-width: 22ch; }
+.banner .lede { margin-top: var(--sp-4); max-width: 42rem; }
+.banner .crumbs { margin-bottom: var(--sp-2); }
+
+/* Pages whose own content is the imagery get the brand band instead */
+.banner--brand { background: linear-gradient(100deg, var(--brand-tint), var(--brand-wash)); }
+.banner--brand::after { display: none; }
 
 /* --------------------------------------------------------------------------
    16. Page header (interior pages)

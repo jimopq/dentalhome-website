@@ -1,6 +1,6 @@
 # 文心牙醫 301 轉址對應表
 # 格式： 舊路徑  新路徑
-# 共 64 篇文章。Apache 可轉為 RewriteRule，Nginx 可轉為 rewrite。
+# 共 101 篇文章。Apache 可轉為 RewriteRule，Nginx 可轉為 rewrite。
 
 /zh-tw/                 /
 /zh-tw/about            /about.html
@@ -9,11 +9,14 @@
 /zh-tw/faq              /faq.html
 /zh-tw/privacy          /privacy.html
 /zh-tw/sitemap          /sitemap.html
-/zh-tw/news/list        /articles.html
+/zh-tw/news/list        /news.html
 /zh-tw/teeth/list       /articles.html
 
 /zh-tw/news/view-72-clear-aligner-attachments-guide  /article-clear-aligner-attachments-guide.html
+/zh-tw/news/view-71  /article-p71.html
 /zh-tw/news/view-70-adult-orthodontic-examination-before-treatment  /article-adult-orthodontic-examination-before-treatment.html
+/zh-tw/news/view-69  /article-p69.html
+/zh-tw/news/view-68  /article-p68.html
 /zh-tw/news/view-67-clear-aligner-cleaning-care  /article-clear-aligner-cleaning-care.html
 /zh-tw/news/view-64-deep-bite-orthodontic-evaluation  /article-deep-bite-orthodontic-evaluation.html
 /zh-tw/news/view-63-tainan-orthodontist-recommendation  /article-tainan-orthodontist-recommendation.html
@@ -22,21 +25,52 @@
 /zh-tw/news/view-60-first-invisalign-consultation  /article-first-invisalign-consultation.html
 /zh-tw/news/view-58-invisalign-vs-braces  /article-invisalign-vs-braces.html
 /zh-tw/news/view-56-tainan-invisalign-price  /article-tainan-invisalign-price.html
+/zh-tw/news/view-59  /article-p59.html
 /zh-tw/news/view-53  /article-p53.html
+/zh-tw/news/view-48  /article-p48.html
+/zh-tw/teeth/view-304  /article-p304.html
 /zh-tw/teeth/view-322-ortho-knowledge-eline  /article-ortho-knowledge-eline.html
+/zh-tw/teeth/view-312  /article-p312.html
+/zh-tw/teeth/view-302  /article-p302.html
 /zh-tw/teeth/view-321-ortho-knowledge-eline2  /article-ortho-knowledge-eline2.html
 /zh-tw/teeth/view-328  /article-p328.html
+/zh-tw/teeth/view-320  /article-p320.html
+/zh-tw/teeth/view-305  /article-p305.html
 /zh-tw/teeth/view-326-ortho-knowledge-recedingchin  /article-ortho-knowledge-recedingchin.html
+/zh-tw/teeth/view-307  /article-p307.html
+/zh-tw/teeth/view-318  /article-p318.html
+/zh-tw/teeth/view-319  /article-p319.html
 /zh-tw/teeth/view-327-ortho-knowledge-deepbite  /article-ortho-knowledge-deepbite.html
+/zh-tw/teeth/view-316  /article-p316.html
+/zh-tw/teeth/view-315  /article-p315.html
 /zh-tw/news/view-39  /article-p39.html
+/zh-tw/news/view-40  /article-p40.html
+/zh-tw/news/view-41  /article-p41.html
+/zh-tw/teeth/view-314  /article-p314.html
 /zh-tw/teeth/view-325-ortho-knowledge-openbite  /article-ortho-knowledge-openbite.html
+/zh-tw/teeth/view-311  /article-p311.html
+/zh-tw/teeth/view-310  /article-p310.html
 /zh-tw/teeth/view-324-ortho-knowledge-Malocclusion  /article-ortho-knowledge-Malocclusion.html
+/zh-tw/teeth/view-309  /article-p309.html
+/zh-tw/teeth/view-308  /article-p308.html
+/zh-tw/news/view-38  /article-p38.html
+/zh-tw/teeth/view-317  /article-p317.html
+/zh-tw/teeth/view-306  /article-p306.html
+/zh-tw/teeth/view-303  /article-p303.html
+/zh-tw/teeth/view-301  /article-p301.html
+/zh-tw/teeth/view-300  /article-p300.html
+/zh-tw/teeth/view-299  /article-p299.html
 /zh-tw/teeth/view-329  /article-p329.html
 /zh-tw/teeth/view-295  /article-p295.html
 /zh-tw/teeth/view-296  /article-p296.html
 /zh-tw/teeth/view-92  /article-p92.html
 /zh-tw/teeth/view-91  /article-p91.html
 /zh-tw/teeth/view-90  /article-p90.html
+/zh-tw/news/view-30  /article-p30.html
+/zh-tw/news/view-19  /article-p19.html
+/zh-tw/news/view-31  /article-p31.html
+/zh-tw/news/view-17  /article-p17.html
+/zh-tw/news/view-14  /article-p14.html
 /zh-tw/teeth/view-294  /article-p294.html
 /zh-tw/teeth/view-293  /article-p293.html
 /zh-tw/teeth/view-292  /article-p292.html
@@ -55,6 +89,8 @@
 /zh-tw/teeth/view-279  /article-p279.html
 /zh-tw/teeth/view-278  /article-p278.html
 /zh-tw/teeth/view-277  /article-p277.html
+/zh-tw/teeth/view-5  /article-p5.html
+/zh-tw/teeth/view-6  /article-p6.html
 /zh-tw/teeth/view-276  /article-p276.html
 /zh-tw/teeth/view-275  /article-p275.html
 /zh-tw/teeth/view-274  /article-p274.html
@@ -76,3 +112,4 @@
 /zh-tw/teeth/view-257  /article-p257.html
 /zh-tw/teeth/view-256  /article-p256.html
 /zh-tw/teeth/view-255  /article-p255.html
+/zh-tw/news/view-3  /article-p3.html

@@ -53,43 +53,38 @@
 
 改完 `build.js` 後執行 `node build.js` 重新產生頁面。
 
-## 衛教文章（自舊站搬遷）
+## 文章搬遷（舊站全部內容）
 
-舊站的 SEO 文章專區已整批搬過來，**版權屬診所所有，經客戶同意**。
+舊站的文章已**全部**搬遷，共 101 篇，版權屬診所所有、經客戶同意。分為兩個分頁：
 
-- **64 篇**有實質內容的文章，合計約 8.6 萬字，55 張文章插圖
-- 分類：醫師專欄 45 篇、矯正知識 10 篇、牙齒衛教 9 篇
-- 舊站另有 35 篇只有標題的公告與證書圖（多為過期的連假門診公告），未搬遷
-- 文章原始資料在 `articles.json`，`build.js` 讀取後產生每篇一頁
+| 分頁 | 分類 | 篇數 |
+|---|---|---|
+| `articles.html` 牙齒知識 | 醫師專欄 45、矯正案例分享 23、矯正知識 10、牙齒衛教 7 | 85 |
+| `news.html` 最新消息 | 訊息動態 13、門診公告 3 | 16 |
 
-搬遷時做的處理：
+兩個分頁都可依分類即時篩選。文章資料在 `articles.json`，`build.js` 讀取後產生每篇一頁。
+圖片 89 張，下載後壓縮為 1100px JPEG。
 
-| 項目 | 處理 |
-|---|---|
-| 圖片 | 下載後壓縮為 1100px 寬 JPEG，原始 82MB 降為 9.8MB |
-| 行內樣式 | 清除舊 CMS 的 `style` 屬性，置中圖改用 `.figure` class |
-| 圖片 alt | 補上缺漏的 `alt` 屬性 |
-| 網址 | 保留舊站的英文 slug，例如 `view-72-clear-aligner-attachments-guide` → `article-clear-aligner-attachments-guide.html` |
-| 目錄 | 文章超過 3 個 h2 時自動產生本文目錄，錨點直接取用內文既有的 id |
-| 結構化資料 | 每篇加上 `BlogPosting`（標題、發布日、分類、圖片、作者、publisher）|
+搬遷處理：清除舊 CMS 行內樣式、置中圖改用 `.figure` class、補齊缺漏的 `alt`、
+保留舊站英文 slug 以利 301 對應、每篇加上 `BlogPosting` 結構化資料與自動目錄。
 
-### ⚠️ 301 轉址是這次搬遷最大的風險
+### ⚠️ 301 轉址
 
-`redirects.txt` 列出 **73 條**舊網址對應（64 篇文章 + 9 個主要頁面）。
-**上正式主機時一定要套用**，否則既有的搜尋排名會全部流失。
-
-Apache 範例：
+`redirects.txt` 共 **110 條**對應（101 篇文章 + 9 個主要頁面）。
+**上正式主機時一定要套用**，否則既有排名會流失。
 
 ```apache
 RewriteEngine On
 RewriteRule ^zh-tw/news/view-72-clear-aligner-attachments-guide$ /article-clear-aligner-attachments-guide.html [R=301,L]
 ```
 
-Nginx 範例：
+## 版面結構
 
-```nginx
-rewrite ^/zh-tw/news/view-72-clear-aligner-attachments-guide$ /article-clear-aligner-attachments-guide.html permanent;
-```
+- **首頁 banner**：滿版照片 + 白色漸層，文字壓在左側
+- **每個分頁都有 banner**：照片式 banner 共 11 頁；404、隱私權、網站地圖與文章內頁使用品牌色 banner
+- **門診時間**：僅首頁呈現，做成一天一張的輪播（桌機六欄並列、手機可滑動，自動開在今天）。
+  聯絡頁不再重複，改以連結指向首頁
+- **關於文心**：上中下三張圖（刷牙親子、醫師團隊、診所孩童）
 
 ## ⚠️ 仍需確認的一件事
 
