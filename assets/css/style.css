@@ -1281,6 +1281,42 @@ body:has(.dock.is-up) { padding-bottom: 0; }
 @media (max-width: 1023px) { .footer { padding-bottom: calc(var(--sp-8) + 4rem); } }
 
 /* --------------------------------------------------------------------------
+   18b. Floating LINE button — always reachable, never over the dock
+   -------------------------------------------------------------------------- */
+.line-fab {
+  position: fixed; z-index: 95;
+  right: max(var(--sp-4), env(safe-area-inset-right, 0px));
+  bottom: calc(var(--sp-4) + env(safe-area-inset-bottom, 0px));
+  display: inline-flex; align-items: center; gap: var(--sp-2);
+  height: 56px; padding: 0 18px;
+  background: #06C755; color: #fff;
+  border-radius: 999px;
+  box-shadow: 0 4px 10px rgba(6, 199, 85, .3), 0 12px 32px rgba(24, 25, 27, .18);
+  font-weight: 700; font-size: 0.9375rem; letter-spacing: .02em;
+  white-space: nowrap;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+  transition: transform 140ms var(--ease-out), box-shadow var(--t-base) var(--ease-out),
+              background-color var(--t-fast) var(--ease-out);
+}
+.line-fab:hover { background: #05b34c; box-shadow: 0 6px 14px rgba(6,199,85,.34), 0 18px 44px rgba(24,25,27,.22); }
+.line-fab:active { transform: scale(.94); }
+.line-fab svg { width: 26px; height: 26px; flex: none; }
+
+/* Above the mobile dock so the two never overlap */
+@media (max-width: 1023px) {
+  .line-fab {
+    bottom: calc(var(--sp-3) + 4.75rem + env(safe-area-inset-bottom, 0px));
+    height: 52px; width: 52px; padding: 0; justify-content: center;
+  }
+  .line-fab__text { display: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .line-fab { transition: none; }
+}
+
+/* --------------------------------------------------------------------------
    19. Scroll reveal
    -------------------------------------------------------------------------- */
 .js [data-reveal] {
