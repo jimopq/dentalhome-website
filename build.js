@@ -194,16 +194,16 @@ const ctaBand = (heading, text) => `<section class="cta-band">
    每個分頁都以滿版 banner 開場；白色漸層讓照片不壓暗版面，維持橘白。 */
 const BANNERS = {
   "about.html":                 ["bn-team.jpg", "", "醫師團隊手疊在一起"],
-  "team.html":                  ["brushing.jpg", "banner__media--right", "媽媽陪著女兒一起刷牙"],
-  "services.html":              ["bn-smile.jpg", "banner__media--right", "兩個孩子開心大笑"],
-  "service-invisalign.html":    ["baby.jpg", "banner__media--left", "孩子依偎著媽媽露出笑容"],
-  "service-orthodontics.html":  ["teen.jpg", "banner__media--right", "青少女露齒微笑"],
+  "team.html":                  ["brushing.jpg", " banner--right", "媽媽陪著女兒一起刷牙"],
+  "services.html":              ["bn-smile.jpg", " banner--right", "兩個孩子開心大笑"],
+  "service-invisalign.html":    ["baby.jpg", " banner--left", "孩子依偎著媽媽露出笑容"],
+  "service-orthodontics.html":  ["teen.jpg", " banner--right", "青少女露齒微笑"],
   "service-implant.html":       ["smile.jpg", "", "女性在陽光下自信微笑"],
   "booking.html":               ["bn-booking.jpg", "", "在平板與手機上操作預約"],
   "faq.html":                   ["kids.jpg", "", "兩個女孩相擁微笑"],
   "contact.html":               ["hero-family.jpg", "", "一家三口並排躺著微笑"],
-  "articles.html":              ["bn-smile.jpg", "banner__media--left", "兩個孩子開心大笑"],
-  "news.html":                  ["bn-booking.jpg", "banner__media--left", "在平板與手機上查看資訊"]
+  "articles.html":              ["bn-smile.jpg", " banner--left", "兩個孩子開心大笑"],
+  "news.html":                  ["bn-booking.jpg", " banner--left", "在平板與手機上查看資訊"]
 };
 
 function pageHead(eyebrow, h1, lede, crumbs, slug) {
@@ -213,11 +213,12 @@ function pageHead(eyebrow, h1, lede, crumbs, slug) {
       : `<li><a href="${c.url}">${c.name}</a></li>`
   ).join("");
   const bn = BANNERS[slug];
-  const media = bn
-    ? `<div class="banner__media ${bn[1]}"><img src="assets/img/${bn[0]}" width="1920" height="800" alt="${bn[2]}"></div>`
-    : "";
-  return `<section class="banner${bn ? "" : " banner--brand"}">
-  ${media}
+  const banner = bn
+    ? `<section class="banner${bn[1]}"><img src="assets/img/${bn[0]}" width="1920" height="800" alt="${bn[2]}"></section>`
+    : `<section class="banner banner--brand" aria-hidden="true"></section>`;
+  return `${banner}
+
+<section class="page-intro">
   <div class="shell">
     <nav class="crumbs" aria-label="麵包屑"><ol>${items}</ol></nav>
     ${eyebrow ? `<p class="eyebrow">${eyebrow}</p>` : ""}
@@ -1243,7 +1244,9 @@ pages.push({
   desc: "很抱歉，你要找的頁面不存在或已經移除。",
   noindex: true,
   body: `
-<section class="banner banner--brand">
+<section class="banner banner--brand" aria-hidden="true"></section>
+
+<section class="page-intro">
   <div class="shell">
     <p class="eyebrow">404</p>
     <h1>這個頁面找不到了</h1>
@@ -1468,7 +1471,9 @@ ARTICLES.forEach(a => {
     },
     body: `
 <article>
-<section class="banner banner--brand" style="min-height:clamp(190px,24vw,280px)">
+<section class="banner banner--brand" aria-hidden="true"></section>
+
+<section class="page-intro">
   <div class="shell shell--narrow">
     <nav class="crumbs" aria-label="麵包屑"><ol>
       <li><a href="index.html">首頁</a></li>
