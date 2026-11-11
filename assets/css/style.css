@@ -490,7 +490,7 @@ p { text-wrap: pretty; }
 
 .artcard {
   display: flex; flex-direction: column;
-  padding: var(--sp-5);
+  overflow: hidden;
   background: var(--surface);
   border: 1px solid var(--line);
   border-radius: var(--radius);
@@ -500,7 +500,30 @@ p { text-wrap: pretty; }
 }
 .artcard:hover { transform: translateY(-3px); box-shadow: var(--shadow-lg); border-color: color-mix(in srgb, var(--brand) 32%, transparent); }
 .artcard:active { transform: translateY(-1px) scale(.995); }
-.artcard__meta { display: flex; align-items: center; gap: var(--sp-3); margin-bottom: var(--sp-4); }
+/* Preview image. Only a fifth of the migrated articles carry one, so the
+   rest get a branded panel rather than a broken or borrowed photo. */
+.artcard__media {
+  position: relative;
+  aspect-ratio: 16 / 10;
+  overflow: hidden;
+  background: var(--surface-sunk);
+  border-bottom: 1px solid var(--line);
+}
+.artcard__media img { width: 100%; height: 100%; object-fit: cover; transition: transform 620ms var(--ease-out); }
+.artcard:hover .artcard__media img { transform: scale(1.04); }
+
+.artcard__media--blank { display: grid; place-items: center; border-bottom: 0; }
+.artcard__media--blank img {
+  width: 42%; max-width: 150px; height: auto; object-fit: contain;
+  opacity: .5; transform: none !important;
+}
+.artcard__media--blank[data-v="0"] { background: linear-gradient(135deg, var(--brand-tint), var(--brand-wash)); }
+.artcard__media--blank[data-v="1"] { background: linear-gradient(135deg, var(--surface-2), var(--brand-wash)); }
+.artcard__media--blank[data-v="2"] { background: linear-gradient(160deg, var(--brand-wash), var(--surface-sunk)); }
+.artcard__media--blank[data-v="3"] { background: linear-gradient(115deg, var(--brand-tint), var(--surface-2)); }
+
+.artcard__body { display: flex; flex-direction: column; flex: 1; padding: var(--sp-5); }
+.artcard__meta { display: flex; align-items: center; gap: var(--sp-3); margin-bottom: var(--sp-3); }
 .artcard__meta time { font-size: var(--step--1); color: var(--ink-3); font-variant-numeric: tabular-nums; }
 .artcard h3 { font-size: var(--step-1); line-height: 1.55; letter-spacing: -.01em; }
 .artcard p { margin-top: var(--sp-3); font-size: 0.875rem; color: var(--ink-2); line-height: 1.75; }
@@ -1279,6 +1302,26 @@ a.chip:hover { border-color: var(--brand); color: var(--brand-deep); background:
 .dock .is-line { color: #06C755; }
 body:has(.dock.is-up) { padding-bottom: 0; }
 @media (max-width: 1023px) { .footer { padding-bottom: calc(var(--sp-8) + 4rem); } }
+
+/* --------------------------------------------------------------------------
+   18a. Pager
+   -------------------------------------------------------------------------- */
+.pager { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: var(--sp-2); margin-top: var(--sp-8); }
+.pager a, .pager span {
+  display: grid; place-items: center;
+  min-width: 42px; height: 42px; padding: 0 var(--sp-3);
+  font-size: 0.9375rem; font-weight: 600; font-variant-numeric: tabular-nums;
+  border: 1px solid var(--line); border-radius: var(--radius-sm);
+  background: var(--surface); color: var(--ink-2);
+  transition: border-color var(--t-fast) var(--ease-out), background-color var(--t-fast) var(--ease-out),
+              color var(--t-fast) var(--ease-out), transform 110ms var(--ease-out);
+}
+.pager a:hover { border-color: var(--brand); color: var(--brand-deep); background: var(--brand-wash); }
+.pager a:active { transform: scale(.94); }
+.pager [aria-current="page"] { background: var(--brand); border-color: var(--brand); color: var(--ink-on-brand); }
+.pager .is-gap { border: 0; background: none; min-width: 20px; padding: 0; color: var(--ink-3); }
+.pager .is-off { opacity: .35; pointer-events: none; }
+.pager__sum { width: 100%; text-align: center; margin-top: var(--sp-3); font-size: var(--step--1); color: var(--ink-3); }
 
 /* --------------------------------------------------------------------------
    18b. Floating LINE button — always reachable, never over the dock

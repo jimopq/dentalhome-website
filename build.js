@@ -281,6 +281,7 @@ ${p.keywords ? `<meta name="keywords" content="${p.keywords}">` : ""}
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;600;700&family=Noto+Serif+TC:wght@500;600;700&display=swap">
 <link rel="stylesheet" href="assets/css/style.css">
+${p.head || ""}
 <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
 <script>document.documentElement.classList.add("js");</script>
 
@@ -1272,85 +1273,168 @@ pages.push({
 
 /* ---------------------------------------------------------------- 衛教文章 */
 function artCard(a, i) {
-  return `<a class="artcard" href="${artUrl(a)}" data-cat="${a.cat}" data-reveal${i ? ` data-reveal-delay="${Math.min(i * 40, 200)}"` : ""}>
-      <div class="artcard__meta"><span class="chip chip--brand">${a.cat}</span><time datetime="${a.date}">${fmtDate(a.date)}</time></div>
-      <h3>${a.title}</h3>
-      <p>${a.desc ? a.desc.slice(0, 72) + (a.desc.length > 72 ? "…" : "") : ""}</p>
-      <span class="link-arrow">閱讀全文${ico.arrow}</span>
+  const hit = a.body.match(/src="(assets\/img\/articles\/[^"]+)"/);
+  const media = hit
+    ? `<div class="artcard__media"><img src="${hit[1]}" width="1000" height="625" loading="lazy" decoding="async" alt=""></div>`
+    : `<div class="artcard__media artcard__media--blank" data-v="${i % 4}"><img src="assets/img/logo.png" width="340" height="140" loading="lazy" decoding="async" alt="" aria-hidden="true"></div>`;
+  return `<a class="artcard" href="${artUrl(a)}" data-cat="${a.cat}">
+      ${media}
+      <div class="artcard__body">
+        <div class="artcard__meta"><span class="chip chip--brand">${a.cat}</span><time datetime="${a.date}">${fmtDate(a.date)}</time></div>
+        <h3>${a.title}</h3>
+        <p>${a.desc ? a.desc.slice(0, 64) + (a.desc.length > 64 ? "…" : "") : ""}</p>
+        <span class="link-arrow">閱讀全文${ico.arrow}</span>
+      </div>
     </a>`;
 }
 
-/* 文章索引 */
-pages.push({
-  slug: "articles.html",
-  title: "牙齒知識｜矯正、植牙與口腔照護衛教文章｜文心牙醫聯合診所",
-  desc: `文心牙醫醫師團隊撰寫的 ${KNOW.length} 篇衛教文章，涵蓋隱適美隱形矯正、齒顎矯正、植牙、牙周照護與兒童牙科，由台南在地牙醫師整理。`,
-  keywords: "牙齒衛教,矯正知識,台南隱適美,隱形矯正,牙齒保健,牙醫文章",
-  crumbs: [C.home, { name: "牙齒知識", url: "articles.html" }],
-  ld: {
-    "@type": "Blog", name: "文心牙醫 牙齒知識",
-    publisher: { "@id": SITE + "/#clinic" },
-    blogPost: KNOW.slice(0, 20).map(a => ({
-      "@type": "BlogPosting", headline: a.title, datePublished: a.date,
-      url: SITE + "/" + artUrl(a)
-    }))
-  },
-  body: `
-${pageHead("牙齒知識", "牙齒知識", `由醫師團隊整理的口腔保健與矯正衛教文章，共 ${ARTICLES.length} 篇衛教文章。`, [C.home, { name: "牙齒知識", url: "articles.html" }], "articles.html")}
+/* ---------------------------------------------------------------- 分頁
+   259 篇一次吐出會讓首屏背 243 張圖的 DOM，改成建置期分頁。 */
+const PER_PAGE = 24;
+
+function pager(base, page, total) {
+  if (total <= 1) return "";
+  const url = n => (n === 1 ? `${base}.html` : `${base}-${n}.html`);
+  const out = [];
+  out.push(page > 1
+    ? `<a href="${url(page - 1)}" rel="prev" aria-label="上一頁">‹</a>`
+    : `<span class="is-off" aria-hidden="true">‹</span>`);
+  const nums = new Set([1, total, page, page - 1, page + 1]);
+  let last = 0;
+  for (let n = 1; n <= total; n++) {
+    if (!nums.has(n)) continue;
+    if (n - last > 1) out.push(`<span class="is-gap">…</span>`);
+    out.push(n === page
+      ? `<span aria-current="page">${n}</span>`
+      : `<a href="${url(n)}">${n}</a>`);
+    last = n;
+  }
+  out.push(page < total
+    ? `<a href="${url(page + 1)}" rel="next" aria-label="下一頁">›</a>`
+    : `<span class="is-off" aria-hidden="true">›</span>`);
+  return `<nav class="pager" aria-label="分頁">${out.join("")}
+      <p class="pager__sum">第 ${page} 頁，共 ${total} 頁</p></nav>`;
+}
+
+/* ---------------------------------------------------------------- 索引頁
+   「全部」與每個分類各自分頁，分類改為真實連結而非前端篩選，
+   這樣每一頁都能被搜尋引擎單獨索引，也不必一次載入全部卡片。 */
+const CAT_SLUG = {
+  "醫師專欄": "column", "矯正案例分享": "cases", "矯正知識": "ortho",
+  "牙齒衛教": "care", "訊息動態": "updates", "門診公告": "notice"
+};
+
+function buildIndex(cfg) {
+  const { base, items, title, h1, lede, eyebrow, cats, hubBase, catName, bannerKey } = cfg;
+  const total = Math.max(1, Math.ceil(items.length / PER_PAGE));
+
+  for (let page = 1; page <= total; page++) {
+    const slice = items.slice((page - 1) * PER_PAGE, page * PER_PAGE);
+    const slug = page === 1 ? `${base}.html` : `${base}-${page}.html`;
+    const crumbs = catName
+      ? [C.home, { name: title, url: `${hubBase}.html` }, { name: catName, url: slug }]
+      : [C.home, { name: title, url: `${base}.html` }];
+
+    const chips = cats ? `<div class="chips" data-reveal style="margin-bottom:var(--sp-7)">
+      <a class="chip${catName ? "" : " chip--brand"}" href="${hubBase}.html">全部 ${cfg.allCount} 篇</a>
+      ${cats.map(c => `<a class="chip${catName === c.name ? " chip--brand" : ""}" href="${c.url}">${c.name}（${c.n}）</a>`).join("")}
+    </div>` : "";
+
+    pages.push({
+      slug,
+      title: (page > 1 ? `${catName || title}（第 ${page} 頁）` : (catName ? `${catName}｜${title}` : title)) + "｜文心牙醫聯合診所",
+      desc: page > 1 ? `${cfg.desc}（第 ${page} 頁，共 ${total} 頁）` : cfg.desc,
+      keywords: cfg.keywords,
+      noindex: false,
+      crumbs,
+      ld: { "@type": "CollectionPage", name: catName || title,
+            publisher: { "@id": SITE + "/#clinic" },
+            mainEntity: { "@type": "ItemList", itemListElement: slice.map((a, i) => ({
+              "@type": "ListItem", position: (page - 1) * PER_PAGE + i + 1,
+              name: a.title, url: SITE + "/" + artUrl(a) })) } },
+      head: (page > 1 ? `<link rel="prev" href="${SITE}/${page === 2 ? base + ".html" : base + "-" + (page - 1) + ".html"}">` : "")
+          + (page < total ? `<link rel="next" href="${SITE}/${base}-${page + 1}.html">` : ""),
+      body: `
+${pageHead(eyebrow, h1, page > 1 ? "" : lede, crumbs, bannerKey)}
 
 <section class="section">
   <div class="shell">
-    <div class="chips" data-artfilter role="group" aria-label="依分類篩選" data-reveal style="margin-bottom:var(--sp-7)">
-      <button class="chip chip--brand" type="button" data-filter="all" aria-pressed="true">全部 ${KNOW.length} 篇</button>
-      ${KNOW_CATS.map(c => `<button class="chip" type="button" data-filter="${c}" aria-pressed="false">${c}（${KNOW.filter(a => a.cat === c).length}）</button>`).join("")}
+    ${chips}
+    <div class="artgrid">
+      ${slice.map((a, i) => artCard(a, i)).join("")}
     </div>
-    <p class="sr-only" role="status" aria-live="polite" data-artcount></p>
-
-    <div id="all" class="artgrid">
-      ${KNOW.map((a, i) => artCard(a, i)).join("")}
-    </div>
+    ${pager(base, page, total)}
   </div>
 </section>
 
-${ctaBand("想進一步諮詢醫師嗎？", "每個人的口腔狀況不同，仍建議安排一次面對面的檢查與諮詢。")}
+${ctaBand(cfg.ctaTitle, cfg.ctaText)}
 `
+    });
+  }
+}
+
+/* 牙齒知識 */
+const KNOW_CHIPS = KNOW_CATS.map(c => ({
+  name: c, n: KNOW.filter(a => a.cat === c).length,
+  url: `articles-${CAT_SLUG[c]}.html`
+}));
+
+buildIndex({
+  base: "articles", hubBase: "articles", items: KNOW, allCount: KNOW.length,
+  title: "牙齒知識", h1: "牙齒知識",
+  lede: `由醫師團隊整理的口腔保健與矯正衛教文章，共 ${KNOW.length} 篇。`,
+  eyebrow: "牙齒知識", cats: KNOW_CHIPS, bannerKey: "articles.html",
+  desc: `文心牙醫醫師團隊撰寫的 ${KNOW.length} 篇衛教文章，涵蓋隱適美隱形矯正、齒顎矯正、植牙、牙周照護與兒童牙科。`,
+  keywords: "牙齒衛教,矯正知識,台南隱適美,隱形矯正,牙齒保健,牙醫文章",
+  ctaTitle: "想進一步諮詢醫師嗎？",
+  ctaText: "每個人的口腔狀況不同，仍建議安排一次面對面的檢查與諮詢。"
 });
 
+KNOW_CATS.forEach(c => {
+  const items = KNOW.filter(a => a.cat === c);
+  if (!items.length) return;
+  buildIndex({
+    base: `articles-${CAT_SLUG[c]}`, hubBase: "articles", items, allCount: KNOW.length,
+    title: "牙齒知識", catName: c, h1: c,
+    lede: `${c}共 ${items.length} 篇。`, eyebrow: "牙齒知識",
+    cats: KNOW_CHIPS, bannerKey: "articles.html",
+    desc: `文心牙醫「${c}」分類共 ${items.length} 篇衛教文章，由台南在地牙醫師整理。`,
+    keywords: `${c},牙齒衛教,台南牙醫`,
+    ctaTitle: "想進一步諮詢醫師嗎？",
+    ctaText: "每個人的口腔狀況不同，仍建議安排一次面對面的檢查與諮詢。"
+  });
+});
 
-/* 最新消息：訊息動態 + 門診公告 */
-pages.push({
-  slug: "news.html",
-  title: "最新消息｜門診公告與診所訊息｜文心牙醫聯合診所",
-  desc: `文心牙醫聯合診所最新消息，包含連假與國定假日門診公告、診所訊息動態與醫師認證資訊，共 ${NEWS.length} 則。`,
+/* 最新消息 */
+const NEWS_CHIPS = NEWS_CATS.map(c => ({
+  name: c, n: NEWS.filter(a => a.cat === c).length,
+  url: `news-${CAT_SLUG[c]}.html`
+}));
+
+buildIndex({
+  base: "news", hubBase: "news", items: NEWS, allCount: NEWS.length,
+  title: "最新消息", h1: "診所公告與訊息",
+  lede: "連假與國定假日的門診異動、診所訊息都會公布在這裡。",
+  eyebrow: "最新消息", cats: NEWS_CHIPS, bannerKey: "news.html",
+  desc: `文心牙醫聯合診所最新消息，包含連假與國定假日門診公告與診所訊息動態，共 ${NEWS.length} 則。`,
   keywords: "文心牙醫公告,台南牙醫門診公告,連假門診,診所消息",
-  crumbs: [C.home, { name: "最新消息", url: "news.html" }],
-  ld: {
-    "@type": "CollectionPage", name: "最新消息",
-    publisher: { "@id": SITE + "/#clinic" },
-    mainEntity: { "@type": "ItemList", itemListElement: NEWS.slice(0, 20).map((a, i) => ({
-      "@type": "ListItem", position: i + 1, name: a.title, url: SITE + "/" + artUrl(a) })) }
-  },
-  body: `
-${pageHead("最新消息", "診所公告與訊息", "連假與國定假日的門診異動、診所訊息都會公布在這裡。", [C.home, { name: "最新消息", url: "news.html" }], "news.html")}
+  ctaTitle: "需要安排看診嗎？",
+  ctaText: "線上預約只需一分鐘，我們會在門診時間內與您確認。"
+});
 
-<section class="section">
-  <div class="shell">
-    <div class="chips" data-artfilter role="group" aria-label="依分類篩選" data-reveal style="margin-bottom:var(--sp-7)">
-      <button class="chip chip--brand" type="button" data-filter="all" aria-pressed="true">全部 ${NEWS.length} 則</button>
-      ${NEWS_CATS.map(c => `<button class="chip" type="button" data-filter="${c}" aria-pressed="false">${c}（${NEWS.filter(a => a.cat === c).length}）</button>`).join("")}
-    </div>
-    <p class="sr-only" role="status" aria-live="polite" data-artcount></p>
-
-    <div class="artgrid">
-      ${NEWS.map((a, i) => artCard(a, i)).join("")}
-    </div>
-
-    <div class="notice mt-7">${ico.info}<p>國定假日與連假門診時間如有異動，會在此公布，也可直接來電 <a href="tel:${TEL}" style="color:var(--brand-deep)">${TEL_TEXT}</a> 確認。</p></div>
-  </div>
-</section>
-
-${ctaBand("需要安排看診嗎？", "線上預約只需一分鐘，我們會在門診時間內與您確認。")}
-`
+NEWS_CATS.forEach(c => {
+  const items = NEWS.filter(a => a.cat === c);
+  if (!items.length) return;
+  buildIndex({
+    base: `news-${CAT_SLUG[c]}`, hubBase: "news", items, allCount: NEWS.length,
+    title: "最新消息", catName: c, h1: c,
+    lede: `${c}共 ${items.length} 則。`, eyebrow: "最新消息",
+    cats: NEWS_CHIPS, bannerKey: "news.html",
+    desc: `文心牙醫「${c}」共 ${items.length} 則。`,
+    keywords: `${c},文心牙醫,台南牙醫`,
+    ctaTitle: "需要安排看診嗎？",
+    ctaText: "線上預約只需一分鐘，我們會在門診時間內與您確認。"
+  });
 });
 
 /* 每篇文章一頁 */
@@ -1450,8 +1534,8 @@ pages.forEach(p => {
 /* sitemap.xml */
 const urls = [
   { loc: "/", pri: "1.0", freq: "weekly" },
-  { loc: "/articles.html", pri: "0.9", freq: "weekly" },
-  { loc: "/news.html", pri: "0.8", freq: "weekly" },
+  ...pages.filter(p => /^(articles|news)(-[a-z0-9-]+)?\.html$/.test(p.slug))
+          .map(p => ({ loc: "/" + p.slug, pri: p.slug === "articles.html" ? "0.9" : "0.7", freq: "weekly" })),
   ...ARTICLES.map(a => ({ loc: "/" + artUrl(a), pri: "0.7", freq: "monthly", lastmod: a.date })),
   { loc: "/booking.html", pri: "0.9", freq: "monthly" },
   { loc: "/service-invisalign.html", pri: "0.9", freq: "monthly" },
