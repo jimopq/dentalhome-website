@@ -39,14 +39,14 @@
 /zh-tw/teeth/view-326-ortho-knowledge-recedingchin  /article-ortho-knowledge-recedingchin.html
 /zh-tw/teeth/view-307  /article-p307.html
 /zh-tw/teeth/view-318  /article-p318.html
-/zh-tw/teeth/view-319  /article-p319.html
 /zh-tw/teeth/view-327-ortho-knowledge-deepbite  /article-ortho-knowledge-deepbite.html
+/zh-tw/teeth/view-319  /article-p319.html
 /zh-tw/teeth/view-316  /article-p316.html
 /zh-tw/teeth/view-315  /article-p315.html
+/zh-tw/teeth/view-314  /article-p314.html
 /zh-tw/news/view-39  /article-p39.html
 /zh-tw/news/view-40  /article-p40.html
 /zh-tw/news/view-41  /article-p41.html
-/zh-tw/teeth/view-314  /article-p314.html
 /zh-tw/teeth/view-325-ortho-knowledge-openbite  /article-ortho-knowledge-openbite.html
 /zh-tw/teeth/view-311  /article-p311.html
 /zh-tw/teeth/view-310  /article-p310.html
@@ -192,8 +192,8 @@
 /zh-tw/teeth/view-175  /article-p175.html
 /zh-tw/teeth/view-174  /article-p174.html
 /zh-tw/teeth/view-173  /article-p173.html
-/zh-tw/news/view-3  /article-p3.html
 /zh-tw/teeth/view-172  /article-p172.html
+/zh-tw/news/view-3  /article-p3.html
 /zh-tw/teeth/view-171  /article-p171.html
 /zh-tw/teeth/view-170  /article-p170.html
 /zh-tw/teeth/view-169  /article-p169.html

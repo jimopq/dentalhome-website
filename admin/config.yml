@@ -1,0 +1,170 @@
+# 文心牙醫 網站後台設定（Sveltia CMS）
+# 後台改的是 content/ 底下的檔案；存檔後 GitHub Actions 會自動重新產生網頁。
+
+backend:
+  name: github
+  repo: jimopq/dentalhome-website
+  branch: main
+  # 之後若要讓多位櫃檯人員用帳號登入，部署 Sveltia CMS Authenticator
+  # (https://github.com/sveltia/sveltia-cms-auth) 到 Cloudflare Workers，
+  # 再把網址填在下面這行並取消註解。在那之前用「Sign In with Token」即可。
+  # base_url: https://你的-authenticator.workers.dev
+
+media_folder: assets/img/articles
+public_folder: assets/img/articles
+
+locale: zh-TW
+
+collections:
+  # ------------------------------------------------------------------ 文章
+  - name: articles
+    label: 文章
+    label_singular: 文章
+    folder: content/articles
+    extension: json
+    format: json
+    create: true
+    slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
+    identifier_field: title
+    summary: "{{title}}　〔{{cat}}〕{{date}}"
+    sortable_fields: [date, title, cat]
+    view_filters:
+      - { label: 牙齒知識, field: kind, pattern: knowledge }
+      - { label: 最新消息, field: kind, pattern: news }
+      - { label: 醫師專欄, field: cat, pattern: 醫師專欄 }
+      - { label: 矯正案例分享, field: cat, pattern: 矯正案例分享 }
+      - { label: 矯正知識, field: cat, pattern: 矯正知識 }
+      - { label: 牙齒衛教, field: cat, pattern: 牙齒衛教 }
+      - { label: 訊息動態, field: cat, pattern: 訊息動態 }
+      - { label: 門診公告, field: cat, pattern: 門診公告 }
+    fields:
+      - { name: title, label: 標題, widget: string }
+      - { name: date, label: 發布日期, widget: datetime, date_format: "YYYY-MM-DD", time_format: false, picker_utc: false }
+      - name: kind
+        label: 放在哪一區
+        widget: select
+        options:
+          - { label: 牙齒知識, value: knowledge }
+          - { label: 最新消息, value: news }
+        default: knowledge
+      - name: cat
+        label: 分類
+        widget: select
+        options: [醫師專欄, 矯正案例分享, 矯正知識, 牙齒衛教, 訊息動態, 門診公告]
+        default: 醫師專欄
+        hint: 「訊息動態」與「門診公告」請搭配上面選「最新消息」
+      - name: desc
+        label: 搜尋結果摘要
+        widget: text
+        required: false
+        hint: 顯示在 Google 搜尋結果與文章卡片上，建議 60–120 字
+      - name: body
+        label: 內文
+        widget: markdown
+        hint: 可直接貼圖。舊站搬來的文章是 HTML，編輯時請維持原樣以免跑版
+      - { name: seoTitle, label: SEO 標題, widget: string, required: false, collapsed: true }
+      - { name: oldPath, label: 舊站網址, widget: string, required: false, hint: 用來產生 301 轉址，新文章留空即可 }
+
+  # ------------------------------------------------------------------ 醫師
+  - name: doctors
+    label: 醫師團隊
+    label_singular: 醫師
+    folder: content/doctors
+    extension: json
+    format: json
+    create: true
+    identifier_field: name
+    summary: "{{name}}　{{role}}"
+    sortable_fields: [order, name]
+    fields:
+      - { name: order, label: 排序, widget: number, value_type: int, default: 9 }
+      - { name: name, label: 姓名, widget: string }
+      - { name: badge, label: 職稱標籤, widget: string, hint: 顯示在照片左上角，例如「院長」 }
+      - { name: role, label: 專科, widget: string }
+      - { name: photo, label: 照片, widget: image, media_folder: /assets/img, public_folder: assets/img }
+      - { name: spec, label: 專長, widget: string, hint: 用「 · 」分隔 }
+      - { name: intro, label: 介紹, widget: text }
+      - name: creds
+        label: 學經歷
+        widget: list
+        fields:
+          - { name: group, label: 分組名稱, widget: string, hint: 例如 學歷／專科認證／學會／經歷 }
+          - { name: items, label: 項目, widget: list, field: { name: item, label: 項目, widget: string } }
+
+  # ------------------------------------------------------------------ 設定
+  - name: settings
+    label: 網站設定
+    files:
+      - name: schedule
+        label: 門診班表
+        file: content/settings/schedule.json
+        description: 這一份同時驅動首頁輪播、「現在看診中」狀態，以及 Google 顯示的營業時間
+        fields:
+          - { name: note, label: 備註, widget: text }
+          - name: sessions
+            label: 診次
+            widget: list
+            fields:
+              - { name: name, label: 診次名稱, widget: string, hint: 例如 早診 }
+              - { name: time, label: 時間, widget: string, hint: 格式 09:00 - 12:00 }
+              - { name: mon, label: 週一, widget: list, field: { name: d, label: 醫師, widget: string }, required: false }
+              - { name: tue, label: 週二, widget: list, field: { name: d, label: 醫師, widget: string }, required: false }
+              - { name: wed, label: 週三, widget: list, field: { name: d, label: 醫師, widget: string }, required: false }
+              - { name: thu, label: 週四, widget: list, field: { name: d, label: 醫師, widget: string }, required: false }
+              - { name: fri, label: 週五, widget: list, field: { name: d, label: 醫師, widget: string }, required: false }
+              - { name: sat, label: 週六, widget: list, field: { name: d, label: 醫師, widget: string }, required: false }
+          - name: scheduleImage
+            label: 班表圖片
+            widget: image
+            required: false
+            media_folder: /assets/img
+            public_folder: assets/img
+            hint: 選填。上傳後會顯示在首頁門診區塊下方，供列印或截圖使用
+
+      - name: banners
+        label: Banner 圖片
+        file: content/settings/banners.json
+        description: 每個分頁最上方的橫幅照片。建議 1920×800，橫式
+        fields:
+          - name: hero
+            label: 首頁主視覺
+            widget: object
+            fields:
+              - { name: image, label: 圖片, widget: image, media_folder: /assets/img, public_folder: assets/img }
+              - { name: alt, label: 圖片說明, widget: string, hint: 給視障讀者與搜尋引擎看，請描述畫面內容 }
+          - name: pages
+            label: 各分頁 Banner
+            widget: list
+            fields:
+              - { name: page, label: 頁面檔名, widget: string }
+              - { name: label, label: 頁面名稱, widget: string }
+              - { name: image, label: 圖片, widget: image, media_folder: /assets/img, public_folder: assets/img }
+              - name: focus
+                label: 取景位置
+                widget: select
+                options: [center, left, right]
+                default: center
+                hint: 照片比例與版面不同時，要保留畫面的哪一側
+              - { name: alt, label: 圖片說明, widget: string }
+
+      - name: clinic
+        label: 診所資訊
+        file: content/settings/clinic.json
+        description: 電話、地址與 LINE 改這裡，全站與 Google 結構化資料會一起更新
+        fields:
+          - { name: name, label: 診所名稱, widget: string }
+          - { name: nameEn, label: 英文名稱, widget: string }
+          - { name: tel, label: 電話（顯示用）, widget: string }
+          - { name: telLink, label: 電話（撥號用）, widget: string, hint: 國際格式，例如 +88662156600 }
+          - { name: address, label: 地址, widget: string }
+          - { name: postalCode, label: 郵遞區號, widget: string }
+          - { name: line, label: 官方 LINE 網址, widget: string }
+          - { name: facebook, label: Facebook 網址, widget: string }
+          - { name: foundingYear, label: 創立年份, widget: string }
+          - name: stats
+            label: 首頁數據
+            widget: list
+            fields:
+              - { name: label, label: 說明, widget: string }
+              - { name: value, label: 數字, widget: string }
+              - { name: unit, label: 單位, widget: string }

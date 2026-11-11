@@ -5,6 +5,49 @@
 
 ---
 
+## 網站後台 /admin
+
+診所人員用瀏覽器就能新增文章、換 banner、改門診班表與診所資訊，不需要懂 git。
+
+### 怎麼登入
+
+1. 開 `https://你的網域/admin/`
+2. 按 **Sign In with Token**
+3. 貼上 GitHub personal access token
+
+產 token：GitHub → Settings → Developer settings → Personal access tokens →
+Fine-grained token，只授權 `jimopq/dentalhome-website` 這個 repo，權限給 **Contents: Read and write** 即可。
+Token 存在瀏覽器本機，不會外流。
+
+> 之後若要讓多位櫃檯人員各自用 GitHub 帳號登入、不必共用 token，
+> 把 [Sveltia CMS Authenticator](https://github.com/sveltia/sveltia-cms-auth)
+> 部署到 Cloudflare Workers，再把網址填進 `admin/config.yml` 的 `base_url` 並取消註解即可。
+
+### 可以改什麼
+
+| 後台項目 | 實際檔案 | 影響範圍 |
+|---|---|---|
+| 文章 | `content/articles/*.json` | 牙齒知識與最新消息兩區、分頁、sitemap、301 對應 |
+| 醫師團隊 | `content/doctors/*.json` | 首頁與醫師團隊頁 |
+| 門診班表 | `content/settings/schedule.json` | 首頁輪播、「現在看診中」狀態、**Google 營業時間**（自動推導）|
+| Banner 圖片 | `content/settings/banners.json` | 首頁主視覺與各分頁橫幅 |
+| 診所資訊 | `content/settings/clinic.json` | 全站電話、地址、LINE、首頁數據、結構化資料 |
+
+### 存檔之後會發生什麼
+
+後台存檔 → 提交到 GitHub → GitHub Actions 跑 `node build.js` 重新產生 298 個頁面 →
+自動提交 → GitHub Pages 更新。整個流程約 1–2 分鐘，不需要人工介入。
+
+工作流程在 `.github/workflows/build.yml`，只在 `content/`、`build.js`、`assets/` 變動時觸發，
+產生出來的 `.html` 不在觸發清單內，所以不會形成無限迴圈。
+產出頁面少於 50 頁或 sitemap 為空時會中止提交，避免壞掉的版本覆蓋正常網站。
+
+### 文章內文格式
+
+舊站搬來的 259 篇內文是 HTML，編輯時維持原樣即可。
+新文章可以直接用後台的編輯器寫（Markdown），產生器會自動轉成 HTML。
+判斷方式：內文第一個字元是 `<` 就當 HTML 原樣輸出，否則當 Markdown 轉換。
+
 ## 配色與主題
 
 全站**單一主題：橘白**，不提供深色模式。

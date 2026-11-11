@@ -9,16 +9,73 @@
 const fs = require("fs");
 const path = require("path");
 
+const readJSON = f => JSON.parse(fs.readFileSync(path.join(__dirname, f), "utf8"));
+const readDir  = d => fs.existsSync(path.join(__dirname, d))
+  ? fs.readdirSync(path.join(__dirname, d)).filter(f => f.endsWith(".json"))
+      .map(f => Object.assign(readJSON(path.join(d, f)), { slug: f.replace(/\.json$/, "") }))
+  : [];
+
+/* 內容全部來自 content/，後台（/admin）改的就是這些檔案 */
+const CLINIC   = readJSON("content/settings/clinic.json");
+const SCHEDULE = readJSON("content/settings/schedule.json");
+const BANNERCFG = readJSON("content/settings/banners.json");
+const DOCTORS  = readDir("content/doctors").sort((a, b) => (a.order || 99) - (b.order || 99));
+
 const SITE = "https://www.dentalhome.com.tw";
-const TEL = "+88662156600";
-const TEL_TEXT = "06-2156600";
-const LINE = "https://page.line.me/884xwoxp?openQrModal=true";
-const FB = "https://www.facebook.com/profile.php?id=100075711318797";
-const ADDR_Q = encodeURIComponent("台南市南區大同路二段166號");
+const TEL = CLINIC.telLink;
+const TEL_TEXT = CLINIC.tel;
+const LINE = CLINIC.line;
+const FB = CLINIC.facebook;
+const ADDR_Q = encodeURIComponent(CLINIC.address);
 
 /* 衛教文章：由舊站 dentalhome.com.tw 搬遷，版權屬診所所有。
    資料見 articles.json（prep 流程已改寫圖片路徑並清除行內樣式）。 */
-const ARTICLES = JSON.parse(fs.readFileSync(path.join(__dirname, "articles.json"), "utf8"));
+
+/* 內文：舊站搬來的是 HTML，後台新寫的是 Markdown。
+   以第一個非空白字元是否為 '<' 判斷，HTML 原樣輸出，不冒險重新解析。 */
+function renderBody(src) {
+  const t = (src || "").trim();
+  if (!t) return "";
+  if (t.startsWith("<")) return t;
+  const esc = x => x.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+  const inline = x => esc(x)
+    .replace(/!\[([^\]]*)\]\(([^)\s]+)\)/g, '<img alt="$1" src="$2" loading="lazy">')
+    .replace(/\[([^\]]+)\]\(([^)\s]+)\)/g, '<a href="$2">$1</a>')
+    .replace(/\*\*([^*]+)\*\*/g, "<strong>$1</strong>")
+    .replace(/(^|[^*])\*([^*]+)\*/g, "$1<em>$2</em>");
+  const out = [];
+  let list = null, n = 0;
+  const closeList = () => { if (list) { out.push(`</${list}>`); list = null; } };
+  for (const raw of t.split(/\r?\n/)) {
+    const ln = raw.trim();
+    if (!ln) { closeList(); continue; }
+    let m;
+    if ((m = ln.match(/^(#{2,4})\s+(.*)$/))) {
+      closeList();
+      const lvl = m[1].length;
+      out.push(lvl === 2 ? `<h2 id="section-${++n}">${inline(m[2])}</h2>` : `<h${lvl}>${inline(m[2])}</h${lvl}>`);
+    } else if ((m = ln.match(/^[-*]\s+(.*)$/))) {
+      if (list !== "ul") { closeList(); out.push("<ul>"); list = "ul"; }
+      out.push(`<li>${inline(m[1])}</li>`);
+    } else if ((m = ln.match(/^\d+[.)]\s+(.*)$/))) {
+      if (list !== "ol") { closeList(); out.push("<ol>"); list = "ol"; }
+      out.push(`<li>${inline(m[1])}</li>`);
+    } else if (ln.startsWith("<")) {
+      closeList(); out.push(ln);
+    } else {
+      closeList(); out.push(`<p>${inline(ln)}</p>`);
+    }
+  }
+  closeList();
+  return out.join("\n");
+}
+
+const ARTICLES = readDir("content/articles")
+  .map(a => Object.assign({}, a, { body: renderBody(a.body) }))
+  .map(a => Object.assign(a, { chars: a.body.replace(/<[^>]+>/g, "").trim().length }))
+  // 同日期時以 slug 當次要鍵，確保每次重建的順序一致
+  .sort((x, y) => (y.date || "").localeCompare(x.date || "") || x.slug.localeCompare(y.slug));
+
 const KNOW = ARTICLES.filter(a => a.kind === "knowledge");
 const NEWS = ARTICLES.filter(a => a.kind === "news");
 const KNOW_CATS = ["矯正知識", "牙齒衛教", "醫師專欄", "矯正案例分享"];
@@ -153,7 +210,7 @@ const footer = () => `<footer class="footer">
       <div>
         <p class="footer__title">聯絡資訊</p>
         <dl class="info-list" style="gap:var(--sp-4)">
-          <div class="info-item" style="gap:var(--sp-3)"><div><dt>地址</dt><dd style="font-size:0.9375rem">台南市南區大同路二段166號</dd></div></div>
+          <div class="info-item" style="gap:var(--sp-3)"><div><dt>地址</dt><dd style="font-size:0.9375rem">${CLINIC.address}</dd></div></div>
           <div class="info-item" style="gap:var(--sp-3)"><div><dt>電話</dt><dd style="font-size:0.9375rem"><a href="tel:${TEL}">${TEL_TEXT}</a></dd></div></div>
           <div class="info-item" style="gap:var(--sp-3)"><div><dt>門診</dt><dd style="font-size:0.9375rem">週一至週五 09:00-21:00<br>週六 09:00-12:00</dd></div></div>
         </dl>
@@ -171,12 +228,179 @@ const footer = () => `<footer class="footer">
   <a class="is-line" href="${LINE}" target="_blank" rel="noopener">${ico.line}LINE</a>
   <a class="is-primary" href="booking.html">${ico.cal}線上預約</a>
 </nav>
-<a class="line-fab" href="https://page.line.me/884xwoxp?openQrModal=true" target="_blank" rel="noopener"
+<a class="line-fab" href="${LINE}" target="_blank" rel="noopener"
    aria-label="透過官方 LINE 詢問或預約">
   <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 3C6.9 3 3 6.5 3 10.7c0 3.8 3.1 7 7.3 7.6.3.1.7.2.8.5.1.3 0 .7 0 1l-.1.8c0 .3-.2 1 .9.6s5.8-3.4 7.9-5.8c1.4-1.5 2.2-3.1 2.2-4.7C21 6.5 17.1 3 12 3Z"/></svg>
   <span class="line-fab__text">線上諮詢</span>
 </a>`;
 
+
+
+/* ---------------------------------------------------------------- 首頁元件 */
+const DOW_ZH = ["日", "一", "二", "三", "四", "五", "六"];
+const DAY_KEYS = ["", "mon", "tue", "wed", "thu", "fri", "sat"];
+const EN_DOW = ["", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+
+/* 由班表推導 Google 用的營業時間：同一診次把有排班的日子合併成一條 */
+function openingHours() {
+  return SCHEDULE.sessions.map(se => {
+    const days = [1, 2, 3, 4, 5, 6]
+      .filter(n => (se[DAY_KEYS[n]] || []).length)
+      .map(n => EN_DOW[n]);
+    if (!days.length) return null;
+    const [opens, closes] = se.time.split(/\s*-\s*/);
+    return { "@type": "OpeningHoursSpecification",
+             dayOfWeek: days.length === 1 ? days[0] : days, opens, closes };
+  }).filter(Boolean);
+}
+
+const CLINIC_LD = [
+  {
+    "@type": "Dentist",
+    "@id": "https://www.dentalhome.com.tw/#clinic",
+    "name": "文心牙醫聯合診所",
+    "alternateName": "Ven-Shin United Dental Clinic",
+    "url": "https://www.dentalhome.com.tw/",
+    "logo": "https://www.dentalhome.com.tw/assets/img/logo.png",
+    "image": "https://www.dentalhome.com.tw/assets/img/og-cover.jpg",
+    "description": "位於台南市南區的家庭牙科診所，2003 年創立，提供隱適美隱形矯正、齒顎矯正、數位人工植牙、全口重建、假牙贋復、根管治療、牙周病治療與兒童牙科。",
+    "telephone": CLINIC.telLink,
+    "foundingDate": "2003",
+    "priceRange": "$$",
+    "currenciesAccepted": "TWD",
+    "medicalSpecialty": "Dentistry",
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "大同路二段166號",
+      "addressLocality": "南區",
+      "addressRegion": "台南市",
+      "postalCode": "702",
+      "addressCountry": "TW"
+    },
+    "hasMap": "https://www.google.com/maps/search/?api=1&query=%E5%8F%B0%E5%8D%97%E5%B8%82%E5%8D%97%E5%8D%80%E5%A4%A7%E5%90%8C%E8%B7%AF%E4%BA%8C%E6%AE%B5166%E8%99%9F",
+    "openingHoursSpecification": openingHours(),
+    "sameAs": [
+      "https://www.facebook.com/profile.php?id=100075711318797",
+      "https://page.line.me/884xwoxp"
+    ],
+    "potentialAction": {
+      "@type": "ReserveAction",
+      "target": {
+        "@type": "EntryPoint",
+        "urlTemplate": "https://www.dentalhome.com.tw/booking.html",
+        "inLanguage": "zh-TW",
+        "actionPlatform": [
+          "http://schema.org/DesktopWebPlatform",
+          "http://schema.org/MobileWebPlatform"
+        ]
+      },
+      "result": {
+        "@type": "Reservation",
+        "name": "線上預約"
+      }
+    },
+    "availableService": [
+      {
+        "@type": "MedicalProcedure",
+        "name": "隱適美隱形矯正"
+      },
+      {
+        "@type": "MedicalProcedure",
+        "name": "齒顎矯正"
+      },
+      {
+        "@type": "MedicalProcedure",
+        "name": "數位人工植牙"
+      },
+      {
+        "@type": "MedicalProcedure",
+        "name": "全口重建"
+      },
+      {
+        "@type": "MedicalProcedure",
+        "name": "假牙贋復"
+      },
+      {
+        "@type": "MedicalProcedure",
+        "name": "根管治療"
+      },
+      {
+        "@type": "MedicalProcedure",
+        "name": "牙周病治療"
+      },
+      {
+        "@type": "MedicalProcedure",
+        "name": "兒童牙科"
+      },
+      {
+        "@type": "MedicalProcedure",
+        "name": "牙齒美白"
+      },
+      {
+        "@type": "MedicalProcedure",
+        "name": "美容牙科"
+      }
+    ]
+  },
+  {
+    "@type": "WebSite",
+    "@id": "https://www.dentalhome.com.tw/#website",
+    "url": "https://www.dentalhome.com.tw/",
+    "name": "文心牙醫聯合診所",
+    "inLanguage": "zh-TW",
+    "publisher": {
+      "@id": "https://www.dentalhome.com.tw/#clinic"
+    }
+  }
+];
+
+
+
+function schedCarousel() {
+  const days = [1, 2, 3, 4, 5, 6].map(n => {
+    const slots = SCHEDULE.sessions.map(se => {
+      const docs = se[DAY_KEYS[n]] || [];
+      return `<div class="sched__slot"><p class="sched__time">${se.name} ${se.time}</p>`
+        + (docs.length
+            ? `<p class="sched__docs">${docs.map(x => `<span>${x}</span>`).join("")}</p>`
+            : `<p class="sched__off">休診</p>`)
+        + `</div>`;
+    }).join("");
+    return `<article class="sched__day" data-day="${n}">`
+      + `<div class="sched__head"><span class="sched__dow">週${DOW_ZH[n]}</span>`
+      + `<span class="sched__tag" data-today-tag hidden>今天</span></div>`
+      + `<div class="sched__body">${slots}</div></article>`;
+  }).join("");
+  return `<div class="sched" data-sched>
+        <div class="sched__track" data-sched-track role="group" aria-label="每週門診時間與值班醫師">${days}</div>
+        <div class="sched__nav">
+          <button type="button" data-sched-prev aria-label="上一天"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 18l-6-6 6-6"/></svg></button>
+          <button type="button" data-sched-next aria-label="下一天"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18l6-6-6-6"/></svg></button>
+        </div>
+      </div>${SCHEDULE.scheduleImage ? `
+      <div class="photo photo--wide mt-6"><img src="${SCHEDULE.scheduleImage}" width="1800" height="1012" loading="lazy" alt="文心牙醫門診班表"></div>` : ""}`;
+}
+
+function statsHTML() {
+  return CLINIC.stats.map(x =>
+    `<div><dt>${x.label}</dt><dd>${x.value}<span>${x.unit}</span></dd></div>`).join("");
+}
+
+function doctorsHTML() { return DOCTORS.map((d, i) => doctorCard(d, i)).join(""); }
+
+function doctorCard(d, i) {
+  return `<article class="doctor"${i ? ` data-reveal data-reveal-delay="${i * 90}"` : " data-reveal"}>
+          <div class="doctor__portrait"><span class="doctor__badge">${d.badge}</span>
+            <img src="${d.photo}" width="420" height="420" loading="lazy" alt="${d.name}醫師－${d.role}"></div>
+          <div class="doctor__body">
+            <div class="doctor__name"><h3>${d.name}</h3><span class="doctor__role">${d.role}</span></div>
+            <p class="doctor__spec">${d.spec}</p>
+            <div class="doctor__creds">${(d.creds || []).map(g => `
+              <div class="credgroup"><p class="credgroup__label">${g.group}</p>
+              <ul>${(g.items || []).map(x => `<li>${x}</li>`).join("")}</ul></div>`).join("")}</div>
+          </div>
+        </article>`;
+}
 
 /* ---------------------------------------------------------------- CTA band */
 const ctaBand = (heading, text) => `<section class="cta-band">
@@ -192,19 +416,10 @@ const ctaBand = (heading, text) => `<section class="cta-band">
 
 /* ---------------------------------------------------------------- banner
    每個分頁都以滿版 banner 開場；白色漸層讓照片不壓暗版面，維持橘白。 */
-const BANNERS = {
-  "about.html":                 ["bn-team.jpg", "", "醫師團隊手疊在一起"],
-  "team.html":                  ["brushing.jpg", " banner--right", "媽媽陪著女兒一起刷牙"],
-  "services.html":              ["bn-smile.jpg", " banner--right", "兩個孩子開心大笑"],
-  "service-invisalign.html":    ["baby.jpg", " banner--left", "孩子依偎著媽媽露出笑容"],
-  "service-orthodontics.html":  ["teen.jpg", " banner--right", "青少女露齒微笑"],
-  "service-implant.html":       ["smile.jpg", "", "女性在陽光下自信微笑"],
-  "booking.html":               ["bn-booking.jpg", "", "在平板與手機上操作預約"],
-  "faq.html":                   ["kids.jpg", "", "兩個女孩相擁微笑"],
-  "contact.html":               ["hero-family.jpg", "", "一家三口並排躺著微笑"],
-  "articles.html":              ["bn-smile.jpg", " banner--left", "兩個孩子開心大笑"],
-  "news.html":                  ["bn-booking.jpg", " banner--left", "在平板與手機上查看資訊"]
-};
+const FOCUS = { right: " banner--right", left: " banner--left", center: "" };
+const BANNERS = Object.fromEntries(BANNERCFG.pages.map(p => [
+  p.page, [p.image.replace(/^assets\/img\//, ""), FOCUS[p.focus] || "", p.alt]
+]));
 
 function pageHead(eyebrow, h1, lede, crumbs, slug) {
   const items = crumbs.map((c, i) =>
@@ -271,6 +486,8 @@ ${p.keywords ? `<meta name="keywords" content="${p.keywords}">` : ""}
 <meta property="og:description" content="${p.desc}">
 <meta property="og:url" content="${url}">
 <meta property="og:image" content="${SITE}/assets/img/og-cover.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="${p.ogTitle || p.title}">
 <meta name="twitter:description" content="${p.desc}">
@@ -280,10 +497,12 @@ ${p.keywords ? `<meta name="keywords" content="${p.keywords}">` : ""}
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;600;700&family=Noto+Serif+TC:wght@500;600;700&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&display=swap">
 <link rel="stylesheet" href="assets/css/style.css">
 ${p.head || ""}
+<link rel="icon" href="assets/img/favicon.ico" sizes="32x32">
 <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png">
 <script>document.documentElement.classList.add("js");</script>
 
 <script type="application/ld+json">
@@ -311,6 +530,233 @@ ${p.scripts || ""}
    ======================================================================== */
 const pages = [];
 const C = { home: { name: "首頁", url: "index.html" } };
+
+
+/* 首頁 */
+pages.push({
+  slug: "index.html",
+  title: "台南牙醫推薦｜文心牙醫聯合診所｜隱適美隱形矯正、數位植牙、全口重建",
+  desc: `台南南區牙醫診所，${CLINIC.foundingYear} 年創立、深耕在地 20 年，服務超過 60,000 人次。提供隱適美隱形矯正、齒顎矯正、數位人工植牙、全口重建與兒童牙科。衛福部齒顎矯正與假牙贋復專科醫師駐診，線上預約 60 秒完成。`,
+  keywords: "台南牙醫,台南矯正,台南隱適美,台南植牙,台南牙醫推薦,南區牙醫,隱形矯正,全口重建,兒童牙科",
+  ogTitle: "台南牙醫推薦｜文心牙醫聯合診所｜從「心」出發的全家牙科",
+  isHome: true,
+  ld: CLINIC_LD,
+  head: `<link rel="preload" as="image" href="${BANNERCFG.hero.image}" fetchpriority="high">`,
+  body: `
+<!-- ============================ HERO banner（純圖，文字在下方） ============================ -->
+  <section class="hero">
+    <img src="${BANNERCFG.hero.image}" width="1600" height="1067" fetchpriority="high" alt="${BANNERCFG.hero.alt}">
+  </section>
+
+  <section class="page-intro page-intro--home">
+    <div class="shell">
+      <p class="eyebrow">台南 · 南區 · 家庭牙科</p>
+      <h1>從「心」出發<br>成為全家人<em>笑容的守護者</em></h1>
+      <p class="lede">2003 年至今，從孩子的第一顆乳牙到長輩的全口重建，我們陪伴台南家庭走過每個階段。</p>
+      <div class="btn-row">
+        <a class="btn btn--primary btn--lg" href="booking.html">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
+          線上預約
+        </a>
+        <a class="btn btn--ghost btn--lg" href="service-invisalign.html">了解隱形矯正</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="trustband">
+    <div class="shell">
+      <dl class="trustband__list">${statsHTML()}</dl>
+    </div>
+  </section>
+
+  <!-- ============================ 預約路徑（主次分明，非三等分） ============================ -->
+  <section class="section section--tight section--sunk">
+    <div class="shell">
+      <div class="section-head" data-reveal>
+        <h2>預約看診，三種方式任您選擇</h2>
+        <p>不論線上、LINE 或電話，都由同一位櫃檯人員為您服務。</p>
+      </div>
+
+      <div class="booking-paths">
+        <a class="path path--primary" href="booking.html" data-reveal>
+          <span class="path__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18M9 16l2 2 4-4"/></svg></span>
+          <h3>線上預約</h3>
+          <p>選療程、挑時段、留資料，約 60 秒完成。24 小時都能送出，送出後我們會在門診時間內與你確認。</p>
+          <span class="path__cta">開始預約<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+        </a>
+
+        <div class="booking-paths__alt">
+          <a class="path path--small" href="${LINE}" target="_blank" rel="noopener" data-reveal data-reveal-delay="80">
+            <span class="path__icon path__icon--line"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 3C6.9 3 3 6.5 3 10.7c0 3.8 3.1 7 7.3 7.6.3.1.7.2.8.5.1.3 0 .7 0 1l-.1.8c0 .3-.2 1 .9.6s5.8-3.4 7.9-5.8c1.4-1.5 2.2-3.1 2.2-4.7C21 6.5 17.1 3 12 3Z"/></svg></span>
+            <div><h3>官方 LINE</h3><p>想先問問題、傳照片給醫師看，走這裡最方便。</p></div>
+          </a>
+          <a class="path path--small" href="tel:${TEL}" data-reveal data-reveal-delay="140">
+            <span class="path__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.9.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92Z"/></svg></span>
+            <div><h3>${TEL_TEXT}</h3><p>臨時牙痛、需要當天加掛，電話最快。</p></div>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================ 主力療程 ============================ -->
+  <section class="section" id="services">
+    <div class="shell">
+      <div class="section-head" data-reveal>
+        <p class="eyebrow">診療項目</p>
+        <h2>守護全家人的口腔健康</h2>
+        <p>從定期洗牙、兒童塗氟，到矯正、植牙與全口重建，一家人的牙齒都能在這裡得到完整照顧。</p>
+      </div>
+
+      <div class="grid grid-3">
+        <a class="photo-card" href="service-invisalign.html" data-reveal>
+          <div class="photo-card__media"><img src="assets/img/smile.jpg" width="1200" height="800" loading="lazy" alt="女性在陽光下自信微笑"></div>
+          <div class="photo-card__body">
+            <h3>隱適美隱形矯正</h3>
+            <p>幾乎看不出來的透明牙套，可自行取下吃飯刷牙。上班、見客戶都不尷尬。由隱適美認證醫師親自規劃。</p>
+            <p class="card__foot"><span class="link-arrow">了解更多<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></p>
+          </div>
+        </a>
+
+        <a class="photo-card" href="service-orthodontics.html" data-reveal data-reveal-delay="80">
+          <div class="photo-card__media"><img src="assets/img/kids.jpg" width="1200" height="830" loading="lazy" alt="兩個女孩相擁開心微笑"></div>
+          <div class="photo-card__body">
+            <h3>齒顎矯正</h3>
+            <p>齒列擁擠、暴牙、戽斗、咬合不正，以及兒童的齒顎發育評估。由衛福部齒顎矯正專科醫師執行。</p>
+            <p class="card__foot"><span class="link-arrow">了解更多<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></p>
+          </div>
+        </a>
+
+        <a class="photo-card photo-card--invert" href="service-implant.html" data-reveal data-reveal-delay="160">
+          <div class="photo-card__media"><img src="assets/img/logo.png" width="340" height="140" loading="lazy" alt="" style="filter:brightness(0) invert(1)"></div>
+          <div class="photo-card__body">
+            <h3>數位人工植牙</h3>
+            <p>術前 3D 斷層掃描與數位導板規劃，植體位置先在電腦裡確認過再動手。由假牙贋復專科的院長主持。</p>
+            <p class="card__foot"><span class="link-arrow">了解更多<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></p>
+          </div>
+        </a>
+      </div>
+
+      <div class="chips mt-6" id="all" data-reveal>
+        <a class="chip" href="services.html#reconstruction">全口重建</a>
+        <a class="chip" href="services.html#denture">假牙贋復</a>
+        <a class="chip" href="services.html#whitening">牙齒美白</a>
+        <a class="chip" href="services.html#endo">根管治療</a>
+        <a class="chip" href="services.html#perio">牙周病治療</a>
+        <a class="chip" href="services.html#kids">兒童牙科</a>
+        <a class="chip" href="services.html#cosmetic">美容牙科</a>
+        <a class="chip chip--brand" href="services.html">查看全部 10 項 →</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================ 為什麼選文心 ============================ -->
+  <section class="section section--deep">
+    <div class="shell">
+      <div class="grid grid-2" style="align-items:center;gap:var(--sp-8)">
+        <div data-reveal>
+          <h2 class="mt-4">「溫馨」與「專業」，是我們最重要的堅持</h2>
+          <p class="lede mt-5">我們重視人與人之間的那份關懷，甚至勝過技術與設備。這是文心從 2003 年走到今天，始終沒有改變的事。</p>
+          <div class="btn-row mt-6"><a class="btn btn--ghost" href="about.html">認識文心的故事</a></div>
+        </div>
+        <div class="photo photo--wide photo--shift-right" data-reveal data-reveal-delay="90">
+          <img src="assets/img/brushing.jpg" width="1600" height="842" loading="lazy" alt="媽媽陪著女兒一起刷牙">
+        </div>
+      </div>
+
+      <div class="grid grid-4 mt-8">
+        <div class="step" data-reveal><span class="step__num">1</span><h4>治療前充分說明</h4><p>需要做什麼、為什麼要做、費用範圍與其他選擇，都會在開始前說明清楚。</p></div>
+        <div class="step" data-reveal data-reveal-delay="70"><span class="step__num">2</span><h4>專責醫師全程照顧</h4><p>由同一位主治醫師負責您的療程，複雜案例則由團隊共同會診討論。</p></div>
+        <div class="step" data-reveal data-reveal-delay="140"><span class="step__num">3</span><h4>完善的消毒作業</h4><p>每位患者使用獨立滅菌器械包，高溫高壓滅菌並定期監測。</p></div>
+        <div class="step" data-reveal data-reveal-delay="210"><span class="step__num">4</span><h4>長期的治療紀錄</h4><p>完整保留您歷次的治療紀錄，陪伴您走過人生不同階段。</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================ 醫師團隊 ============================ -->
+  <section class="section">
+    <div class="shell">
+      <div class="section-head" data-reveal>
+        <h2>專業醫師團隊</h2>
+      </div>
+      <div class="grid grid-3">${doctorsHTML()}</div>
+      <div class="btn-row mt-7" data-reveal><a class="btn btn--ghost" href="team.html">看完整經歷與專長</a></div>
+    </div>
+  </section>
+
+  <!-- ============================ 門診時間 ============================ -->
+  <section class="section section--sunk" id="hours">
+    <div class="shell">
+      <div class="section-head" data-reveal>
+        <p class="eyebrow">門診時間</p>
+        <h2>門診時間與醫師排班</h2>
+        <p class="mt-4"><span class="status" data-status><span class="status__dot"></span><span data-status-text>查詢中</span></span></p>
+      </div>
+      <div data-reveal>
+      ${schedCarousel()}
+      <div class="grid grid-2 mt-7" style="align-items:start;gap:var(--sp-7)">
+        <div data-reveal>
+          <h3>${CLINIC.address}</h3>
+          <p class="mt-4 muted">位於大同路二段，鄰近台南火車站與市區主要幹道，開車與公車都方便抵達。</p>
+          <div class="btn-row mt-5">
+            <a class="btn btn--primary btn--sm" href="booking.html">線上預約</a>
+            <a class="btn btn--ghost btn--sm" href="contact.html">停車與交通資訊</a>
+          </div>
+        </div>
+        <div class="map-frame" data-reveal data-reveal-delay="80">
+          <div class="map-frame__fallback">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>
+            <p>${CLINIC.address}</p>
+            <a class="btn btn--primary btn--sm" href="https://www.google.com/maps/search/?api=1&query=%E5%8F%B0%E5%8D%97%E5%B8%82%E5%8D%97%E5%8D%80%E5%A4%A7%E5%90%8C%E8%B7%AF%E4%BA%8C%E6%AE%B5166%E8%99%9F" target="_blank" rel="noopener">在 Google 地圖開啟</a>
+          </div>
+          <iframe title="文心牙醫聯合診所位置地圖"
+            src="https://maps.google.com/maps?q=%E5%8F%B0%E5%8D%97%E5%B8%82%E5%8D%97%E5%8D%80%E5%A4%A7%E5%90%8C%E8%B7%AF%E4%BA%8C%E6%AE%B5166%E8%99%9F&output=embed&hl=zh-TW"
+            loading="lazy" referrerpolicy="no-referrer-when-downgrade" allowfullscreen></iframe>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================ FAQ ============================ -->
+  <section class="section">
+    <div class="shell shell--narrow">
+      <div class="section-head section-head--center" data-reveal>
+        <h2>常見問題</h2>
+      </div>
+      <div class="accordion" data-reveal>
+        <div class="acc" data-acc>
+          <h3 style="margin:0"><button class="acc__btn" type="button" aria-expanded="false" aria-controls="fa1">第一次諮詢隱適美，會做哪些檢查？<span class="acc__sign" aria-hidden="true"></span></button></h3>
+          <div class="acc__panel" id="fa1"><div class="acc__inner"><p>初次諮詢通常包含口內檢查、環口 X 光，以及 3D 口掃建立齒列數位模型。醫師會依照你的咬合狀況、齒列擁擠程度與臉型比例，說明可行的矯正方式、大致療程長度與費用區間。檢查項目會依個人口腔狀況調整，實際仍以醫師評估為準。</p></div></div>
+        </div>
+        <div class="acc" data-acc>
+          <h3 style="margin:0"><button class="acc__btn" type="button" aria-expanded="false" aria-controls="fa2">隱適美跟傳統牙套，哪個比較快？<span class="acc__sign" aria-hidden="true"></span></button></h3>
+          <div class="acc__panel" id="fa2"><div class="acc__inner"><p>療程長度主要取決於齒列狀況的複雜度，而不是器材本身。單純的齒列擁擠，兩者時間差異不大；若涉及骨性問題或需要拔牙退縮，傳統矯正在某些移動上仍有其優勢。隱適美的主要差別在於外觀幾乎看不出來、可自行取下清潔，回診間隔通常也較長。</p></div></div>
+        </div>
+        <div class="acc" data-acc>
+          <h3 style="margin:0"><button class="acc__btn" type="button" aria-expanded="false" aria-controls="fa3">植牙需要花多久時間？會很痛嗎？<span class="acc__sign" aria-hidden="true"></span></button></h3>
+          <div class="acc__panel" id="fa3"><div class="acc__inner"><p>植體植入手術本身在局部麻醉下進行，過程中不會感到疼痛，手術時間多在一小時內。之後需要等待骨整合，一般約 3 至 6 個月，再製作假牙。若骨質條件不足需要補骨，時間會再延長。術後的不適多以腫脹為主，通常數日內緩解。</p></div></div>
+        </div>
+        <div class="acc" data-acc>
+          <h3 style="margin:0"><button class="acc__btn" type="button" aria-expanded="false" aria-controls="fa4">小朋友幾歲適合第一次看牙？<span class="acc__sign" aria-hidden="true"></span></button></h3>
+          <div class="acc__panel" id="fa4"><div class="acc__inner"><p>建議在長出第一顆乳牙後、約一歲左右就可以第一次就診，主要目的是建立習慣與口腔清潔衛教，而不是治療。至於矯正評估，國際上普遍建議在 7 歲左右做一次齒顎發育檢查，早期發現骨性問題，處理起來通常更單純。</p></div></div>
+        </div>
+      </div>
+      <div class="btn-row btn-row--center mt-6" data-reveal><a class="btn btn--ghost" href="faq.html">看全部常見問題</a></div>
+    </div>
+  </section>
+
+  <section class="cta-band">
+    <div class="shell center">
+      <h2 data-reveal>讓我們一起守護您的笑容</h2>
+      <p class="lede mt-4" style="max-width:40rem;margin-inline:auto" data-reveal data-reveal-delay="60">一次完整的檢查與諮詢，讓您清楚了解自己的口腔狀況與可行的治療方式。</p>
+      <div class="btn-row btn-row--center" data-reveal data-reveal-delay="120">
+        <a class="btn btn--primary btn--lg" href="booking.html">線上預約</a>
+        <a class="btn btn--on-dark btn--lg" href="${LINE}" target="_blank" rel="noopener">用 LINE 詢問</a>
+      </div>
+    </div>
+  </section>
+`
+});
 
 /* ------------------------------------------------------------ 關於文心 */
 pages.push({
@@ -776,7 +1222,7 @@ pages.push(servicePage({
 pages.push({
   slug: "booking.html",
   title: "線上預約｜台南牙醫｜60 秒完成預約｜文心牙醫聯合診所",
-  desc: "文心牙醫線上預約系統，選擇療程、挑選時段、填寫資料三步驟完成，24 小時皆可送出。也可透過官方 LINE 或電話 06-2156600 預約。",
+  desc: "文心牙醫線上預約系統，選擇療程、挑選時段、填寫資料三步驟完成，24 小時皆可送出。也可透過官方 LINE 或電話 ${TEL_TEXT} 預約。",
   keywords: "台南牙醫預約,線上預約牙醫,台南牙科掛號,文心牙醫預約",
   crumbs: [C.home, { name: "線上預約", url: "booking.html" }],
   scripts: `<script src="assets/js/booking.js" defer></script>`,
@@ -1058,8 +1504,8 @@ ${ctaBand("還有其他問題嗎？", "用 LINE 傳訊息給我們，或直接�
 /* ------------------------------------------------------------ 聯絡我們 */
 pages.push({
   slug: "contact.html",
-  title: "聯絡我們｜台南市南區大同路二段166號｜文心牙醫聯合診所",
-  desc: "文心牙醫聯合診所位於台南市南區大同路二段166號，電話 06-2156600。提供交通方式、停車資訊與 Google 地圖導航，門診時間請見首頁。",
+  title: "聯絡我們｜${CLINIC.address}｜文心牙醫聯合診所",
+  desc: "文心牙醫聯合診所位於${CLINIC.address}，電話 ${TEL_TEXT}。提供交通方式、停車資訊與 Google 地圖導航，門診時間請見首頁。",
   keywords: "台南牙醫地址,南區牙醫,大同路牙醫,文心牙醫電話,台南牙醫門診時間",
   crumbs: [C.home, { name: "聯絡我們", url: "contact.html" }],
   body: `
@@ -1075,11 +1521,11 @@ ${pageHead("聯絡我們", "台南市南區大同路二段 166 號", "位於大�
         <dl class="info-list mt-6">
           <div class="info-item">
             <span class="info-item__icon">${ico.pin}</span>
-            <div><dt>診所地址</dt><dd>台南市南區大同路二段166號</dd></div>
+            <div><dt>診所地址</dt><dd>${CLINIC.address}</dd></div>
           </div>
           <div class="info-item">
             <span class="info-item__icon">${ico.phone}</span>
-            <div><dt>預約專線</dt><dd><a href="tel:${TEL}">06-2156600</a></dd></div>
+            <div><dt>預約專線</dt><dd><a href="tel:${TEL}">${TEL_TEXT}</a></dd></div>
           </div>
           <div class="info-item">
             <span class="info-item__icon">${ico.line}</span>
@@ -1101,7 +1547,7 @@ ${pageHead("聯絡我們", "台南市南區大同路二段 166 號", "位於大�
         <div class="map-frame">
           <div class="map-frame__fallback">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>
-              <p>台南市南區大同路二段166號</p>
+              <p>${CLINIC.address}</p>
               <a class="btn btn--primary btn--sm" href="https://www.google.com/maps/search/?api=1&query=%E5%8F%B0%E5%8D%97%E5%B8%82%E5%8D%97%E5%8D%80%E5%A4%A7%E5%90%8C%E8%B7%AF%E4%BA%8C%E6%AE%B5166%E8%99%9F" target="_blank" rel="noopener">在 Google 地圖開啟</a>
             </div>
             <iframe title="文心牙醫聯合診所位置地圖"
@@ -1572,6 +2018,7 @@ fs.writeFileSync(path.join(out, "robots.txt"),
 `User-agent: *
 Allow: /
 Disallow: /404.html
+Disallow: /admin/
 
 Sitemap: ${SITE}/sitemap.xml
 `, "utf8");

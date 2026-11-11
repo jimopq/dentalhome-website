@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>聯絡我們｜台南市南區大同路二段166號｜文心牙醫聯合診所</title>
-<meta name="description" content="文心牙醫聯合診所位於台南市南區大同路二段166號，電話 06-2156600。提供交通方式、停車資訊與 Google 地圖導航，門診時間請見首頁。">
+<title>聯絡我們｜${CLINIC.address}｜文心牙醫聯合診所</title>
+<meta name="description" content="文心牙醫聯合診所位於${CLINIC.address}，電話 ${TEL_TEXT}。提供交通方式、停車資訊與 Google 地圖導航，門診時間請見首頁。">
 <meta name="keywords" content="台南牙醫地址,南區牙醫,大同路牙醫,文心牙醫電話,台南牙醫門診時間">
 <link rel="canonical" href="https://www.dentalhome.com.tw/contact.html">
 <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">
@@ -15,23 +15,27 @@
 <meta property="og:type" content="website">
 <meta property="og:locale" content="zh_TW">
 <meta property="og:site_name" content="文心牙醫聯合診所">
-<meta property="og:title" content="聯絡我們｜台南市南區大同路二段166號｜文心牙醫聯合診所">
-<meta property="og:description" content="文心牙醫聯合診所位於台南市南區大同路二段166號，電話 06-2156600。提供交通方式、停車資訊與 Google 地圖導航，門診時間請見首頁。">
+<meta property="og:title" content="聯絡我們｜${CLINIC.address}｜文心牙醫聯合診所">
+<meta property="og:description" content="文心牙醫聯合診所位於${CLINIC.address}，電話 ${TEL_TEXT}。提供交通方式、停車資訊與 Google 地圖導航，門診時間請見首頁。">
 <meta property="og:url" content="https://www.dentalhome.com.tw/contact.html">
 <meta property="og:image" content="https://www.dentalhome.com.tw/assets/img/og-cover.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="聯絡我們｜台南市南區大同路二段166號｜文心牙醫聯合診所">
-<meta name="twitter:description" content="文心牙醫聯合診所位於台南市南區大同路二段166號，電話 06-2156600。提供交通方式、停車資訊與 Google 地圖導航，門診時間請見首頁。">
+<meta name="twitter:title" content="聯絡我們｜${CLINIC.address}｜文心牙醫聯合診所">
+<meta name="twitter:description" content="文心牙醫聯合診所位於${CLINIC.address}，電話 ${TEL_TEXT}。提供交通方式、停車資訊與 Google 地圖導航，門診時間請見首頁。">
 <meta name="twitter:image" content="https://www.dentalhome.com.tw/assets/img/og-cover.jpg">
 
 <meta name="theme-color" content="#FFFFFF">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;600;700&family=Noto+Serif+TC:wght@500;600;700&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&display=swap">
 <link rel="stylesheet" href="assets/css/style.css">
 
+<link rel="icon" href="assets/img/favicon.ico" sizes="32x32">
 <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png">
 <script>document.documentElement.classList.add("js");</script>
 
 <script type="application/ld+json">
@@ -42,7 +46,7 @@
       "@type": "WebPage",
       "@id": "https://www.dentalhome.com.tw/contact.html#page",
       "url": "https://www.dentalhome.com.tw/contact.html",
-      "name": "聯絡我們｜台南市南區大同路二段166號｜文心牙醫聯合診所",
+      "name": "聯絡我們｜${CLINIC.address}｜文心牙醫聯合診所",
       "inLanguage": "zh-TW",
       "isPartOf": {
         "@id": "https://www.dentalhome.com.tw/#website"
@@ -50,7 +54,7 @@
       "about": {
         "@id": "https://www.dentalhome.com.tw/#clinic"
       },
-      "description": "文心牙醫聯合診所位於台南市南區大同路二段166號，電話 06-2156600。提供交通方式、停車資訊與 Google 地圖導航，門診時間請見首頁。"
+      "description": "文心牙醫聯合診所位於${CLINIC.address}，電話 ${TEL_TEXT}。提供交通方式、停車資訊與 Google 地圖導航，門診時間請見首頁。"
     },
     {
       "@type": "BreadcrumbList",

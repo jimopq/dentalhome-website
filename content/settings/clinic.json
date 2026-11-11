@@ -1,0 +1,28 @@
+{
+ "name": "文心牙醫聯合診所",
+ "nameEn": "Ven-Shin United Dental Clinic",
+ "tel": "06-2156600",
+ "telLink": "+88662156600",
+ "address": "台南市南區大同路二段166號",
+ "postalCode": "702",
+ "line": "https://page.line.me/884xwoxp?openQrModal=true",
+ "facebook": "https://www.facebook.com/profile.php?id=100075711318797",
+ "foundingYear": "2003",
+ "stats": [
+  {
+   "label": "深耕台南在地",
+   "value": "20",
+   "unit": "年"
+  },
+  {
+   "label": "累積服務人次",
+   "value": "60,000",
+   "unit": "+"
+  },
+  {
+   "label": "Google 真實好評",
+   "value": "376",
+   "unit": "則"
+  }
+ ]
+}

@@ -1,0 +1,85 @@
+{
+ "hero": {
+  "image": "assets/img/hero-family.jpg",
+  "alt": "一家三口並排躺著開心微笑"
+ },
+ "pages": [
+  {
+   "page": "about.html",
+   "label": "關於文心",
+   "image": "assets/img/bn-team.jpg",
+   "focus": "center",
+   "alt": "醫師團隊手疊在一起"
+  },
+  {
+   "page": "team.html",
+   "label": "醫師團隊",
+   "image": "assets/img/brushing.jpg",
+   "focus": "right",
+   "alt": "媽媽陪著女兒一起刷牙"
+  },
+  {
+   "page": "services.html",
+   "label": "診療項目",
+   "image": "assets/img/bn-smile.jpg",
+   "focus": "right",
+   "alt": "兩個孩子開心大笑"
+  },
+  {
+   "page": "service-invisalign.html",
+   "label": "隱適美隱形矯正",
+   "image": "assets/img/baby.jpg",
+   "focus": "left",
+   "alt": "孩子依偎著媽媽露出笑容"
+  },
+  {
+   "page": "service-orthodontics.html",
+   "label": "齒顎矯正",
+   "image": "assets/img/teen.jpg",
+   "focus": "right",
+   "alt": "青少女露齒微笑"
+  },
+  {
+   "page": "service-implant.html",
+   "label": "數位人工植牙",
+   "image": "assets/img/smile.jpg",
+   "focus": "center",
+   "alt": "女性在陽光下自信微笑"
+  },
+  {
+   "page": "booking.html",
+   "label": "線上預約",
+   "image": "assets/img/bn-booking.jpg",
+   "focus": "center",
+   "alt": "在平板與手機上操作預約"
+  },
+  {
+   "page": "faq.html",
+   "label": "常見問題",
+   "image": "assets/img/kids.jpg",
+   "focus": "center",
+   "alt": "兩個女孩相擁微笑"
+  },
+  {
+   "page": "contact.html",
+   "label": "聯絡我們",
+   "image": "assets/img/hero-family.jpg",
+   "focus": "center",
+   "alt": "一家三口並排躺著微笑"
+  },
+  {
+   "page": "articles.html",
+   "label": "牙齒知識",
+   "image": "assets/img/bn-smile.jpg",
+   "focus": "left",
+   "alt": "兩個孩子開心大笑"
+  },
+  {
+   "page": "news.html",
+   "label": "最新消息",
+   "image": "assets/img/bn-booking.jpg",
+   "focus": "left",
+   "alt": "在平板與手機上查看資訊"
+  }
+ ]
+}
