@@ -59,7 +59,6 @@ const header = () => `<a class="skip-link" href="#main">跳到主要內容</a>
         <div class="nav__menu">
           <a href="about.html">診所理念</a>
           <a href="team.html">醫師團隊</a>
-          <a href="contact.html">門診時間與交通</a>
         </div>
       </div>
       <div class="nav__item">
@@ -106,7 +105,7 @@ const header = () => `<a class="skip-link" href="#main">跳到主要內容</a>
     </div>
     <div class="sheet__group">
       <p class="sheet__title">更多</p>
-      <div class="sheet__links"><a href="articles.html">牙齒知識</a><a href="news.html">最新消息</a><a href="faq.html">常見問題</a><a href="contact.html">門診時間與交通</a></div>
+      <div class="sheet__links"><a href="articles.html">牙齒知識</a><a href="news.html">最新消息</a><a href="faq.html">常見問題</a></div>
     </div>
   </div>
   <div class="sheet__foot">
@@ -1057,7 +1056,7 @@ ${ctaBand("還有其他問題嗎？", "用 LINE 傳訊息給我們，或直接�
 /* ------------------------------------------------------------ 聯絡我們 */
 pages.push({
   slug: "contact.html",
-  title: "門診時間與交通｜台南市南區大同路二段166號｜文心牙醫聯合診所",
+  title: "聯絡我們｜台南市南區大同路二段166號｜文心牙醫聯合診所",
   desc: "文心牙醫聯合診所位於台南市南區大同路二段166號，電話 06-2156600。提供交通方式、停車資訊與 Google 地圖導航，門診時間請見首頁。",
   keywords: "台南牙醫地址,南區牙醫,大同路牙醫,文心牙醫電話,台南牙醫門診時間",
   crumbs: [C.home, { name: "聯絡我們", url: "contact.html" }],
@@ -1208,7 +1207,7 @@ ${pageHead("網站地圖", "網站地圖", "", [C.home, { name: "網站地圖", 
           <li><a href="index.html">首頁</a></li>
           <li><a href="about.html">診所理念</a></li>
           <li><a href="team.html">醫師團隊</a></li>
-          <li><a href="contact.html">門診時間與交通</a></li>
+          <li></li>
         </ul>
       </div>
       <div class="card" data-reveal data-reveal-delay="70">
