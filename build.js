@@ -292,10 +292,7 @@ const CLINIC_LD = [
     },
     "hasMap": "https://www.google.com/maps/search/?api=1&query=%E5%8F%B0%E5%8D%97%E5%B8%82%E5%8D%97%E5%8D%80%E5%A4%A7%E5%90%8C%E8%B7%AF%E4%BA%8C%E6%AE%B5166%E8%99%9F",
     "openingHoursSpecification": openingHours(),
-    "sameAs": [
-      "https://www.facebook.com/profile.php?id=100075711318797",
-      "https://page.line.me/884xwoxp"
-    ],
+    "sameAs": [CLINIC.facebook, CLINIC.line.split("?")[0], CLINIC.instagram].filter(Boolean),
     "potentialAction": {
       "@type": "ReserveAction",
       "target": {
