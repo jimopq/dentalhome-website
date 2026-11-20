@@ -88,6 +88,7 @@ const ico = {
   phone: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.9.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92Z"/></svg>`,
   cal: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>`,
   line: `<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 3C6.9 3 3 6.5 3 10.7c0 3.8 3.1 7 7.3 7.6.3.1.7.2.8.5.1.3 0 .7 0 1l-.1.8c0 .3-.2 1 .9.6s5.8-3.4 7.9-5.8c1.4-1.5 2.2-3.1 2.2-4.7C21 6.5 17.1 3 12 3Z"/></svg>`,
+  ig: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" aria-hidden="true"><rect x="2.5" y="2.5" width="19" height="19" rx="5.4"/><circle cx="12" cy="12" r="4.2"/><circle cx="17.4" cy="6.6" r="1.1" fill="currentColor" stroke="none"/></svg>`,
   fb: `<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M14 9h3V6h-3c-2.2 0-4 1.8-4 4v2H8v3h2v7h3v-7h3l1-3h-4v-2c0-.6.4-1 1-1Z"/></svg>`,
   arrow: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>`,
   caret: `<svg class="nav__caret" viewBox="0 0 12 8" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M1 1.5 6 6.5 11 1.5"/></svg>`,
@@ -180,9 +181,32 @@ const footer = () => `<footer class="footer">
         <p class="footer__blurb">從「心」出發，成為全家人笑容的守護者。深耕台南在地 20 年。</p>
         <div class="footer__social">
           <a href="${FB}" target="_blank" rel="noopener" aria-label="文心牙醫 Facebook 粉絲專頁">${ico.fb}</a>
+          ${CLINIC.instagram ? `<a href="${CLINIC.instagram}" target="_blank" rel="noopener" aria-label="文心牙醫 Instagram">${ico.ig}</a>` : ""}
           <a href="${LINE}" target="_blank" rel="noopener" aria-label="文心牙醫官方 LINE">${ico.line}</a>
           <a href="tel:${TEL}" aria-label="撥打電話 ${TEL_TEXT}">${ico.phone}</a>
         </div>
+      </div>
+      <div>
+        <p class="footer__title">牙齒知識</p>
+        <ul class="footer__links">
+          <li><a href="articles-cases.html">矯正案例分享</a></li>
+          <li><a href="articles-care.html">牙齒衛教</a></li>
+          <li><a href="articles-column.html">醫師專欄</a></li>
+          <li><a href="articles-ortho.html">矯正知識</a></li>
+          <li><a href="faq.html">常見問題</a></li>
+        </ul>
+      </div>
+      <div>
+        <p class="footer__title">最新消息</p>
+        <ul class="footer__links">
+          <li><a href="news-updates.html">訊息動態</a></li>
+          <li><a href="news-notice.html">門診公告</a></li>
+        </ul>
+        <p class="footer__title" style="margin-top:var(--sp-5)">關於文心</p>
+        <ul class="footer__links">
+          <li><a href="about.html">關於文心</a></li>
+          <li><a href="team.html">醫師團隊</a></li>
+        </ul>
       </div>
       <div>
         <p class="footer__title">診療項目</p>
@@ -191,20 +215,9 @@ const footer = () => `<footer class="footer">
           <li><a href="service-orthodontics.html">齒顎矯正</a></li>
           <li><a href="service-implant.html">數位人工植牙</a></li>
           <li><a href="services.html#reconstruction">全口重建</a></li>
+          <li><a href="services.html#denture">假牙贋復</a></li>
           <li><a href="services.html#kids">兒童牙科</a></li>
-          <li><a href="services.html">全部項目</a></li>
-        </ul>
-      </div>
-      <div>
-        <p class="footer__title">關於我們</p>
-        <ul class="footer__links">
-          <li><a href="about.html">診所理念</a></li>
-          <li><a href="team.html">醫師團隊</a></li>
-          <li><a href="articles.html">牙齒知識</a></li>
-          <li><a href="news.html">最新消息</a></li>
-          <li><a href="faq.html">常見問題</a></li>
-          <li><a href="contact.html">聯絡與交通</a></li>
-          <li><a href="booking.html">線上預約</a></li>
+          <li><a href="services.html">全部診療項目</a></li>
         </ul>
       </div>
       <div>
@@ -497,7 +510,7 @@ ${p.keywords ? `<meta name="keywords" content="${p.keywords}">` : ""}
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&family=Playfair+Display:wght@600;700&family=Montserrat:wght@500;600;700&display=swap">
 <link rel="stylesheet" href="assets/css/style.css">
 ${p.head || ""}
 <link rel="icon" href="assets/img/favicon.ico" sizes="32x32">
@@ -543,25 +556,30 @@ pages.push({
   ld: CLINIC_LD,
   head: `<link rel="preload" as="image" href="${BANNERCFG.hero.image}" fetchpriority="high">`,
   body: `
-<!-- ============================ HERO banner（純圖，文字在下方） ============================ -->
+<!-- ============================ HERO（沿用舊站：斜切滿版輪播） ============================ -->
   <section class="hero">
-    <img src="${BANNERCFG.hero.image}" width="1600" height="1067" fetchpriority="high" alt="${BANNERCFG.hero.alt}">
-  </section>
-
-  <section class="page-intro page-intro--home">
-    <div class="shell">
-      <p class="eyebrow">台南 · 南區 · 家庭牙科</p>
-      <h1>從「心」出發<br>成為全家人<em>笑容的守護者</em></h1>
-      <p class="lede">2003 年至今，從孩子的第一顆乳牙到長輩的全口重建，我們陪伴台南家庭走過每個階段。</p>
-      <div class="btn-row">
-        <a class="btn btn--primary btn--lg" href="booking.html">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
-          線上預約
-        </a>
-        <a class="btn btn--ghost btn--lg" href="service-invisalign.html">了解隱形矯正</a>
+    <div class="hero__slides" data-hero>
+      ${BANNERCFG.slides.map((sl, i) => `<div class="hero__slide${i === 0 ? " is-on" : ""}">
+        <img class="d" src="${sl.desktop}" width="1920" height="1010" ${i === 0 ? 'fetchpriority="high"' : 'loading="lazy"'} alt="${sl.alt}">
+        <img class="m" src="${sl.mobile}" width="1000" height="800" ${i === 0 ? 'fetchpriority="high"' : 'loading="lazy"'} alt="${sl.alt}">
+      </div>`).join("")}
+      <div class="hero__arrows">
+        <button type="button" data-hero-prev aria-label="上一張"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 18l-6-6 6-6"/></svg></button>
+        <button type="button" data-hero-next aria-label="下一張"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18l6-6-6-6"/></svg></button>
       </div>
     </div>
   </section>
+
+  <!-- ============================ 從「心」出發（文案與斷句同舊站） ============================ -->
+  <section class="intro-center">
+    <div class="shell shell--narrow">
+      <!-- 版面與舊站一致（標題仍是「從「心」出發」），h1 給搜尋引擎讀，不影響視覺 -->
+      <h1 class="sr-only">台南牙醫｜文心牙醫聯合診所：隱適美隱形矯正、齒顎矯正與數位人工植牙</h1>
+      <h2>從「心」出發</h2>
+      <p>在台南深耕20餘年，<br>文心牙醫不只是一間牙科診所，<br>我們走進許多家庭，<br>陪伴全家人展露自信笑容。</p>
+    </div>
+  </section>
+
 
   <section class="trustband">
     <div class="shell">

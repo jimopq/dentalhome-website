@@ -372,6 +372,41 @@
   })();
 
   /* ==================================================================
+     Hero banner carousel — matches the old site's three rotating slides
+     ================================================================== */
+  (function () {
+    var wrap = document.querySelector("[data-hero]");
+    if (!wrap) return;
+    var slides = Array.prototype.slice.call(wrap.querySelectorAll(".hero__slide"));
+    if (slides.length < 2) return;
+    var cur = 0, timer = null;
+
+    function show(i) {
+      cur = (i + slides.length) % slides.length;
+      slides.forEach(function (s, n) { s.classList.toggle("is-on", n === cur); });
+    }
+    function start() {
+      if (reduceMotion.matches) return;      // 不自動輪播，交給使用者按箭頭
+      stop();
+      timer = setInterval(function () { show(cur + 1); }, 6000);
+    }
+    function stop() { if (timer) { clearInterval(timer); timer = null; } }
+
+    var p = wrap.querySelector("[data-hero-prev]");
+    var n = wrap.querySelector("[data-hero-next]");
+    if (p) p.addEventListener("click", function () { show(cur - 1); start(); });
+    if (n) n.addEventListener("click", function () { show(cur + 1); start(); });
+
+    // 滑鼠移入或分頁隱藏時暫停，避免在背景空轉
+    wrap.addEventListener("mouseenter", stop);
+    wrap.addEventListener("mouseleave", start);
+    document.addEventListener("visibilitychange", function () {
+      document.hidden ? stop() : start();
+    });
+    start();
+  })();
+
+  /* ==================================================================
      Schedule carousel — opens on today and can be flicked through
      ================================================================== */
   (function () {

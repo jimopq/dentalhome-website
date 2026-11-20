@@ -81,5 +81,22 @@
    "focus": "left",
    "alt": "在平板與手機上查看資訊"
   }
+ ],
+ "slides": [
+  {
+   "desktop": "assets/img/hero1.jpg",
+   "mobile": "assets/img/hero1-m.jpg",
+   "alt": "成為全家人笑容的守護者"
+  },
+  {
+   "desktop": "assets/img/hero2.jpg",
+   "mobile": "assets/img/hero2-m.jpg",
+   "alt": "Make your future smile"
+  },
+  {
+   "desktop": "assets/img/hero3.jpg",
+   "mobile": "assets/img/hero3-m.jpg",
+   "alt": "為每個人訂製專屬的微笑曲線"
+  }
  ]
 }
