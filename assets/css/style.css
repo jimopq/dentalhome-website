@@ -180,6 +180,10 @@ p { text-wrap: pretty; }
 @media (min-width: 768px) { .shell { width: min(100% - 4rem, var(--shell)); } }
 .shell--narrow { max-width: var(--shell-narrow); }
 
+/* 舊站在 ≥1480px 時內容寬度為 1400px，照同一個斷點與數值對齊，
+   避免在大螢幕上看起來比舊站窄一截。 */
+@media (min-width: 1480px) { :root { --shell: 1400px; } }
+
 .section { padding-block: var(--sp-9); }
 .section--tight { padding-block: var(--sp-8); }
 .section--sunk { background: var(--surface-2); }
@@ -491,6 +495,7 @@ p { text-wrap: pretty; }
 
 /* 「從『心』出發」：置中、襯線、字級與顏色同舊站 */
 .intro-center { padding-block: var(--sp-9) var(--sp-8); text-align: center; background: var(--paper); }
+.intro-center .shell { max-width: 850px; }
 /* 數值取自舊站的實際運算值，逐項對齊 */
 .intro-center h2 {
   font-family: var(--font-serif);
