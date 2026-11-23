@@ -39,7 +39,8 @@
 
   --font-display: "Noto Sans TC", -apple-system, BlinkMacSystemFont, "PingFang TC", "Microsoft JhengHei", sans-serif;
   /* 舊站的字體組合，客戶指定沿用 */
-  --font-serif: "Playfair Display", "Noto Serif TC", "Microsoft JhengHei UI", "Microsoft JhengHei", serif;
+  --font-serif: "Playfair Display", "Microsoft JhengHei UI", "Microsoft JhengHei", serif;
+  --font-body-old: Roboto, Arial, "Microsoft JhengHei UI", "Microsoft JhengHei", sans-serif;
   --title-brown: #5a340e;
   --font-sans: "Noto Sans TC", -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang TC", "Microsoft JhengHei", sans-serif;
 
@@ -490,16 +491,27 @@ p { text-wrap: pretty; }
 
 /* 「從『心』出發」：置中、襯線、字級與顏色同舊站 */
 .intro-center { padding-block: var(--sp-9) var(--sp-8); text-align: center; background: var(--paper); }
+/* 數值取自舊站的實際運算值，逐項對齊 */
 .intro-center h2 {
   font-family: var(--font-serif);
-  font-size: 2.5rem; font-weight: 600; line-height: 1.2; letter-spacing: 0;
-  color: var(--title-brown); margin-bottom: 30px;
+  font-size: 40px;
+  font-weight: 600;
+  line-height: 48px;
+  letter-spacing: normal;
+  color: #DD802E;
+  margin-bottom: 30px;
 }
-.intro-center p { color: #696969; font-size: var(--step-1); line-height: 2; }
+.intro-center p {
+  font-family: var(--font-body-old);
+  color: #696969;
+  font-size: 18px;
+  line-height: 36px;
+  font-weight: 400;
+}
 @media (max-width: 767px) {
   .intro-center { padding-block: var(--sp-7) var(--sp-6); }
-  .intro-center h2 { font-size: 1.875rem; margin-bottom: 20px; }
-  .intro-center p { font-size: var(--step-0); line-height: 1.95; }
+  .intro-center h2 { font-size: 30px; line-height: 36px; margin-bottom: 20px; }
+  .intro-center p { font-size: 16px; line-height: 32px; }
 }
 
 /* The text block that follows a hero or banner */
