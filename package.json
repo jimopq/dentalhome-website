@@ -1,0 +1,18 @@
+{
+  "name": "venshin-dental",
+  "version": "1.0.0",
+  "description": "文心牙醫聯合診所官網｜Cloudflare Workers + D1",
+  "private": true,
+  "scripts": {
+    "dev": "wrangler dev",
+    "deploy": "wrangler deploy",
+    "db:local": "wrangler d1 migrations apply venshin-dental --local",
+    "db:remote": "wrangler d1 migrations apply venshin-dental --remote",
+    "seed": "node scripts/seed.js",
+    "build": "node build.js"
+  },
+  "devDependencies": {
+    "wrangler": "^4.42.0"
+  },
+  "type": "module"
+}

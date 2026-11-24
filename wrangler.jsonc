@@ -1,0 +1,40 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "venshin-dental",
+  "main": "src/index.js",
+  "compatibility_date": "2026-09-23",
+  "observability": { "enabled": true },
+
+  // 每天 03:20（UTC 19:20）把 D1 內容匯出成 JSON 推回 GitHub 當備份
+  "triggers": {
+    "crons": ["20 19 * * *"]
+  },
+
+  // 靜態資源：CSS / JS / 圖片。HTML 由 Worker 從 D1 即時組出來
+  "assets": {
+    "directory": "./public",
+    "binding": "ASSETS",
+    "not_found_handling": "none",
+    // 這些路徑一律先進 Worker，不要被當成靜態檔
+    "run_worker_first": ["/", "/api/*", "/admin", "/admin/*", "/*.html", "/sitemap.xml", "/robots.txt"]
+  },
+
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "venshin-dental",
+      "database_id": "58eb3069-a726-442a-b5fd-95c048dab61d",
+      "migrations_dir": "migrations"
+    }
+  ],
+
+  // 後台上傳的圖片
+  "r2_buckets": [
+    { "binding": "MEDIA", "bucket_name": "venshin-dental-media" }
+  ]
+
+  // 部署前請先設定（不要寫進這個檔案）：
+  //   npx wrangler secret put SESSION_SECRET      # 隨機長字串，簽 cookie 用
+  //   npx wrangler secret put GITHUB_TOKEN        # 備份推回 repo 用，只需 contents:write
+  // 本機開發會讀 .dev.vars
+}
