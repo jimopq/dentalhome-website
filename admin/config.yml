@@ -126,12 +126,24 @@ collections:
         file: content/settings/banners.json
         description: 每個分頁最上方的橫幅照片。建議 1920×800，橫式
         fields:
+          - name: slides
+            label: 首頁輪播 Banner
+            widget: list
+            label_singular: 輪播圖
+            summary: "{{alt}}"
+            hint: 首頁最上方的輪播，可新增、刪除、拖曳排序。文字是燒在圖片裡的，換圖等於換文案
+            fields:
+              - { name: desktop, label: 電腦版圖片, widget: image, media_folder: /assets/img, public_folder: assets/img, hint: 建議 1920×1010 橫式 }
+              - { name: mobile, label: 手機版圖片, widget: image, media_folder: /assets/img, public_folder: assets/img, hint: 建議 1000×800 }
+              - { name: alt, label: 圖片說明, widget: string, hint: 給視障讀者與搜尋引擎看，請描述畫面內容 }
           - name: hero
-            label: 首頁主視覺
+            label: 首頁主視覺（備用）
             widget: object
+            collapsed: true
+            hint: 目前首頁使用上方的「輪播 Banner」，此欄位保留備用
             fields:
               - { name: image, label: 圖片, widget: image, media_folder: /assets/img, public_folder: assets/img }
-              - { name: alt, label: 圖片說明, widget: string, hint: 給視障讀者與搜尋引擎看，請描述畫面內容 }
+              - { name: alt, label: 圖片說明, widget: string }
           - name: pages
             label: 各分頁 Banner
             widget: list
@@ -147,6 +159,39 @@ collections:
                 hint: 照片比例與版面不同時，要保留畫面的哪一側
               - { name: alt, label: 圖片說明, widget: string }
 
+      - name: seo
+        label: 頁面 SEO
+        file: content/settings/seo.json
+        description: 各頁的搜尋結果標題、描述與分享預覽圖。留空則沿用系統預設值
+        fields:
+          - name: pages
+            label: 頁面
+            widget: list
+            label_singular: 頁面
+            summary: "{{label}}　{{title}}"
+            fields:
+              - { name: label, label: 頁面名稱, widget: string }
+              - { name: page, label: 檔名, widget: string, hint: 例如 about.html，請勿更動 }
+              - name: title
+                label: 搜尋結果標題
+                widget: string
+                required: false
+                hint: Google 顯示的標題，建議 30 字以內，把最重要的關鍵字放前面
+              - name: description
+                label: 搜尋結果描述
+                widget: text
+                required: false
+                hint: Google 標題下方那段文字，建議 60 到 80 字
+              - { name: keywords, label: 關鍵字, widget: string, required: false, hint: 以逗號分隔 }
+              - name: ogImage
+                label: 分享預覽圖
+                widget: image
+                required: false
+                media_folder: /assets/img
+                public_folder: assets/img
+                hint: 分享到 LINE 或 Facebook 時顯示的圖，建議 1200×630。留空用預設
+              - { name: noindex, label: 不讓搜尋引擎收錄, widget: boolean, default: false, required: false }
+
       - name: clinic
         label: 診所資訊
         file: content/settings/clinic.json
@@ -160,6 +205,7 @@ collections:
           - { name: postalCode, label: 郵遞區號, widget: string }
           - { name: line, label: 官方 LINE 網址, widget: string }
           - { name: facebook, label: Facebook 網址, widget: string }
+          - { name: instagram, label: Instagram 網址, widget: string, required: false, hint: 留空則頁尾不顯示 IG icon }
           - { name: foundingYear, label: 創立年份, widget: string }
           - name: stats
             label: 首頁數據

@@ -27,11 +27,16 @@ Token 存在瀏覽器本機，不會外流。
 
 | 後台項目 | 實際檔案 | 影響範圍 |
 |---|---|---|
-| 文章 | `content/articles/*.json` | 牙齒知識與最新消息兩區、分頁、sitemap、301 對應 |
+| 文章 | `content/articles/*.json` | 牙齒知識與最新消息兩區、分頁、sitemap、301 對應。可新增／編輯／刪除，含圖片上傳 |
 | 醫師團隊 | `content/doctors/*.json` | 首頁與醫師團隊頁 |
 | 門診班表 | `content/settings/schedule.json` | 首頁輪播、「現在看診中」狀態、**Google 營業時間**（自動推導）|
-| Banner 圖片 | `content/settings/banners.json` | 首頁主視覺與各分頁橫幅 |
-| 診所資訊 | `content/settings/clinic.json` | 全站電話、地址、LINE、首頁數據、結構化資料 |
+| Banner 圖片 | `content/settings/banners.json` | **首頁輪播**（可增刪排序，電腦版與手機版各一張）＋ 11 個分頁的橫幅 |
+| 頁面 SEO | `content/settings/seo.json` | 14 個固定頁的搜尋標題、描述、關鍵字、分享預覽圖、是否收錄 |
+| 診所資訊 | `content/settings/clinic.json` | 全站電話、地址、LINE、Facebook、Instagram、首頁數據、結構化資料 |
+
+**SEO 的覆寫邏輯**：`seo.json` 有填就以它為準，留空則沿用產生器的預設值。
+所以診所可以只調想改的那幾頁，其餘不動。文章的 SEO 則在文章本身編輯
+（「SEO 標題」與「搜尋結果摘要」兩欄）。
 
 ### 存檔之後會發生什麼
 

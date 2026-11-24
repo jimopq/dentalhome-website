@@ -19,6 +19,9 @@ const readDir  = d => fs.existsSync(path.join(__dirname, d))
 const CLINIC   = readJSON("content/settings/clinic.json");
 const SCHEDULE = readJSON("content/settings/schedule.json");
 const BANNERCFG = readJSON("content/settings/banners.json");
+const SEO = Object.fromEntries(
+  (readJSON("content/settings/seo.json").pages || []).map(p => [p.page, p])
+);
 const DOCTORS  = readDir("content/doctors").sort((a, b) => (a.order || 99) - (b.order || 99));
 
 const SITE = "https://www.dentalhome.com.tw";
@@ -468,6 +471,16 @@ function breadcrumbLd(crumbs) {
 /* ---------------------------------------------------------------- layout */
 function layout(p) {
   const url = SITE + "/" + (p.slug === "index.html" ? "" : p.slug);
+  /* 後台（content/settings/seo.json）填了就以後台為準，沒填則用產生器的預設值。
+     這樣診所可以自行調整各頁 SEO，而不必改程式。 */
+  const o = SEO[p.slug];
+  if (o) {
+    if (o.title) p.title = o.title;
+    if (o.description) p.desc = o.description;
+    if (o.keywords) p.keywords = o.keywords;
+    if (o.ogImage) p.ogImage = o.ogImage;
+    if (o.noindex) p.noindex = true;
+  }
   const graph = [{ "@type": "WebPage", "@id": url + "#page", url, name: p.title, inLanguage: "zh-TW",
                    isPartOf: { "@id": SITE + "/#website" },
                    about: { "@id": SITE + "/#clinic" },
@@ -495,13 +508,13 @@ ${p.keywords ? `<meta name="keywords" content="${p.keywords}">` : ""}
 <meta property="og:title" content="${p.ogTitle || p.title}">
 <meta property="og:description" content="${p.desc}">
 <meta property="og:url" content="${url}">
-<meta property="og:image" content="${SITE}/assets/img/og-cover.jpg">
+<meta property="og:image" content="${p.ogImage ? (p.ogImage.startsWith("http") ? p.ogImage : SITE + "/" + p.ogImage) : SITE + "/assets/img/og-cover.jpg"}">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="${p.ogTitle || p.title}">
 <meta name="twitter:description" content="${p.desc}">
-<meta name="twitter:image" content="${SITE}/assets/img/og-cover.jpg">
+<meta name="twitter:image" content="${p.ogImage ? (p.ogImage.startsWith("http") ? p.ogImage : SITE + "/" + p.ogImage) : SITE + "/assets/img/og-cover.jpg"}">
 
 <meta name="theme-color" content="#FFFFFF">
 
