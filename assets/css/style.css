@@ -605,6 +605,33 @@ p { text-wrap: pretty; }
 .credgroup + .credgroup { margin-top: var(--sp-4); }
 .credgroup__label { font-size: 0.75rem; font-weight: 700; letter-spacing: .1em; color: var(--ink-3); margin-bottom: var(--sp-2); }
 .credgroup ul { padding: 0; margin: 0; list-style: none; }
+/* 服務項目是一句話不是條列，比照 li 的字級與顏色 */
+.credgroup__text { font-size: 0.875rem; line-height: 1.8; color: var(--ink-2); }
+
+/* 品牌定位區標題：舊站用【】包起來、橘色置中 */
+.brandhead { color: var(--brand); font-size: var(--step-4); font-weight: 700;
+  letter-spacing: .02em; }
+.section-head--center .brandhead { text-align: center; }
+.brandcopy p { color: var(--ink-2); font-size: var(--step-1); line-height: 2.1; }
+.brandcopy p + p { margin-top: var(--sp-5); }
+
+/* 「文心，最用心」三個數字，照舊站直書式的圖示＋數字＋說明 */
+.pillars { display: grid; gap: var(--sp-6); text-align: center; }
+@media (min-width: 760px) { .pillars { grid-template-columns: repeat(3, 1fr); gap: var(--sp-7); } }
+.pillar__icon { display: grid; place-items: center; width: 64px; height: 64px; margin: 0 auto var(--sp-4);
+  color: var(--brand); }
+.pillar__icon svg { width: 40px; height: 40px; }
+.pillar h3 { font-size: var(--step-2); color: var(--ink-1); }
+.pillar p { margin-top: var(--sp-3); color: var(--ink-2); line-height: 2; }
+
+/* 文心承諾的五條，單欄置中，維持舊站的節奏 */
+/* 整塊置中、塊內靠左，圓點才會貼著文字而不是飄在左邊 */
+.promise { list-style: none; padding: 0; margin: var(--sp-6) auto 0;
+  width: fit-content; max-width: 100%; text-align: left; }
+.promise li { position: relative; padding-left: var(--sp-6); margin-top: var(--sp-4);
+  font-size: var(--step-1); color: var(--ink-2); line-height: 1.9; }
+.promise li::before { content: ""; position: absolute; left: 6px; top: .82em;
+  width: 7px; height: 7px; border-radius: 50%; background: var(--brand); }
 
 .booking-paths { display: grid; gap: var(--sp-4); }
 @media (min-width: 880px) { .booking-paths { grid-template-columns: 1.25fr 1fr; } }

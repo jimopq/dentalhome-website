@@ -7,21 +7,21 @@
   {
    "page": "about.html",
    "label": "關於文心",
-   "image": "assets/img/bn-team.jpg",
+   "image": "assets/img/hero-family.jpg",
    "focus": "center",
-   "alt": "醫師團隊手疊在一起"
+   "alt": "一家三口躺在地板上開心微笑"
   },
   {
    "page": "team.html",
    "label": "醫師團隊",
-   "image": "assets/img/brushing.jpg",
+   "image": "assets/img/bn-team.jpg",
    "focus": "right",
-   "alt": "媽媽陪著女兒一起刷牙"
+   "alt": "醫師團隊手疊在一起"
   },
   {
    "page": "services.html",
    "label": "診療項目",
-   "image": "assets/img/bn-smile.jpg",
+   "image": "assets/img/bn-smile-clean.jpg",
    "focus": "right",
    "alt": "兩個孩子開心大笑"
   },
@@ -70,7 +70,7 @@
   {
    "page": "articles.html",
    "label": "牙齒知識",
-   "image": "assets/img/bn-smile.jpg",
+   "image": "assets/img/bn-smile-clean.jpg",
    "focus": "left",
    "alt": "兩個孩子開心大笑"
   },

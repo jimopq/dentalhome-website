@@ -689,7 +689,7 @@ pages.push({
           <div class="btn-row mt-6"><a class="btn btn--ghost" href="about.html">認識文心的故事</a></div>
         </div>
         <div class="photo photo--wide photo--shift-right" data-reveal data-reveal-delay="90">
-          <img src="assets/img/brushing.jpg" width="1600" height="842" loading="lazy" alt="媽媽陪著女兒一起刷牙">
+          <img src="assets/img/brushing-clean.jpg" width="1040" height="541" loading="lazy" alt="媽媽陪著女兒一起刷牙">
         </div>
       </div>
 
@@ -797,75 +797,70 @@ pages.push({
   body: `
 ${pageHead("關於文心", "從「心」出發，深耕台南二十年", "2003 年，我們離開大型醫學中心，在台南創立文心牙醫。二十年來服務超過 60,000 人次，陪伴許多家庭從孩子的乳牙走到長輩的假牙。", [C.home, { name: "關於文心", url: "about.html" }], "about.html")}
 
+<!-- ===================== 文心，最溫馨（舊站原文，請勿改寫）===================== -->
 <section class="section">
   <div class="shell">
     <div class="grid grid-2" style="align-items:start;gap:var(--sp-8)">
-      <div class="prose" data-reveal>
-        <h2 class="mt-4">不只是治療，更是從關懷出發</h2>
-        <p class="mt-5">坐在診療椅上的，是會緊張、會怕痛、也會擔心費用的人。我們希望先理解您的顧慮，再談治療。</p>
-        <p>所以在文心，我們把「溫馨」跟「專業」放在同樣的位置。精良的設備與材料是基本功，但真正讓一間診所值得被記住的，往往是人與人之間的那份關懷，醫師願意多講兩句、助理記得你怕打針、櫃檯知道你下班時間比較晚。</p>
-        <p>這些事不會出現在任何一張證書上，卻是我們從 2003 年堅持到現在的原因。</p>
+      <div data-reveal>
+        <h2 class="brandhead">【文心，最溫馨】</h2>
+        <div class="brandcopy mt-6">
+          <p>文心團隊中，有各種複雜矯正、手術等臨床經驗的醫師，我們認為，牙齒治療不只是面對病例；更是從心出發，貼近每個人的需求，彼此開啟一段關懷與信任的微笑旅程。</p>
+          <p>2003年，我們離開任職的大型醫學中心，來到台南大林，開設文心牙醫診所，慢慢深耕守護，成為大家的好厝邊。</p>
+          <p>我們相信，不管擁有再多專業技術與先進設備，都比不上發自內心對於人的關懷；透過菁英團隊的密切合作、每個來到診所的人都細心對待，「溫馨」與「專業」是我們最重要的堅持，同理不同狀況的需求、深度掌握長期的齒科治療紀錄，不僅陪伴每個人生命中的不同階段，也為每個家庭從長輩到孩童，提供最好的照護。</p>
+        </div>
       </div>
-
       <div data-reveal data-reveal-delay="90">
-        <div class="photo photo--wide" style="margin-bottom:var(--sp-5)">
-          <img src="assets/img/brushing.jpg" width="1600" height="842" loading="lazy" alt="媽媽陪著女兒一起刷牙">
+        <div class="photo photo--wide">
+          <img src="assets/img/brushing-clean.jpg" width="1040" height="541" loading="lazy" alt="媽媽陪著女兒一起刷牙">
         </div>
-        <div class="card" style="background:var(--brand-tint);border-color:transparent">
-          <h3>二十年，一些數字</h3>
-          <dl class="hero__trust" style="margin-top:var(--sp-5);border:0;padding:0">
-            <div class="hero__stat"><strong>2003</strong><span>創立於台南大林</span></div>
-            <div class="hero__stat"><strong>20<span style="font-size:.6em">年</span></strong><span>深耕在地從未搬離</span></div>
-            <div class="hero__stat"><strong>60,000<span style="font-size:.6em">+</span></strong><span>累積服務人次</span></div>
-            <div class="hero__stat"><strong>376<span style="font-size:.6em">+</span></strong><span>Google 真實好評</span></div>
-          </dl>
+        <div class="photo photo--wide mt-5">
+          <img src="assets/img/kids.jpg" width="1200" height="830" loading="lazy" alt="兩個孩子在診所相擁微笑">
         </div>
-        <div class="notice mt-5">${ico.info}<p>數字只是結果。我們更在意的是，這些人次背後，有多少人後來願意把家人也帶來。</p></div>
       </div>
     </div>
   </div>
 </section>
 
+<!-- ===================== 文心，最用心（舊站原文，請勿改寫）===================== -->
 <section class="section section--sunk">
   <div class="shell">
-    <div class="section-head" data-reveal>
-      <h2>我們的四個堅持</h2>
+    <div class="section-head section-head--center" data-reveal>
+      <h2 class="brandhead">【文心，最用心】</h2>
     </div>
-    <div class="grid grid-2">
-      <div class="card" data-reveal>
-        <span class="card__icon">01</span>
-        <h3>治療計畫，治療前充分說明</h3>
-        <p>需要做什麼、為什麼要做、大概的費用區間、有沒有其他選擇、不做會怎麼樣。這些在動手之前就會跟你說明白，不會做到一半才冒出新項目。</p>
+    <div class="pillars">
+      <div class="pillar" data-reveal>
+        <span class="pillar__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s-5.5-4.3-5.5-9.5A5.5 5.5 0 0 1 12 6a5.5 5.5 0 0 1 5.5 5.5C17.5 16.7 12 21 12 21Z"/><path d="m18.5 3.5.7 1.8 1.8.7-1.8.7-.7 1.8-.7-1.8-1.8-.7 1.8-.7.7-1.8Z"/></svg></span>
+        <h3>深耕在地20年</h3>
+        <p>始終不變的用心與細心，<br>溫馨守護，成為大家的好厝邊。</p>
       </div>
-      <div class="card" data-reveal data-reveal-delay="70">
-        <span class="card__icon">02</span>
-        <h3>一位主治醫師負責到底</h3>
-        <p>你的狀況由同一位醫師從頭跟到尾，不會每次來換一個人、每次都要重講一遍。遇到複雜案例，才由團隊共同會診討論。</p>
+      <div class="pillar" data-reveal data-reveal-delay="80">
+        <span class="pillar__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="8" r="3.2"/><circle cx="17" cy="9.5" r="2.4"/><path d="M3 19c0-3 2.7-5 6-5s6 2 6 5"/><path d="M15.5 19c0-2.3 1.6-4 3.5-4s2.8 1.2 3 3"/></svg></span>
+        <h3>服務人次 60000+</h3>
+        <p>透過區域型服務，<br>提供在地居民最即時的牙齒治療。</p>
       </div>
-      <div class="card" data-reveal data-reveal-delay="140">
-        <span class="card__icon">03</span>
-        <h3>看不見的地方更不能省</h3>
-        <p>每位患者使用獨立滅菌器械包，採高溫高壓滅菌並定期監測。診間消毒、手部衛生、感控流程，全面且完善地落實。</p>
-      </div>
-      <div class="card" data-reveal data-reveal-delay="210">
-        <span class="card__icon">04</span>
-        <h3>長期記錄，陪你走過不同階段</h3>
-        <p>我們保留你每一次的治療紀錄。完整保留您歷次的治療紀錄，陪伴您走過人生不同階段。從孩子的乳牙到長輩的假牙，一家人的牙齒狀況都在同一份脈絡裡。</p>
+      <div class="pillar" data-reveal data-reveal-delay="160">
+        <span class="pillar__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 11.5a7.5 7.5 0 0 1-7.5 7.5H8l-4 3v-4.3A7.5 7.5 0 0 1 2.9 7 7.5 7.5 0 0 1 10 4h3.5A7.5 7.5 0 0 1 21 11.5Z"/><path d="M11.5 12.6c1.6-1 2.6-1.8 2.6-2.8a1.4 1.4 0 0 0-2.6-.7 1.4 1.4 0 0 0-2.6.7c0 1 1 1.8 2.6 2.8Z"/></svg></span>
+        <h3>376＋則 Google好評</h3>
+        <p>將每位患者視如家人，<br>每個肯定，都是文心的最大動力。</p>
       </div>
     </div>
   </div>
 </section>
 
+<!-- ===================== 文心承諾（舊站原文，請勿改寫）===================== -->
 <section class="section">
-  <div class="shell shell--narrow prose" data-reveal>
-    <h2 class="mt-4">舒適安心的診療環境</h2>
-    <p class="mt-5">很多人怕看牙，怕的其實不只是痛，還有那種被動、不知道接下來會發生什麼的感覺。</p>
-    <p>我們盡量讓環境舒適一點、燈光柔和一點、等待的時間短一點。診療椅旁有螢幕，醫師會把你的口內照跟 X 光直接秀出來講給你聽，當你看得懂自己的狀況，緊張就會少一半。</p>
-    <div class="photo photo--wide mt-6">
-      <img src="assets/img/kids.jpg" width="1200" height="830" loading="lazy" alt="兩個孩子在診所相擁微笑">
+  <div class="shell shell--narrow center">
+    <div data-reveal>
+      <h2 class="brandhead">【文心承諾】</h2>
+      <p class="lede mt-4">人性化的看診服務</p>
     </div>
-    <!-- 📷 可替換為診所實景照（候診區／診間／消毒室），建議橫式 1600×1000 -->
-    <div class="notice mt-6">${ico.info}<p>若你對看牙有特別的恐懼或過去有不好的經驗，預約時可以先告訴我們，醫師會調整看診的節奏與說明方式。</p></div>
+    <ul class="promise" data-reveal data-reveal-delay="80">
+      <li>舒適無壓力的診療環境</li>
+      <li>專業且分工的醫師團隊</li>
+      <li>精良的醫療設備與材料</li>
+      <li>全面且完善的消毒作業</li>
+      <li>依照患者需求量身打造</li>
+    </ul>
   </div>
 </section>
 
@@ -874,42 +869,8 @@ ${ctaBand("歡迎您來認識文心", "歡迎先透過 LINE 詢問，或直接�
 });
 
 /* ------------------------------------------------------------ 醫師團隊 */
-const doctors = [
-  {
-    key: "lee", surname: "李", name: "李俊茂", badge: "院長",
-    role: "假牙贋復專科醫師",
-    spec: "人工植牙 · 固定假牙 · 活動假牙 · 全口重建",
-    intro: "二十多年來，李醫師看過最多的，是「牙齒掉了一段時間，不知道還能不能救」的患者。全口重建不是單純把缺牙補起來，而是要把咬合、齒槽骨條件、臉型與長期維護一起算進去。從醫學中心牙科部主任到自己開業，他習慣先把整張地圖畫出來，再決定從哪一顆牙開始。",
-    creds: {
-      "學歷": ["高雄醫學大學牙醫學士", "成功大學 EMBA 高階企管碩士"],
-      "專科認證": ["中華民國衛福部家庭牙醫專科醫師", "台灣牙周補綴學會專科醫師", "全人照護牙醫學會專科醫師", "台灣植牙聯盟醫學會植牙專科醫師", "中華民國植牙醫學會植牙專科醫師"],
-      "經歷": ["曾任署立醫院牙科部主任"]
-    }
-  },
-  {
-    key: "wang", surname: "王", name: "王媛儀", badge: "副院長",
-    role: "齒顎矯正專科醫師",
-    spec: "齒顎矯正 · 成人及兒童隱形矯正 · 齒顎及顏面發育生長評估",
-    intro: "王醫師是衛福部認證的齒顎矯正專科醫師，也是隱適美認證醫師，同時在奇美醫學中心矯正科兼任主治。她特別關注兒童的齒顎與顏面發育，很多成年後難處理的骨性問題，在換牙期就看得出端倪。成人矯正則強調把生活型態算進計畫：你的工作要不要常見客戶、能不能配合配戴時間，都會影響方案選擇。",
-    creds: {
-      "學歷": ["高雄醫學大學牙醫學士", "新加坡國立大學商學院高階企管碩士"],
-      "專科認證": ["中華民國衛福部齒顎矯正專科醫師", "隱適美 Invisalign 認證醫師"],
-      "學會": ["美國矯正學會（AAO）國際會員", "世界矯正醫師聯盟（WFO）會員", "中華民國舌側矯正醫學會會員"],
-      "經歷": ["奇美醫學中心矯正科兼任主治醫師"]
-    }
-  },
-  {
-    key: "chen", surname: "陳", name: "陳柏群", badge: "主治醫師",
-    role: "主治醫師",
-    spec: "牙齒美白 · 根管治療 · 牙周病治療 · 一般及複雜拔牙 · 假牙贋復",
-    intro: "陳醫師處理的多半是「現在很不舒服」的狀況：半夜痛醒的牙髓炎、咬到就痛的裂齒、卡住拔不出來的智齒。曾任職奇美醫學中心，並赴美國紐約大學進行植牙專科研究。他的原則是先止痛、先把發炎控制下來，再談後續怎麼做比較好。",
-    creds: {
-      "學歷": ["台北醫學大學牙醫學士", "美國紐約大學（NYU）植牙專科研究"],
-      "學會": ["台灣口腔矯正醫學會會員"],
-      "經歷": ["曾任奇美醫學中心醫師"]
-    }
-  }
-];
+/* 醫師資料一律來自 content/doctors（Worker 端是 D1 的 doctors 表），
+   這裡不再另外寫一份，否則後台改了 team.html 不會跟著動。 */
 
 pages.push({
   slug: "team.html",
@@ -917,35 +878,37 @@ pages.push({
   desc: "文心牙醫醫師團隊：李俊茂院長（假牙贋復專科）、王媛儀副院長（衛福部齒顎矯正專科、隱適美認證醫師）、陳柏群主治醫師。完整學經歷與專長介紹。",
   keywords: "台南矯正醫師,台南植牙醫師,齒顎矯正專科醫師,隱適美認證醫師,王媛儀,李俊茂,陳柏群",
   crumbs: [C.home, { name: "醫師團隊", url: "team.html" }],
-  ld: doctors.map(d => ({
+  ld: DOCTORS.map(d => ({
     "@type": "Physician",
     name: d.name,
     jobTitle: d.role,
     medicalSpecialty: "Dentistry",
     worksFor: { "@id": SITE + "/#clinic" },
-    knowsAbout: d.spec.split(" · ")
+    knowsAbout: d.spec.split(/[、·]\s*/).filter(Boolean)
   })),
   body: `
 ${pageHead("醫師團隊", "專業醫師團隊", "三位醫師各有專精領域，從矯正、植牙到一般牙科，為您提供完整的治療建議。", [C.home, { name: "醫師團隊", url: "team.html" }], "team.html")}
 
 <section class="section">
   <div class="shell">
-    ${doctors.map((d, i) => `
-    <article class="card docrow" id="${d.key}" data-reveal${i ? ` data-reveal-delay="${i * 60}"` : ""}>
+    ${DOCTORS.map((d, i) => `
+    <article class="card docrow" id="${d.slug}" data-reveal${i ? ` data-reveal-delay="${i * 60}"` : ""}>
       <div class="docrow__portrait">
         <span class="doctor__badge">${d.badge}</span>
-        <img src="assets/img/dr-${d.key}.jpg" width="420" height="420" loading="lazy" alt="${d.name}醫師－${d.role}">
+        <img src="${d.photo}" width="420" height="420" loading="lazy" alt="${d.name}醫師－${d.role}">
       </div>
       <div class="docrow__body">
         <div class="doctor__name"><h2 style="font-size:var(--step-3)">${d.name}</h2><span class="doctor__role">${d.role}</span></div>
-        <p class="doctor__spec">${d.spec}</p>
-        <p class="mt-5" style="color:var(--ink-2)">${d.intro}</p>
-        <div class="doctor__creds mt-5">
-          ${Object.entries(d.creds).map(([group, items]) => `
+        <div class="doctor__creds">
+          ${(d.creds || []).map(g => `
           <div class="credgroup">
-            <p class="credgroup__label">${group}</p>
-            <ul>${items.map(c => `<li>${c}</li>`).join("")}</ul>
+            <p class="credgroup__label">${g.group}</p>
+            <ul>${(g.items || []).map(c => `<li>${c}</li>`).join("")}</ul>
           </div>`).join("")}
+          <div class="credgroup">
+            <p class="credgroup__label">服務項目</p>
+            <p class="credgroup__text">${d.spec}</p>
+          </div>
         </div>
         <div class="btn-row mt-6">
           <a class="btn btn--primary btn--sm" href="booking.html">預約 ${d.name} 醫師</a>
