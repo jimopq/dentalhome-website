@@ -589,9 +589,9 @@ pages.push({
   <!-- ============================ 預約路徑（主次分明，非三等分） ============================ -->
   <section class="section section--tight section--sunk">
     <div class="shell">
-      <div class="section-head" data-reveal>
-        <h2>預約看診，三種方式任您選擇</h2>
-        <p>不論線上、LINE 或電話，都由同一位櫃檯人員為您服務。</p>
+      <div class="section-head section-head--center" data-reveal>
+        <h2>預約看診，兩種方式任您選擇</h2>
+        <p>線上預約或官方 LINE 都可以，一樣由櫃檯人員為您確認時段。</p>
       </div>
 
       <div class="booking-paths">
@@ -602,17 +602,27 @@ pages.push({
           <span class="path__cta">開始預約<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
         </a>
 
-        <div class="booking-paths__alt">
-          <a class="path path--small" href="${LINE}" target="_blank" rel="noopener" data-reveal data-reveal-delay="80">
-            <span class="path__icon path__icon--line"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 3C6.9 3 3 6.5 3 10.7c0 3.8 3.1 7 7.3 7.6.3.1.7.2.8.5.1.3 0 .7 0 1l-.1.8c0 .3-.2 1 .9.6s5.8-3.4 7.9-5.8c1.4-1.5 2.2-3.1 2.2-4.7C21 6.5 17.1 3 12 3Z"/></svg></span>
-            <div><h3>官方 LINE</h3><p>想先問問題、傳照片給醫師看，走這裡最方便。</p></div>
-          </a>
-          <a class="path path--small" href="tel:${TEL}" data-reveal data-reveal-delay="140">
-            <span class="path__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.9.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92Z"/></svg></span>
-            <div><h3>${TEL_TEXT}</h3><p>臨時牙痛、需要當天加掛，電話最快。</p></div>
-          </a>
-        </div>
+        <a class="path path--line" href="${LINE}" target="_blank" rel="noopener" data-reveal data-reveal-delay="80">
+          <span class="path__icon path__icon--line"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 3C6.9 3 3 6.5 3 10.7c0 3.8 3.1 7 7.3 7.6.3.1.7.2.8.5.1.3 0 .7 0 1l-.1.8c0 .3-.2 1 .9.6s5.8-3.4 7.9-5.8c1.4-1.5 2.2-3.1 2.2-4.7C21 6.5 17.1 3 12 3Z"/></svg></span>
+          <h3>官方 LINE</h3>
+          <p>想先問問題、傳照片給醫師看，走這裡最方便。想改時間、臨時需要加掛，也可以直接在 LINE 上說一聲。</p>
+          <span class="path__cta">加入好友${ico.arrow}</span>
+        </a>
       </div>
+    </div>
+  </section>
+
+  <!-- ============================ 最新消息 ============================ -->
+  <section class="section section--tight">
+    <div class="shell">
+      <div class="section-head section-head--row" data-reveal>
+        <div>
+          <p class="eyebrow">最新消息</p>
+          <h2>診所公告與近期訊息</h2>
+        </div>
+        <a class="btn btn--ghost btn--sm" href="news.html">看全部消息</a>
+      </div>
+      <div class="artgrid">${NEWS.slice(0, 3).map((a, i) => artCard(a, i, { desc: false })).join("")}</div>
     </div>
   </section>
 
@@ -919,28 +929,24 @@ ${pageHead("醫師團隊", "專業醫師團隊", "三位醫師各有專精領域
 <section class="section">
   <div class="shell">
     ${doctors.map((d, i) => `
-    <article class="card" id="${d.key}" style="padding:0;overflow:hidden;margin-bottom:var(--sp-6)" data-reveal${i ? ` data-reveal-delay="${i * 60}"` : ""}>
-      <div class="grid" style="grid-template-columns:minmax(0,1fr);gap:0">
-        <div style="display:grid;grid-template-columns:minmax(0,1fr);">
-          <div class="doctor__portrait">
-            <span class="doctor__badge">${d.badge}</span>
-            <img src="assets/img/dr-${d.key}.jpg" width="420" height="420" loading="lazy" alt="${d.name}醫師－${d.role}">
-          </div>
-          <div style="padding:var(--sp-6)">
-            <div class="doctor__name"><h2 style="font-size:var(--step-3)">${d.name}</h2><span class="doctor__role">${d.role}</span></div>
-            <p class="doctor__spec">${d.spec}</p>
-            <p class="mt-5" style="color:var(--ink-2)">${d.intro}</p>
-            <div class="doctor__creds mt-5">
-              ${Object.entries(d.creds).map(([group, items]) => `
-              <div class="credgroup">
-                <p class="credgroup__label">${group}</p>
-                <ul>${items.map(c => `<li>${c}</li>`).join("")}</ul>
-              </div>`).join("")}
-            </div>
-            <div class="btn-row mt-6">
-              <a class="btn btn--primary btn--sm" href="booking.html">預約 ${d.name} 醫師</a>
-            </div>
-          </div>
+    <article class="card docrow" id="${d.key}" data-reveal${i ? ` data-reveal-delay="${i * 60}"` : ""}>
+      <div class="docrow__portrait">
+        <span class="doctor__badge">${d.badge}</span>
+        <img src="assets/img/dr-${d.key}.jpg" width="420" height="420" loading="lazy" alt="${d.name}醫師－${d.role}">
+      </div>
+      <div class="docrow__body">
+        <div class="doctor__name"><h2 style="font-size:var(--step-3)">${d.name}</h2><span class="doctor__role">${d.role}</span></div>
+        <p class="doctor__spec">${d.spec}</p>
+        <p class="mt-5" style="color:var(--ink-2)">${d.intro}</p>
+        <div class="doctor__creds mt-5">
+          ${Object.entries(d.creds).map(([group, items]) => `
+          <div class="credgroup">
+            <p class="credgroup__label">${group}</p>
+            <ul>${items.map(c => `<li>${c}</li>`).join("")}</ul>
+          </div>`).join("")}
+        </div>
+        <div class="btn-row mt-6">
+          <a class="btn btn--primary btn--sm" href="booking.html">預約 ${d.name} 醫師</a>
         </div>
       </div>
     </article>`).join("")}
@@ -1738,7 +1744,8 @@ pages.push({
 
 
 /* ---------------------------------------------------------------- 衛教文章 */
-function artCard(a, i) {
+function artCard(a, i, opt) {
+  const showDesc = !opt || opt.desc !== false;
   const hit = a.body.match(/src="(assets\/img\/articles\/[^"]+)"/);
   const media = hit
     ? `<div class="artcard__media"><img src="${hit[1]}" width="1000" height="625" loading="lazy" decoding="async" alt=""></div>`
@@ -1748,7 +1755,7 @@ function artCard(a, i) {
       <div class="artcard__body">
         <div class="artcard__meta"><span class="chip chip--brand">${a.cat}</span><time datetime="${a.date}">${fmtDate(a.date)}</time></div>
         <h3>${a.title}</h3>
-        <p>${a.desc ? a.desc.slice(0, 64) + (a.desc.length > 64 ? "…" : "") : ""}</p>
+        ${showDesc && a.desc ? `<p>${a.desc.slice(0, 64)}${a.desc.length > 64 ? "…" : ""}</p>` : ""}
         <span class="link-arrow">閱讀全文${ico.arrow}</span>
       </div>
     </a>`;

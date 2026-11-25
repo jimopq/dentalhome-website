@@ -191,6 +191,9 @@ p { text-wrap: pretty; }
 
 .section-head { max-width: 42rem; margin-bottom: var(--sp-7); }
 .section-head--center { margin-inline: auto; text-align: center; }
+/* 標題在左、「看全部」在右；窄螢幕自然疊成兩行 */
+.section-head--row { display: flex; flex-wrap: wrap; align-items: flex-end;
+  justify-content: space-between; gap: var(--sp-4); max-width: none; }
 .section-head h2 { margin-top: var(--sp-3); }
 .section-head p { margin-top: var(--sp-4); }
 
@@ -523,7 +526,7 @@ p { text-wrap: pretty; }
 .page-intro { padding-block: var(--sp-7) var(--sp-6); background: var(--paper); }
 .page-intro .crumbs { margin-bottom: var(--sp-4); }
 .page-intro h1 { margin-top: var(--sp-3); max-width: 24ch; }
-.page-intro .lede { margin-top: var(--sp-4); max-width: 44rem; }
+.page-intro .lede { margin-top: var(--sp-4); max-width: 50rem; }
 .page-intro .btn-row { margin-top: var(--sp-6); }
 .page-intro .eyebrow::before { width: 28px; height: 2px; }
 .page-intro--home h1 { max-width: 18ch; }
@@ -625,6 +628,8 @@ p { text-wrap: pretty; }
              font-weight: 700; color: var(--brand-deep); transition: gap var(--t-base) var(--ease-spring); }
 .path__cta svg { width: 1.05em; height: 1.05em; flex: none; }
 .path--primary:hover .path__cta { gap: var(--sp-3); }
+/* LINE 卡與主要卡等高，兩欄才不會一高一矮 */
+.path--line { justify-content: space-between; min-height: 100%; }
 .path--small { flex-direction: row; align-items: flex-start; gap: var(--sp-4); padding: var(--sp-5); }
 .path--small h3 { font-size: var(--step-1); }
 .path--small p { margin-top: 4px; font-size: 0.875rem; }
@@ -667,8 +672,9 @@ p { text-wrap: pretty; }
 .sched__nav svg { width: 18px; height: 18px; }
 
 .trustband { padding-block: var(--sp-6); background: var(--surface-2); border-bottom: 1px solid var(--line); }
-.trustband .shell { display: flex; flex-wrap: wrap; align-items: center; gap: var(--sp-5); }
-.trustband__list { display: flex; flex-wrap: wrap; gap: var(--sp-5) var(--sp-8); margin: 0; }
+.trustband .shell { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: var(--sp-5); }
+.trustband__list { display: flex; flex-wrap: wrap; justify-content: center; text-align: center;
+  gap: var(--sp-5) var(--sp-8); margin: 0; }
 .trustband__list dt { font-size: var(--step--1); color: var(--ink-3); letter-spacing: .04em; }
 .trustband__list dd { margin: 2px 0 0; font-size: var(--step-3); font-weight: 900; line-height: 1.05;
   letter-spacing: -.03em; color: var(--brand-deep); font-variant-numeric: tabular-nums; }
@@ -800,6 +806,20 @@ a.card:active { transform: translateY(-1px) scale(.994); }
   font-size: 0.75rem; font-weight: 700; letter-spacing: 0.06em;
   color: var(--ink-on-brand); background: var(--brand);
   border-radius: 999px;
+}
+/* 醫師團隊頁的橫向卡片。照片固定一欄，剩下給學經歷，
+   否則 1/1 的照片會被拉成整個內容寬度的大方塊。 */
+.docrow { padding: 0; overflow: hidden; margin-bottom: var(--sp-6);
+  display: grid; grid-template-columns: minmax(0, 1fr); }
+.docrow__portrait { position: relative; background: var(--surface-2); border-bottom: 1px solid var(--line); }
+.docrow__portrait img { display: block; width: 100%; max-width: 340px; margin-inline: auto;
+  aspect-ratio: 1/1; height: auto; object-fit: contain; }
+.docrow__body { padding: var(--sp-6); }
+@media (min-width: 760px) {
+  .docrow { grid-template-columns: 300px minmax(0, 1fr); }
+  .docrow__portrait { border-bottom: 0; border-right: 1px solid var(--line);
+    display: grid; align-content: center; padding-block: var(--sp-6); }
+  .docrow__portrait img { max-width: none; }
 }
 .doctor__body { padding: var(--sp-5) var(--sp-6) var(--sp-6); }
 .doctor__name { display: flex; align-items: baseline; gap: var(--sp-3); flex-wrap: wrap; }
