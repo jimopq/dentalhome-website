@@ -5,6 +5,8 @@
    createSite(data) -> { pages, sitemap, robots, redirects }
      data = { clinic, schedule, banners, seo, doctors, articles }
    ========================================================================== */
+import { ASSET_V } from "./asset-version.js";
+
 export function createSite(data) {
   /* 資料由呼叫端提供：Node 端讀 content/，Worker 端讀 D1 */
   const CLINIC    = data.clinic;
@@ -510,7 +512,7 @@ ${p.keywords ? `<meta name="keywords" content="${p.keywords}">` : ""}
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&family=Playfair+Display:wght@600;700&family=Montserrat:wght@500;600;700&family=Roboto:wght@400;500&display=swap">
-<link rel="stylesheet" href="assets/css/style.css">
+<link rel="stylesheet" href="assets/css/style.css?v=${ASSET_V}">
 ${p.head || ""}
 <link rel="icon" href="assets/img/favicon.ico" sizes="32x32">
 <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
@@ -530,7 +532,7 @@ ${p.body}
 
 ${footer()}
 
-<script src="assets/js/main.js" defer></script>
+<script src="assets/js/main.js?v=${ASSET_V}" defer></script>
 ${p.scripts || ""}
 </body>
 </html>
@@ -1248,7 +1250,7 @@ pages.push({
   desc: "文心牙醫線上預約系統，選擇療程、挑選時段、填寫資料三步驟完成，24 小時皆可送出。也可透過官方 LINE 或電話 ${TEL_TEXT} 預約。",
   keywords: "台南牙醫預約,線上預約牙醫,台南牙科掛號,文心牙醫預約",
   crumbs: [C.home, { name: "線上預約", url: "booking.html" }],
-  scripts: `<script src="assets/js/booking.js" defer></script>`,
+  scripts: `<script src="assets/js/booking.js?v=${ASSET_V}" defer></script>`,
   body: `
 ${pageHead("線上預約", "線上預約看診", "填寫後我們會在門診時間內，以電話或 LINE 與您確認看診時間。", [C.home, { name: "線上預約", url: "booking.html" }], "booking.html")}
 
