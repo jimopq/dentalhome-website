@@ -4,3 +4,6 @@
 .dev.vars
 node_modules/
 scripts/seed.sql
+
+# 後台帳密（本機留存，不進版控）
+*.local.txt
