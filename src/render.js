@@ -511,7 +511,7 @@ ${p.keywords ? `<meta name="keywords" content="${p.keywords}">` : ""}
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&family=Playfair+Display:wght@600;700&family=Montserrat:wght@500;600;700&family=Roboto:wght@400;500&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&family=Playfair+Display:wght@600;700;900&family=Montserrat:wght@500;600;700&family=Roboto:wght@400;500&display=swap">
 <link rel="stylesheet" href="assets/css/style.css?v=${ASSET_V}">
 ${p.head || ""}
 <link rel="icon" href="assets/img/favicon.ico" sizes="32x32">

@@ -503,7 +503,7 @@ p { text-wrap: pretty; }
 .intro-center h2 {
   font-family: var(--font-serif);
   font-size: 40px;
-  font-weight: 600;
+  font-weight: 900;
   line-height: 48px;
   letter-spacing: normal;
   color: #DD802E;
