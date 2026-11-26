@@ -608,30 +608,93 @@ p { text-wrap: pretty; }
 /* 服務項目是一句話不是條列，比照 li 的字級與顏色 */
 .credgroup__text { font-size: 0.875rem; line-height: 1.8; color: var(--ink-2); }
 
-/* 品牌定位區標題：舊站用【】包起來、橘色置中 */
-.brandhead { color: var(--brand); font-size: var(--step-4); font-weight: 700;
-  letter-spacing: .02em; }
-.section-head--center .brandhead { text-align: center; }
-.brandcopy p { color: var(--ink-2); font-size: var(--step-1); line-height: 2.1; }
-.brandcopy p + p { margin-top: var(--sp-5); }
+/* ──────────────────────────────────────────────────────────────────────
+   舊站 1:1 複製區（關於文心、醫師團隊）
+   每個數值都是在 www.dentalhome.com.tw 上量 computed style 得來的，
+   不是估的。改動前請先回去量，客戶要求與舊站完全一致。
+   桌機基準 1440、手機基準 375。
+   ────────────────────────────────────────────────────────────────────── */
 
-/* 「文心，最用心」三個數字，照舊站直書式的圖示＋數字＋說明 */
-.pillars { display: grid; gap: var(--sp-6); text-align: center; }
-@media (min-width: 760px) { .pillars { grid-template-columns: repeat(3, 1fr); gap: var(--sp-7); } }
-.pillar__icon { display: grid; place-items: center; width: 64px; height: 64px; margin: 0 auto var(--sp-4);
-  color: var(--brand); }
-.pillar__icon svg { width: 40px; height: 40px; }
-.pillar h3 { font-size: var(--step-2); color: var(--ink-1); }
-.pillar p { margin-top: var(--sp-3); color: var(--ink-2); line-height: 2; }
+/* 區塊標題：【文心，最溫馨】等 */
+.vs-title {
+  font-family: var(--font-serif);
+  font-size: 30px; font-weight: 600; line-height: 36px;
+  letter-spacing: normal; text-align: center;
+  color: #DD802E; margin: 0 0 15px;
+}
+/* 內文段落。手機版導言 18/36、承諾條列 16/32，是舊站本來就不同，不是筆誤 */
+.vs-p {
+  font-family: var(--font-body-old);
+  font-size: 18px; font-weight: 400; line-height: 36px;
+  color: #666; text-align: center; margin: 0 0 16px;
+}
+.vs-promise .vs-p { font-size: 16px; line-height: 32px; }
 
-/* 文心承諾的五條，單欄置中，維持舊站的節奏 */
-/* 整塊置中、塊內靠左，圓點才會貼著文字而不是飄在左邊 */
-.promise { list-style: none; padding: 0; margin: var(--sp-6) auto 0;
-  width: fit-content; max-width: 100%; text-align: left; }
-.promise li { position: relative; padding-left: var(--sp-6); margin-top: var(--sp-4);
-  font-size: var(--step-1); color: var(--ink-2); line-height: 1.9; }
-.promise li::before { content: ""; position: absolute; left: 6px; top: .82em;
-  width: 7px; height: 7px; border-radius: 50%; background: var(--brand); }
+.vs-block { padding-block: var(--sp-7); }
+.vs-wrap { max-width: 850px; margin-inline: auto; padding-inline: 15px; }
+
+/* 區塊之間那條細線 */
+.vs-line { border: 0; border-top: 1px solid rgba(0,0,0,.1); margin: 30px 15px; }
+
+/* 【文心，最用心】三欄 */
+.vs-cols { background: #F9F6F2; padding: 50px 0 30px; }
+.vs-cols__list { display: grid; gap: 0; }
+.vs-col { text-align: center; padding: 0; margin-bottom: 30px; }
+.vs-col img { width: 120px; height: 120px; display: block; margin: 0 auto; }
+.vs-col__title {
+  font-family: var(--font-body-old);
+  font-size: 17px; font-weight: 600; line-height: 20.4px;
+  color: #333; text-align: center; margin: 10px 0;
+}
+.vs-col__txt {
+  display: block; font-family: var(--font-body-old);
+  font-size: 16px; font-weight: 400; line-height: 32px;
+  color: #212529; text-align: center; margin: 10px auto;
+}
+
+/* 【文心承諾】圖在上、文字在下（桌機改左右） */
+.vs-promise { padding-block: var(--sp-7); }
+.vs-promise__pic img { display: block; width: 100%; height: auto; }
+.vs-promise__text { margin-top: var(--sp-5); }
+
+/* 醫師區塊：舊站是純文字、靠左、沒有項目符號也沒有照片 */
+.vs-doc { margin-bottom: var(--sp-8); }
+.vs-doc__title {
+  font-family: var(--font-serif);
+  font-size: 30px; font-weight: 600; line-height: 36px;
+  color: #DD802E; text-align: left; margin: 0 0 15px;
+}
+.vs-doc__title strong { font-weight: 900; color: #DD802E; }
+.vs-doc__role {
+  font-size: 26px; font-weight: 900; line-height: 31.2px;
+  color: #3B3A38; margin-left: .3em;
+}
+.vs-doc__p {
+  font-family: var(--font-body-old);
+  font-size: 16px; font-weight: 400; line-height: 32px;
+  color: #666; text-align: left; margin: 0 0 16px;
+}
+.vs-doc__p--gap { margin-top: 32px; }
+.vs-doc__label { font-size: 20px; font-weight: 700; line-height: 40px; color: #666; }
+
+@media (min-width: 992px) {
+  .vs-title { font-size: 40px; line-height: 48px; margin-bottom: 30px; }
+  .vs-promise .vs-p { font-size: 18px; line-height: 36px; }
+  .vs-line { margin: 37.44px 150px; }
+
+  .vs-cols { padding: 200px 0; }
+  .vs-cols__list { grid-template-columns: repeat(3, 1fr); }
+  .vs-col { padding: 0 50px; margin-bottom: 0; }
+  .vs-col__title { font-size: 19px; line-height: 22.8px; }
+  .vs-col__txt { font-size: 17px; line-height: 34px; max-width: 255px; }
+
+  .vs-promise .shell { display: grid; grid-template-columns: 1fr 1fr; align-items: center; gap: 50px; }
+  .vs-promise__text { margin-top: 0; }
+
+  .vs-doc__title { font-size: 40px; line-height: 48px; margin-bottom: 30px; }
+  .vs-doc__p { font-size: 18px; line-height: 36px; }
+  .vs-doc { max-width: 540px; }
+}
 
 .booking-paths { display: grid; gap: var(--sp-4); }
 @media (min-width: 880px) { .booking-paths { grid-template-columns: 1.25fr 1fr; } }
@@ -833,20 +896,6 @@ a.card:active { transform: translateY(-1px) scale(.994); }
   font-size: 0.75rem; font-weight: 700; letter-spacing: 0.06em;
   color: var(--ink-on-brand); background: var(--brand);
   border-radius: 999px;
-}
-/* 醫師團隊頁的橫向卡片。照片固定一欄，剩下給學經歷，
-   否則 1/1 的照片會被拉成整個內容寬度的大方塊。 */
-.docrow { padding: 0; overflow: hidden; margin-bottom: var(--sp-6);
-  display: grid; grid-template-columns: minmax(0, 1fr); }
-.docrow__portrait { position: relative; background: var(--surface-2); border-bottom: 1px solid var(--line); }
-.docrow__portrait img { display: block; width: 100%; max-width: 340px; margin-inline: auto;
-  aspect-ratio: 1/1; height: auto; object-fit: contain; }
-.docrow__body { padding: var(--sp-6); }
-@media (min-width: 760px) {
-  .docrow { grid-template-columns: 300px minmax(0, 1fr); }
-  .docrow__portrait { border-bottom: 0; border-right: 1px solid var(--line);
-    display: grid; align-content: center; padding-block: var(--sp-6); }
-  .docrow__portrait img { max-width: none; }
 }
 .doctor__body { padding: var(--sp-5) var(--sp-6) var(--sp-6); }
 .doctor__name { display: flex; align-items: baseline; gap: var(--sp-3); flex-wrap: wrap; }

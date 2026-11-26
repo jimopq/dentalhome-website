@@ -797,70 +797,59 @@ pages.push({
   body: `
 ${pageHead("關於文心", "從「心」出發，深耕台南二十年", "2003 年，我們離開大型醫學中心，在台南創立文心牙醫。二十年來服務超過 60,000 人次，陪伴許多家庭從孩子的乳牙走到長輩的假牙。", [C.home, { name: "關於文心", url: "about.html" }], "about.html")}
 
-<!-- ===================== 文心，最溫馨（舊站原文，請勿改寫）===================== -->
-<section class="section">
+<!-- 以下三段完全照舊站 /zh-tw/about 複製：文案、斷行、字級、字重、
+     行高、顏色、間距、圖片都以 computed style 量測後 1:1 還原。
+     維護時請不要「順手改順一點」，客戶要的就是跟舊站一模一樣。 -->
+
+<section class="vs-block">
+  <div class="vs-wrap">
+    <h2 class="vs-title">【文心，最溫馨】</h2>
+    <p class="vs-p">文心團隊中，<br>有各種複雜矯正、手術等臨床經驗的醫師，<br>我們認為，牙齒治療不只是面對病例；<br>更是從心出發，貼近每個人的需求，<br>彼此開啟一段關懷與信任的微笑旅程。</p>
+    <p class="vs-p">2003年，我們離開任職的大型醫學中心，<br>來到台南大林，開設文心牙醫診所，<br>慢慢深耕守護，成為大家的好厝邊。</p>
+    <p class="vs-p">我們相信，不管擁有再多專業技術與先進設備，<br>都比不上發自內心對於人的關懷；<br>透過菁英團隊的密切合作、<br>每個來到診所的人都細心對待，<br>「溫馨」與「專業」是我們最重要的堅持，<br>同理不同狀況的需求、<br>深度掌握長期的齒科治療紀錄，<br>不僅陪伴每個人生命中的不同階段，<br>也為每個家庭從長輩到孩童，提供最好的照護。</p>
+  </div>
+</section>
+
+<hr class="vs-line">
+
+<section class="vs-cols">
   <div class="shell">
-    <div class="grid grid-2" style="align-items:start;gap:var(--sp-8)">
-      <div data-reveal>
-        <h2 class="brandhead">【文心，最溫馨】</h2>
-        <div class="brandcopy mt-6">
-          <p>文心團隊中，有各種複雜矯正、手術等臨床經驗的醫師，我們認為，牙齒治療不只是面對病例；更是從心出發，貼近每個人的需求，彼此開啟一段關懷與信任的微笑旅程。</p>
-          <p>2003年，我們離開任職的大型醫學中心，來到台南大林，開設文心牙醫診所，慢慢深耕守護，成為大家的好厝邊。</p>
-          <p>我們相信，不管擁有再多專業技術與先進設備，都比不上發自內心對於人的關懷；透過菁英團隊的密切合作、每個來到診所的人都細心對待，「溫馨」與「專業」是我們最重要的堅持，同理不同狀況的需求、深度掌握長期的齒科治療紀錄，不僅陪伴每個人生命中的不同階段，也為每個家庭從長輩到孩童，提供最好的照護。</p>
-        </div>
+    <h2 class="vs-title">【文心，最用心】</h2>
+    <div class="vs-cols__list">
+      <div class="vs-col">
+        <img src="assets/img/vs-icon-years.png" width="120" height="120" loading="lazy" alt="">
+        <h4 class="vs-col__title">深耕在地20年</h4>
+        <span class="vs-col__txt">始終不變的用心與細心，<br>溫馨守護，成為大家的好厝邊。</span>
       </div>
-      <div data-reveal data-reveal-delay="90">
-        <div class="photo photo--wide">
-          <img src="assets/img/brushing-clean.jpg" width="1040" height="541" loading="lazy" alt="媽媽陪著女兒一起刷牙">
-        </div>
-        <div class="photo photo--wide mt-5">
-          <img src="assets/img/kids.jpg" width="1200" height="830" loading="lazy" alt="兩個孩子在診所相擁微笑">
-        </div>
+      <div class="vs-col">
+        <img src="assets/img/vs-icon-visits.png" width="120" height="120" loading="lazy" alt="">
+        <h4 class="vs-col__title">服務人次 60000+</h4>
+        <span class="vs-col__txt">透過區域型服務，<br>提供在地居民最即時的牙齒治療。</span>
+      </div>
+      <div class="vs-col">
+        <img src="assets/img/vs-icon-reviews.png" width="120" height="120" loading="lazy" alt="">
+        <h4 class="vs-col__title">376＋則 Google好評</h4>
+        <span class="vs-col__txt">將每位患者視如家人，<br>每個肯定，都是文心的最大動力。</span>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ===================== 文心，最用心（舊站原文，請勿改寫）===================== -->
-<section class="section section--sunk">
-  <div class="shell">
-    <div class="section-head section-head--center" data-reveal>
-      <h2 class="brandhead">【文心，最用心】</h2>
-    </div>
-    <div class="pillars">
-      <div class="pillar" data-reveal>
-        <span class="pillar__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s-5.5-4.3-5.5-9.5A5.5 5.5 0 0 1 12 6a5.5 5.5 0 0 1 5.5 5.5C17.5 16.7 12 21 12 21Z"/><path d="m18.5 3.5.7 1.8 1.8.7-1.8.7-.7 1.8-.7-1.8-1.8-.7 1.8-.7.7-1.8Z"/></svg></span>
-        <h3>深耕在地20年</h3>
-        <p>始終不變的用心與細心，<br>溫馨守護，成為大家的好厝邊。</p>
-      </div>
-      <div class="pillar" data-reveal data-reveal-delay="80">
-        <span class="pillar__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="8" r="3.2"/><circle cx="17" cy="9.5" r="2.4"/><path d="M3 19c0-3 2.7-5 6-5s6 2 6 5"/><path d="M15.5 19c0-2.3 1.6-4 3.5-4s2.8 1.2 3 3"/></svg></span>
-        <h3>服務人次 60000+</h3>
-        <p>透過區域型服務，<br>提供在地居民最即時的牙齒治療。</p>
-      </div>
-      <div class="pillar" data-reveal data-reveal-delay="160">
-        <span class="pillar__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 11.5a7.5 7.5 0 0 1-7.5 7.5H8l-4 3v-4.3A7.5 7.5 0 0 1 2.9 7 7.5 7.5 0 0 1 10 4h3.5A7.5 7.5 0 0 1 21 11.5Z"/><path d="M11.5 12.6c1.6-1 2.6-1.8 2.6-2.8a1.4 1.4 0 0 0-2.6-.7 1.4 1.4 0 0 0-2.6.7c0 1 1 1.8 2.6 2.8Z"/></svg></span>
-        <h3>376＋則 Google好評</h3>
-        <p>將每位患者視如家人，<br>每個肯定，都是文心的最大動力。</p>
-      </div>
-    </div>
-  </div>
-</section>
+<hr class="vs-line">
 
-<!-- ===================== 文心承諾（舊站原文，請勿改寫）===================== -->
-<section class="section">
-  <div class="shell shell--narrow center">
-    <div data-reveal>
-      <h2 class="brandhead">【文心承諾】</h2>
-      <p class="lede mt-4">人性化的看診服務</p>
+<section class="vs-promise">
+  <div class="shell">
+    <div class="vs-promise__pic">
+      <img src="assets/img/vs-promise.jpg" width="1110" height="768" loading="lazy" alt="陽光下微笑的女性">
     </div>
-    <ul class="promise" data-reveal data-reveal-delay="80">
-      <li>舒適無壓力的診療環境</li>
-      <li>專業且分工的醫師團隊</li>
-      <li>精良的醫療設備與材料</li>
-      <li>全面且完善的消毒作業</li>
-      <li>依照患者需求量身打造</li>
-    </ul>
+    <div class="vs-promise__text">
+      <h2 class="vs-title">【文心承諾】</h2>
+      <p class="vs-p">•&nbsp; 舒適無壓力的診療環境</p>
+      <p class="vs-p">•&nbsp; 專業且分工的醫師團隊</p>
+      <p class="vs-p">•&nbsp; 精良的醫療設備與材料</p>
+      <p class="vs-p">•&nbsp; 全面且完善的消毒作業</p>
+      <p class="vs-p">•&nbsp; 依照患者需求量身打造</p>
+    </div>
   </div>
 </section>
 
@@ -892,28 +881,13 @@ ${pageHead("醫師團隊", "專業醫師團隊", "三位醫師各有專精領域
 <section class="section">
   <div class="shell">
     ${DOCTORS.map((d, i) => `
-    <article class="card docrow" id="${d.slug}" data-reveal${i ? ` data-reveal-delay="${i * 60}"` : ""}>
-      <div class="docrow__portrait">
-        <span class="doctor__badge">${d.badge}</span>
-        <img src="${d.photo}" width="420" height="420" loading="lazy" alt="${d.name}醫師－${d.role}">
-      </div>
-      <div class="docrow__body">
-        <div class="doctor__name"><h2 style="font-size:var(--step-3)">${d.name}</h2><span class="doctor__role">${d.role}</span></div>
-        <div class="doctor__creds">
-          ${(d.creds || []).map(g => `
-          <div class="credgroup">
-            <p class="credgroup__label">${g.group}</p>
-            <ul>${(g.items || []).map(c => `<li>${c}</li>`).join("")}</ul>
-          </div>`).join("")}
-          <div class="credgroup">
-            <p class="credgroup__label">服務項目</p>
-            <p class="credgroup__text">${d.spec}</p>
-          </div>
-        </div>
-        <div class="btn-row mt-6">
-          <a class="btn btn--primary btn--sm" href="booking.html">預約 ${d.name} 醫師</a>
-        </div>
-      </div>
+    <article class="vs-doc" id="${d.slug}" data-reveal${i ? ` data-reveal-delay="${i * 60}"` : ""}>
+      <div class="vs-doc__title"><strong>${d.name}</strong><span class="vs-doc__role">${d.role}</span></div>
+      <p class="vs-doc__p"><span class="vs-doc__label">學經歷</span></p>
+      ${(d.creds || []).flatMap(g => g.items || []).map(c => `<p class="vs-doc__p">${c}</p>`).join("\n      ")}
+      <p class="vs-doc__p vs-doc__p--gap"><span class="vs-doc__label">服務項目</span></p>
+      <p class="vs-doc__p">${d.spec}</p>
+      <p class="vs-doc__p vs-doc__p--gap"><a class="btn btn--primary btn--sm" href="booking.html">預約 ${d.name} 醫師</a></p>
     </article>`).join("")}
 
     <div class="notice" data-reveal>${ico.info}<p>每位醫師的看診時段不同，預約時可以註明希望由哪一位醫師看診，我們會盡量安排。若遇到需要跨專科處理的複雜案例，團隊會共同會診後再提出建議。</p></div>
