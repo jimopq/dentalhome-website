@@ -211,6 +211,7 @@ collections:
             label: 首頁數據
             widget: list
             fields:
+              - { name: key, label: 代號, widget: string, hint: "years／visits／reviews，程式用來對應，請勿更動" }
               - { name: label, label: 說明, widget: string }
               - { name: value, label: 數字, widget: string }
               - { name: unit, label: 單位, widget: string }

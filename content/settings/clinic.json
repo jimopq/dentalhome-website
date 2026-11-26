@@ -10,16 +10,19 @@
  "foundingYear": "2003",
  "stats": [
   {
+   "key": "years",
    "label": "深耕台南在地",
    "value": "20",
    "unit": "年"
   },
   {
+   "key": "visits",
    "label": "累積服務人次",
    "value": "150,000",
    "unit": "+"
   },
   {
+   "key": "reviews",
    "label": "Google 真實好評",
    "value": "780",
    "unit": "則"

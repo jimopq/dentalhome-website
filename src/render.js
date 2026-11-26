@@ -22,6 +22,24 @@ const LINE = CLINIC.line;
 const FB = CLINIC.facebook;
 const ADDR_Q = encodeURIComponent(CLINIC.address);
 
+/* Google 的結構化資料要分段地址，但後台只填一行「台南市南區大同路二段166號」。
+   在這裡拆，而不是另外叫診所填三個欄位 —— 兩份地址遲早會對不起來。
+   拆不出來（例如改成外縣市的特殊寫法）就整串當街道，寧可少欄位也不要填錯。 */
+const ADDR = (() => {
+  const a = CLINIC.address || "";
+  const m = a.match(/^(.+?[市縣])(.+?[區鄉鎮市])(.+)$/);
+  const o = {
+    "@type": "PostalAddress",
+    streetAddress: m ? m[3] : a,
+    addressLocality: m ? m[2] : "",
+    addressRegion: m ? m[1] : "",
+    postalCode: CLINIC.postalCode || "",
+    addressCountry: "TW",
+  };
+  Object.keys(o).forEach(k => { if (o[k] === "") delete o[k]; });
+  return o;
+})();
+
 /* 衛教文章：由舊站 dentalhome.com.tw 搬遷，版權屬診所所有。
    資料見 articles.json（prep 流程已改寫圖片路徑並清除行內樣式）。 */
 
@@ -76,6 +94,53 @@ const KNOW_CATS = ["矯正知識", "牙齒衛教", "醫師專欄", "矯正案例
 const NEWS_CATS = ["訊息動態", "門診公告"];
 const artUrl = a => `article-${a.slug}.html`;
 const fmtDate = d => d ? d.replace(/-/g, ".") : "";
+
+/* 診所數據（年數、服務人次、好評數）一律用 key 取，不靠 stats 陣列的順序，
+   後台調換順序或新增一筆也不會錯位。statPlain 去掉千分位，
+   「關於文心」沿用舊站 150000+ 的寫法，首頁信任列用 150,000。 */
+const STAT_ORDER = ["years", "visits", "reviews"];
+const stat = k => (CLINIC.stats || []).find(x => x.key === k)
+  || (CLINIC.stats || [])[STAT_ORDER.indexOf(k)] || {};
+const statVal   = k => String(stat(k).value || "");
+const statPlain = k => statVal(k).replace(/,/g, "");
+
+/* 後台填的 SEO 標題／描述裡可以寫 {{tel}}、{{address}}、{{visits}} 這種變數，
+   產生頁面時才代入，同一個事實就只有一份來源。
+   第一個 replace 是在接舊資料：seo.json 曾經寫成 ${TEL_TEXT}、${CLINIC.address}，
+   那是 JSON 字串，JS 不會展開它，結果原字印在 <title> 上。 */
+const VARS = {
+  name: CLINIC.name,
+  nameEn: CLINIC.nameEn || "",
+  tel: TEL_TEXT,
+  telLink: TEL,
+  address: CLINIC.address,
+  postalCode: CLINIC.postalCode || "",
+  line: LINE,
+  facebook: FB,
+  instagram: CLINIC.instagram || "",
+  foundingYear: CLINIC.foundingYear || "",
+  years: statVal("years"),
+  visits: statVal("visits"),
+  visitsPlain: statPlain("visits"),
+  reviews: statVal("reviews"),
+  knowCount: String(KNOW.length),
+  newsCount: String(NEWS.length),
+  artCount: String(ARTICLES.length),
+};
+const LEGACY_VARS = {
+  TEL_TEXT: "tel", TEL: "telLink", LINE: "line", FB: "facebook",
+  "CLINIC.name": "name", "CLINIC.tel": "tel", "CLINIC.address": "address",
+  "CLINIC.foundingYear": "foundingYear",
+};
+function fill(s) {
+  if (typeof s !== "string" || !s) return s;
+  return s
+    .replace(/\$\{\s*([A-Za-z_.]+)\s*\}/g, (m, k) => {
+      const v = VARS[LEGACY_VARS[k]];
+      return v == null ? m : v;
+    })
+    .replace(/\{\{\s*([A-Za-z]+)\s*\}\}/g, (m, k) => VARS[k] == null ? m : VARS[k]);
+}
 
 /* ---------------------------------------------------------------- icons */
 const ico = {
@@ -172,7 +237,7 @@ const footer = () => `<footer class="footer">
     <div class="footer__grid">
       <div>
         <a class="brand" href="index.html">${ico.mark}</a>
-        <p class="footer__blurb">從「心」出發，成為全家人笑容的守護者。深耕台南在地 20 年。</p>
+        <p class="footer__blurb">從「心」出發，成為全家人笑容的守護者。深耕台南在地 ${statVal("years")} 年。</p>
         <div class="footer__social">
           <a href="${FB}" target="_blank" rel="noopener" aria-label="文心牙醫 Facebook 粉絲專頁">${ico.fb}</a>
           ${CLINIC.instagram ? `<a href="${CLINIC.instagram}" target="_blank" rel="noopener" aria-label="文心牙醫 Instagram">${ico.ig}</a>` : ""}
@@ -224,7 +289,7 @@ const footer = () => `<footer class="footer">
       </div>
     </div>
     <div class="footer__bottom">
-      <p>© 2026 文心牙醫聯合診所 Ven-Shin United Dental Clinic. All rights reserved.</p>
+      <p>© ${new Date().getFullYear()} ${CLINIC.name} ${CLINIC.nameEn}. All rights reserved.</p>
       <nav aria-label="頁尾連結"><a href="privacy.html">隱私權政策</a><a href="sitemap.html">網站地圖</a></nav>
     </div>
   </div>
@@ -265,26 +330,19 @@ const CLINIC_LD = [
   {
     "@type": "Dentist",
     "@id": "https://www.dentalhome.com.tw/#clinic",
-    "name": "文心牙醫聯合診所",
-    "alternateName": "Ven-Shin United Dental Clinic",
+    "name": CLINIC.name,
+    "alternateName": CLINIC.nameEn,
     "url": "https://www.dentalhome.com.tw/",
     "logo": "https://www.dentalhome.com.tw/assets/img/logo.png",
     "image": "https://www.dentalhome.com.tw/assets/img/og-cover.jpg",
-    "description": "位於台南市南區的家庭牙科診所，2003 年創立，提供隱適美隱形矯正、齒顎矯正、數位人工植牙、全口重建、假牙贋復、根管治療、牙周病治療與兒童牙科。",
+    "description": `位於${ADDR.addressRegion}${ADDR.addressLocality}的家庭牙科診所，${CLINIC.foundingYear} 年創立，提供隱適美隱形矯正、齒顎矯正、數位人工植牙、全口重建、假牙贋復、根管治療、牙周病治療與兒童牙科。`,
     "telephone": CLINIC.telLink,
-    "foundingDate": "2003",
+    "foundingDate": CLINIC.foundingYear,
     "priceRange": "$$",
     "currenciesAccepted": "TWD",
     "medicalSpecialty": "Dentistry",
-    "address": {
-      "@type": "PostalAddress",
-      "streetAddress": "大同路二段166號",
-      "addressLocality": "南區",
-      "addressRegion": "台南市",
-      "postalCode": "702",
-      "addressCountry": "TW"
-    },
-    "hasMap": "https://www.google.com/maps/search/?api=1&query=%E5%8F%B0%E5%8D%97%E5%B8%82%E5%8D%97%E5%8D%80%E5%A4%A7%E5%90%8C%E8%B7%AF%E4%BA%8C%E6%AE%B5166%E8%99%9F",
+    "address": ADDR,
+    "hasMap": `https://www.google.com/maps/search/?api=1&query=${ADDR_Q}`,
     "openingHoursSpecification": openingHours(),
     "sameAs": [CLINIC.facebook, CLINIC.line.split("?")[0], CLINIC.instagram].filter(Boolean),
     "potentialAction": {
@@ -350,7 +408,7 @@ const CLINIC_LD = [
     "@type": "WebSite",
     "@id": "https://www.dentalhome.com.tw/#website",
     "url": "https://www.dentalhome.com.tw/",
-    "name": "文心牙醫聯合診所",
+    "name": CLINIC.name,
     "inLanguage": "zh-TW",
     "publisher": {
       "@id": "https://www.dentalhome.com.tw/#clinic"
@@ -472,6 +530,11 @@ function layout(p) {
     if (o.ogImage) p.ogImage = o.ogImage;
     if (o.noindex) p.noindex = true;
   }
+  /* 標題／描述／關鍵字裡的 {{變數}} 在這裡才代入，JSON-LD 與 meta 共用同一份結果 */
+  p.title = fill(p.title);
+  p.desc = fill(p.desc);
+  p.keywords = fill(p.keywords);
+  if (p.ogTitle) p.ogTitle = fill(p.ogTitle);
   const graph = [{ "@type": "WebPage", "@id": url + "#page", url, name: p.title, inLanguage: "zh-TW",
                    isPartOf: { "@id": SITE + "/#website" },
                    about: { "@id": SITE + "/#clinic" },
@@ -550,7 +613,7 @@ const C = { home: { name: "首頁", url: "index.html" } };
 pages.push({
   slug: "index.html",
   title: "台南牙醫推薦｜文心牙醫聯合診所｜隱適美隱形矯正、數位植牙、全口重建",
-  desc: `台南南區牙醫診所，${CLINIC.foundingYear} 年創立、深耕在地 20 年，服務超過 150,000 人次。提供隱適美隱形矯正、齒顎矯正、數位人工植牙、全口重建與兒童牙科。衛福部齒顎矯正與假牙贋復專科醫師駐診，線上預約 60 秒完成。`,
+  desc: `台南南區牙醫診所，${CLINIC.foundingYear} 年創立、深耕在地 ${statVal("years")} 年，服務超過 ${statVal("visits")} 人次。提供隱適美隱形矯正、齒顎矯正、數位人工植牙、全口重建與兒童牙科。衛福部齒顎矯正與假牙贋復專科醫師駐診，線上預約 60 秒完成。`,
   keywords: "台南牙醫,台南矯正,台南隱適美,台南植牙,台南牙醫推薦,南區牙醫,隱形矯正,全口重建,兒童牙科",
   ogTitle: "台南牙醫推薦｜文心牙醫聯合診所｜從「心」出發的全家牙科",
   isHome: true,
@@ -685,7 +748,7 @@ pages.push({
       <div class="grid grid-2" style="align-items:center;gap:var(--sp-8)">
         <div data-reveal>
           <h2 class="mt-4">「溫馨」與「專業」，是我們最重要的堅持</h2>
-          <p class="lede mt-5">我們重視人與人之間的那份關懷，甚至勝過技術與設備。這是文心從 2003 年走到今天，始終沒有改變的事。</p>
+          <p class="lede mt-5">我們重視人與人之間的那份關懷，甚至勝過技術與設備。這是文心從 ${CLINIC.foundingYear} 年走到今天，始終沒有改變的事。</p>
           <div class="btn-row mt-6"><a class="btn btn--ghost" href="about.html">認識文心的故事</a></div>
         </div>
         <div class="photo photo--wide photo--shift-right" data-reveal data-reveal-delay="90">
@@ -790,12 +853,12 @@ pages.push({
 /* ------------------------------------------------------------ 關於文心 */
 pages.push({
   slug: "about.html",
-  title: "關於文心｜台南南區牙醫診所｜深耕在地 20 年的家庭牙科",
-  desc: "文心牙醫聯合診所 2003 年創立於台南，深耕在地 20 年、累積服務超過 150,000 人次。我們相信關懷比技術與設備更難得，提供從兒童到長輩的全家庭牙科照護。",
+  title: "關於文心｜台南南區牙醫診所｜深耕在地 {{years}} 年的家庭牙科",
+  desc: "文心牙醫聯合診所 {{foundingYear}} 年創立於台南，深耕在地 {{years}} 年、累積服務超過 {{visits}} 人次。我們相信關懷比技術與設備更難得，提供從兒童到長輩的全家庭牙科照護。",
   keywords: "台南牙醫,台南南區牙醫,文心牙醫,家庭牙科,台南牙醫推薦",
   crumbs: [C.home, { name: "關於文心", url: "about.html" }],
   body: `
-${pageHead("關於文心", "從「心」出發，深耕台南二十年", "2003 年，我們離開大型醫學中心，在台南創立文心牙醫。二十年來服務超過 150,000 人次，陪伴許多家庭從孩子的乳牙走到長輩的假牙。", [C.home, { name: "關於文心", url: "about.html" }], "about.html")}
+${pageHead("關於文心", "從「心」出發，深耕台南 " + statVal("years") + " 年", `${CLINIC.foundingYear} 年，我們離開大型醫學中心，在台南創立文心牙醫。${statVal("years")} 年來服務超過 ${statVal("visits")} 人次，陪伴許多家庭從孩子的乳牙走到長輩的假牙。`, [C.home, { name: "關於文心", url: "about.html" }], "about.html")}
 
 <!-- 以下三段完全照舊站 /zh-tw/about 複製：文案、斷行、字級、字重、
      行高、顏色、間距、圖片都以 computed style 量測後 1:1 還原。
@@ -818,17 +881,17 @@ ${pageHead("關於文心", "從「心」出發，深耕台南二十年", "2003 �
     <div class="vs-cols__list">
       <div class="vs-col">
         <img src="assets/img/vs-icon-years.png" width="120" height="120" loading="lazy" alt="">
-        <h4 class="vs-col__title">深耕在地20年</h4>
+        <h4 class="vs-col__title">深耕在地${statPlain("years")}年</h4>
         <span class="vs-col__txt">始終不變的用心與細心，<br>溫馨守護，成為大家的好厝邊。</span>
       </div>
       <div class="vs-col">
         <img src="assets/img/vs-icon-visits.png" width="120" height="120" loading="lazy" alt="">
-        <h4 class="vs-col__title">服務人次 150000+</h4>
+        <h4 class="vs-col__title">服務人次 ${statPlain("visits")}+</h4>
         <span class="vs-col__txt">透過區域型服務，<br>提供在地居民最即時的牙齒治療。</span>
       </div>
       <div class="vs-col">
         <img src="assets/img/vs-icon-reviews.png" width="120" height="120" loading="lazy" alt="">
-        <h4 class="vs-col__title">780＋則 Google好評</h4>
+        <h4 class="vs-col__title">${statPlain("reviews")}＋則 Google好評</h4>
         <span class="vs-col__txt">將每位患者視如家人，<br>每個肯定，都是文心的最大動力。</span>
       </div>
     </div>
@@ -1466,8 +1529,8 @@ ${ctaBand("還有其他問題嗎？", "用 LINE 傳訊息給我們，或直接�
 /* ------------------------------------------------------------ 聯絡我們 */
 pages.push({
   slug: "contact.html",
-  title: "聯絡我們｜${CLINIC.address}｜文心牙醫聯合診所",
-  desc: "文心牙醫聯合診所位於${CLINIC.address}，電話 ${TEL_TEXT}。提供交通方式、停車資訊與 Google 地圖導航，門診時間請見首頁。",
+  title: `聯絡我們｜${CLINIC.address}｜${CLINIC.name}`,
+  desc: `${CLINIC.name}位於${CLINIC.address}，電話 ${TEL_TEXT}。提供交通方式、停車資訊與 Google 地圖導航，門診時間請見首頁。`,
   keywords: "台南牙醫地址,南區牙醫,大同路牙醫,文心牙醫電話,台南牙醫門診時間",
   crumbs: [C.home, { name: "聯絡我們", url: "contact.html" }],
   body: `
