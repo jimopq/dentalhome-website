@@ -550,7 +550,7 @@ const C = { home: { name: "首頁", url: "index.html" } };
 pages.push({
   slug: "index.html",
   title: "台南牙醫推薦｜文心牙醫聯合診所｜隱適美隱形矯正、數位植牙、全口重建",
-  desc: `台南南區牙醫診所，${CLINIC.foundingYear} 年創立、深耕在地 20 年，服務超過 60,000 人次。提供隱適美隱形矯正、齒顎矯正、數位人工植牙、全口重建與兒童牙科。衛福部齒顎矯正與假牙贋復專科醫師駐診，線上預約 60 秒完成。`,
+  desc: `台南南區牙醫診所，${CLINIC.foundingYear} 年創立、深耕在地 20 年，服務超過 150,000 人次。提供隱適美隱形矯正、齒顎矯正、數位人工植牙、全口重建與兒童牙科。衛福部齒顎矯正與假牙贋復專科醫師駐診，線上預約 60 秒完成。`,
   keywords: "台南牙醫,台南矯正,台南隱適美,台南植牙,台南牙醫推薦,南區牙醫,隱形矯正,全口重建,兒童牙科",
   ogTitle: "台南牙醫推薦｜文心牙醫聯合診所｜從「心」出發的全家牙科",
   isHome: true,
@@ -791,11 +791,11 @@ pages.push({
 pages.push({
   slug: "about.html",
   title: "關於文心｜台南南區牙醫診所｜深耕在地 20 年的家庭牙科",
-  desc: "文心牙醫聯合診所 2003 年創立於台南，深耕在地 20 年、累積服務超過 60,000 人次。我們相信關懷比技術與設備更難得，提供從兒童到長輩的全家庭牙科照護。",
+  desc: "文心牙醫聯合診所 2003 年創立於台南，深耕在地 20 年、累積服務超過 150,000 人次。我們相信關懷比技術與設備更難得，提供從兒童到長輩的全家庭牙科照護。",
   keywords: "台南牙醫,台南南區牙醫,文心牙醫,家庭牙科,台南牙醫推薦",
   crumbs: [C.home, { name: "關於文心", url: "about.html" }],
   body: `
-${pageHead("關於文心", "從「心」出發，深耕台南二十年", "2003 年，我們離開大型醫學中心，在台南創立文心牙醫。二十年來服務超過 60,000 人次，陪伴許多家庭從孩子的乳牙走到長輩的假牙。", [C.home, { name: "關於文心", url: "about.html" }], "about.html")}
+${pageHead("關於文心", "從「心」出發，深耕台南二十年", "2003 年，我們離開大型醫學中心，在台南創立文心牙醫。二十年來服務超過 150,000 人次，陪伴許多家庭從孩子的乳牙走到長輩的假牙。", [C.home, { name: "關於文心", url: "about.html" }], "about.html")}
 
 <!-- 以下三段完全照舊站 /zh-tw/about 複製：文案、斷行、字級、字重、
      行高、顏色、間距、圖片都以 computed style 量測後 1:1 還原。
@@ -823,12 +823,12 @@ ${pageHead("關於文心", "從「心」出發，深耕台南二十年", "2003 �
       </div>
       <div class="vs-col">
         <img src="assets/img/vs-icon-visits.png" width="120" height="120" loading="lazy" alt="">
-        <h4 class="vs-col__title">服務人次 60000+</h4>
+        <h4 class="vs-col__title">服務人次 150000+</h4>
         <span class="vs-col__txt">透過區域型服務，<br>提供在地居民最即時的牙齒治療。</span>
       </div>
       <div class="vs-col">
         <img src="assets/img/vs-icon-reviews.png" width="120" height="120" loading="lazy" alt="">
-        <h4 class="vs-col__title">376＋則 Google好評</h4>
+        <h4 class="vs-col__title">780＋則 Google好評</h4>
         <span class="vs-col__txt">將每位患者視如家人，<br>每個肯定，都是文心的最大動力。</span>
       </div>
     </div>
